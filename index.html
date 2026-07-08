@@ -159,14 +159,14 @@
 
 
     /* ─── NAVIGATION ─── */
-    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 52px;display:flex;align-items:center;justify-content:space-between;transition:all 0.6s var(--ease-out);border:none;outline:none;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 52px;display:flex;align-items:center;justify-content:space-between;transition:all 0.6s var(--ease-out);border:none;outline:none;-webkit-transform:translateZ(0);transform:translateZ(0);}
     nav.scrolled{background:rgba(10,10,11,0.7);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);padding:18px 52px;}
     nav .logo{display:flex;align-items:center;cursor:pointer;transition:opacity 0.3s;position:relative;}
     nav .logo:hover{opacity:0.85;}
     nav .logo img{height:80px;width:auto;transition:height 0.6s var(--ease-out);}
     nav.scrolled .logo img{height:65px;}
     @media(max-width:768px){
-      nav{padding:18px 20px;border:none;outline:none;box-shadow:none;background:transparent;}
+      nav{padding:18px 20px;border:none;outline:none;box-shadow:none;background:transparent;flex-wrap:wrap;-webkit-transform:translateZ(0);transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;}
       nav.scrolled{padding:14px 20px;}
       .nav-links{display:none;position:fixed;top:76px;left:16px;right:16px;flex-direction:column;background:rgba(10,10,11,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:8px;gap:2px;opacity:0;transform:translateY(-16px) scaleY(0.95);transform-origin:top center;pointer-events:none;transition:all 0.35s cubic-bezier(0.22,1,0.36,1);}
       .nav-links.open{opacity:1;transform:translateY(0) scaleY(1);pointer-events:auto;}
@@ -182,6 +182,9 @@
       .nav-icons{display:flex;align-items:center;gap:8px;}
       .nav-icons button{width:38px;height:38px;}
       .hamburger{width:38px;height:38px;display:flex !important;border-radius:50%;}
+      .nav-mobile-row{display:flex;width:100%;justify-content:center;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+      .nav-mobile-row button{flex:1;padding:8px 0;font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);background:rgba(212,175,55,0.06);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.3s;}
+      .nav-mobile-row button:active{background:rgba(212,175,55,0.15);color:var(--gold);}
       .hamburger span{width:15px;height:1.5px;}
       .hamburger.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
       .hamburger.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
@@ -194,6 +197,7 @@
     .nav-icons button:hover{color:var(--gold);border-color:var(--border-light);box-shadow:0 0 20px rgba(212,175,55,0.1);}
     .cart-count{position:absolute;top:-4px;right:-4px;background:var(--gold);color:var(--dark);font-size:0.45rem;font-weight:900;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-family:var(--font-future);border-radius:50%;}
     .hamburger{display:none;cursor:pointer;width:36px;height:36px;border:1px solid var(--border);background:transparent;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;transition:border-color 0.4s var(--ease-out);border-radius:50%;}
+    .nav-mobile-row{display:none;}
     .hamburger:hover{border-color:var(--border-light);}
     .hamburger span{display:block;width:14px;height:1px;background:var(--text-muted);transition:all 0.4s var(--ease-out);}
     .hamburger.open span:nth-child(1){transform:translateY(5px) rotate(45deg);background:var(--gold);}
@@ -202,10 +206,10 @@
     .sound-toggle svg{width:14px;height:14px;}.sound-toggle.muted{opacity:0.3;}
 
     /* ─── HERO ─── */
-    .hero-bg-container{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;border:none;outline:none;}
+    .hero-bg-container{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;border:none;outline:none;background:var(--dark);}
     .hero-bg-container>*{position:absolute;inset:0;}
     .hero-video{width:100%;height:100%;object-fit:cover;}
-    .hero-overlay{background:linear-gradient(to bottom,rgba(10,10,11,0.15) 0%,rgba(10,10,11,0.45) 30%,rgba(10,10,11,0.65) 60%,var(--dark) 100%);}
+    .hero-overlay{background:linear-gradient(to bottom,rgba(10,10,11,0) 0%,rgba(10,10,11,0.45) 30%,rgba(10,10,11,0.65) 60%,var(--dark) 100%);}
     .hero{position:relative;z-index:2;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden;background:transparent;}
     .hero-content{position:relative;z-index:3;width:100%;padding:0 40px;pointer-events:none;}
     .hero-content *{pointer-events:auto;}
@@ -399,10 +403,10 @@
     @media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:24px;}.footer-bottom{flex-direction:column;gap:14px;text-align:center;}}
 
     /* ─── BOTTOM NAV ─── */
-    .bottom-nav{display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:999;background:rgba(10,10,11,0.8);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border:1px solid var(--border);border-radius:50px;padding:6px 12px;box-shadow:0 4px 30px rgba(0,0,0,0.4);}
+    .bottom-nav{display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:999;background:rgba(10,10,11,0.8);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border:1px solid var(--border);border-radius:50px;padding:6px 8px;box-shadow:0 4px 30px rgba(0,0,0,0.4);}
     .bottom-nav-inner{display:flex;justify-content:space-around;align-items:center;gap:4px;}
-    .bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:transparent;border:none;color:var(--text-dim);cursor:pointer;padding:6px 12px;position:relative;min-width:48px;justify-content:center;transition:color 0.3s var(--ease-out);border-radius:30px;}
-    .bottom-nav-btn svg{width:20px;height:20px;}
+    .bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:transparent;border:none;color:var(--text-dim);cursor:pointer;padding:4px 8px;position:relative;min-width:40px;justify-content:center;transition:color 0.3s var(--ease-out);border-radius:30px;}
+    .bottom-nav-btn svg{width:16px;height:16px;}
     .bottom-nav-btn span{font-family:var(--font-future);font-size:0.4rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);}
     .bottom-nav-btn.active{color:var(--gold);background:rgba(212,175,55,0.08);}
     .bottom-nav-btn.active span{color:var(--gold);}
@@ -549,6 +553,12 @@
       </button>
       <button class="hamburger" id="hamburgerBtn" onclick="playClick();toggleMobileMenu()" aria-label="Menu" aria-pressed="false"><span></span><span></span><span></span></button>
     </div>
+    <div class="nav-mobile-row" id="navMobileRow">
+      <button onclick="playClick();navigateToSection('collections')">Collections</button>
+      <button onclick="playClick();navigateTo('shop')">Categories</button>
+      <button onclick="playClick();navigateTo('shop')">Shop</button>
+      <button onclick="playClick();navigateToSection('gallery')">Gallery</button>
+    </div>
   </nav>
 
   <!-- ====== HOME PAGE ====== -->
@@ -557,6 +567,7 @@
     <!-- HERO -->
     <div class="hero-bg-container">
       <video class="hero-video" id="heroVideo" muted loop playsinline preload="auto" poster="HERO.png">
+        <source src="Mobile hero.mp4" type="video/mp4" media="(max-width:768px)" />
         <source src="HERO VIDEO.mp4" type="video/mp4" />
       </video>
       <div class="hero-overlay"></div>
@@ -1032,9 +1043,13 @@
         <span>CART</span>
         <span class="cart-count" id="cartCountBottom">0</span>
       </button>
-      <button class="bottom-nav-btn" onclick="playClick();goHome()" aria-pressed="false">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span>HOME</span>
+      <button class="bottom-nav-btn" onclick="playClick();navigateTo('shop')" aria-pressed="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>CATEGORIES</span>
+      </button>
+      <button class="bottom-nav-btn" onclick="playClick();navigateToSection('collections')" aria-pressed="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span>COLLECTION</span>
       </button>
     </div>
   </div>
@@ -1113,54 +1128,45 @@
 
     // ─── ALL PRODUCTS ───
     var products = [
-      { id:1, name:'Rajwadi Gold-Plated Bridal Bangles', cat:'Bangles', price:25.99, img:'imgi_106_Gold-choker-necklace-set-500x500.webp', desc:'Traditional Rajwadi-style gold-plated bridal bangles with intricate embossed floral motifs. Set of 2, adjustable fit.' },
-      { id:2, name:'Kundan Jhumki Gold Drop Bangles', cat:'Bangles', price:22.99, img:'imgi_107_Gold-choker-necklace-set-350x350.webp', desc:'Handcrafted kundan jhumki-style drop bangles with gold-toned finish and delicate pearl accents. Lightweight daily wear.' },
-      { id:3, name:'Single Jhumki Gold Bangle', cat:'Bangles', price:18.00, img:'imgi_132_rajwadi-500x500.webp', desc:'Single premium jhumki-style gold bangle with bell-shaped drops and filigree detailing. Statement piece for any outfit.' },
-      { id:4, name:'Golden bangle (Pack of 2)', cat:'Bangles', price:12.00, img:'imgi_133_rajwadi-350x350.webp', desc:'Classic golden bangle pair with polished finish. Everyday essential — comfortable, durable, and tarnish-resistant.' },
-      { id:5, name:'Golden bangle (Pack of 4)', cat:'Bangles', price:12.00, img:'imgi_69_square-12-500x500.webp', badge:'new', desc:'Set of 4 assorted golden bangles with mixed textures — matte, glossy, twisted, and engraved. Stackable party wear.' },
-      { id:6, name:'Silver bangles (Pack of 2)', cat:'Bangles', price:12.00, img:'imgi_70_square-12-350x350.webp', desc:'Sterling silver-toned bangle pair with minimalist design. Hypoallergenic, ideal for sensitive skin, perfect for office wear.' },
-      { id:7, name:'Maharani Bridal Collection', cat:'Bridal', price:85.00, img:'imgi_7_image-2-1-300x300-1.webp', badge:'new', desc:'Opulent maharani-style bridal choker set with gold-plated finish, uncut diamond accents, and matching earrings. 3-piece set.' },
-      { id:8, name:'The Maharani Heirloom Bridal Set', cat:'Bridal', price:80.00, img:'imgi_8_image-12-1-800x800-1-300x300.webp', desc:'Heirloom-quality bridal necklace set featuring layered gold strands, kundan work, and ruby-toned stone inlays. 5-piece set.' },
-      { id:9, name:'Noor-e-Zar Bridal Ensemble', cat:'Bridal', price:95.00, img:'imgi_9_noor-300x300.webp', desc:'Exclusive Noor-e-Zar bridal ensemble with heavy gold-plated craftsmanship, pearl drops, and intricate meenakari detailing. Full set.' },
-      { id:10, name:'Aaira Collection', cat:'Choker Sets', price:28.99, img:'imgi_98_aaira12-300x300-1.webp', badge:'new', desc:'Contemporary aaira-style gold choker set with geometric patterns and adjustable back chain. Includes matching drop earrings.' },
-      { id:11, name:'Rajwadi Necklace Set', cat:'Necklace Sets', price:24.00, img:'imgi_128_rajwadi-300x300.webp', desc:'Rajwadi-inspired gold necklace set with traditional coin drops and oxidized detailing. Lightweight, perfect for festive wear.' },
-      { id:12, name:'Meenwari Copper Choker Necklace Set', cat:'Necklace Sets', price:23.00, img:'imgi_119_image-800x800-1-300x300.webp', desc:'Hand-painted meenwari copper choker set with enamel work and golden highlights. Unique artisan piece, limited stock.' },
-      { id:13, name:'Kiara Collection', cat:'Choker Sets', price:22.99, img:'imgi_110_image-5-800x800-1-300x300.webp', desc:'Modern kiara-style gold choker with linear bar design and cubic zirconia accents. Minimalist elegance for daily wear.' },
-      { id:14, name:'Gold choker necklace set', cat:'Choker Sets', price:18.00, img:'imgi_102_Gold-choker-necklace-set-300x300.webp', desc:'Timeless classic gold choker necklace set with engraved scrollwork and secure lobster clasp. Budget-friendly bridesmaid pick.' },
-      { id:15, name:'Square Sahara Earring Set', cat:'Earrings', price:20.00, img:'imgi_10_square-12-300x300.webp', desc:'Statement square sahara gold earrings with open-work design and post-back closure. Lightweight, bold, and versatile.' },
-      { id:16, name:'Hand Ring Pieces', cat:'Hand Pieces', price:20.00, img:'imgi_11_handpiece12-300x300.webp', badge:'new', desc:'Set of 3 adjustable hand ring pieces in mixed gold finishes — floral, twisted band, and stone-accented. Stackable haathphool style.' },
-      { id:17, name:'Temple Gold Jhumka Earrings', cat:'Earrings', price:32.00, img:'imgi_28_88CC97D6-F59B-44D9-B356-F70DF32B8F21-1-150x150.webp', badge:'new', desc:'Traditional temple-style gold jhumka earrings with intricate lotus and gopuram motifs. Handcrafted by artisans in South India.' },
-      { id:18, name:'Kundan Polki Necklace Set', cat:'Necklace Sets', price:45.00, img:'imgi_4_88CC97D6-F59B-44D9-B356-F70DF32B8F21-1-300x300.webp', badge:'new', desc:'Exquisite kundan polki necklace set with uncut diamond accents and green enamel backing. A true heirloom piece inspired by Mughal royalty.' },
-      { id:19, name:'Meenakari Gold Choker', cat:'Choker Sets', price:35.00, img:'imgi_5_636DB8CD-71D3-449E-99C3-A29721CDCF68-800x800-1-300x300.webp', desc:'Rajasthani meenakari choker featuring vibrant enamel work in peacock hues with gold-plated finish and adjustable chain.' },
-      { id:20, name:'Nathani Gold Nose Ring Set', cat:'Rings', price:15.00, img:'imgi_6_95F13A4C-BAC1-487C-BAF3-FF8D67E25ACA-800x800-1-300x300.webp', desc:'Set of 3 assorted gold nathani-style nose rings with pearl, stone, and plain designs. Lightweight and comfortable for daily wear.' },
-      { id:21, name:'Antique Oxidised Tribal Necklace', cat:'Necklace Sets', price:28.00, img:'imgi_90_as23d1ae-5w4 (1).webp', desc:'Handcrafted antique-oxidised tribal necklace with coin pendants and red bead accents. Inspired by tribal jewellery traditions of Gujarat and Rajasthan.' },
-      { id:22, name:'Pearl Mango Drop Earrings', cat:'Earrings', price:22.00, img:'imgi_36_636DB8CD-71D3-449E-99C3-A29721CDCF68-800x800-1-768x768.webp', desc:'Elegant mango-shaped drop earrings with cultured pearl drops and gold-plated filigree work. Perfect for bridesmaids.' },
-      { id:23, name:'Rajputi Haathphool (Hand Piece)', cat:'Hand Pieces', price:26.00, img:'imgi_74_handpiece12-350x350.webp', badge:'new', desc:'Traditional Rajputi haathphool with five-ring design, gold chains, and floral palm embroidery. Complete hand ornament for weddings.' },
-      { id:24, name:'Bengali Shanka Pola Bangle Set', cat:'Bangles', price:16.00, img:'imgi_70_square-12-350x350.webp', desc:'Traditional Bengali shanka-pola bangle set in red and white with gold-plated accents. Auspicious wedding wear, set of 4.' },
+      { id:1, name:'Aaira Collection', cat:'Choker Sets', price:28.99, img:'products/Aaira-Collection.png', badge:'new', desc:'Contemporary aaira-style gold choker set with geometric patterns and adjustable back chain. Includes matching drop earrings.' },
+      { id:2, name:'Bangles', cat:'Bangles', price:15.00, img:'products/Bangles.png', desc:'Classic gold-toned bangles with polished finish. Everyday essential — comfortable, durable, and tarnish-resistant.' },
+      { id:3, name:'Bridal Jhumki Pearl Bangles', cat:'Bangles', price:25.99, img:'products/Bridal-Jhumki-Pearl-Bangles.png', badge:'new', desc:'Traditional bridal jhumki-style bangles with pearl accents and intricate embossed floral motifs. Set of 2, adjustable fit.' },
+      { id:4, name:'Gold choker necklace set', cat:'Choker Sets', price:18.00, img:'products/Gold-choker-necklace-set.png', desc:'Timeless classic gold choker necklace set with engraved scrollwork and secure lobster clasp. Budget-friendly bridesmaid pick.' },
+      { id:5, name:'Gold Kundan Jhumki bangles', cat:'Bangles', price:22.99, img:'products/Gold-Kundan-Jhumki-bangles.png', desc:'Handcrafted kundan jhumki-style bangles with gold-toned finish and delicate drop accents. Lightweight daily wear.' },
+      { id:6, name:'Golden bangle (Pack of 2)', cat:'Bangles', price:12.00, img:'products/Golden-bangle-Pack-of-2.png', desc:'Classic golden bangle pair with polished finish. Everyday essential — comfortable and durable.' },
+      { id:7, name:'Golden bangle (Pack of 4)', cat:'Bangles', price:12.00, img:'products/Golden-bangle-Pack-of-4.png', desc:'Set of 4 assorted golden bangles with mixed textures — matte, glossy, twisted, and engraved. Stackable party wear.' },
+      { id:8, name:'Hand Ring Pieces', cat:'Hand Pieces', price:20.00, img:'products/Hand-Ring-Pieces.png', badge:'new', desc:'Set of 3 adjustable hand ring pieces in mixed gold finishes — floral, twisted band, and stone-accented. Stackable haathphool style.' },
+      { id:9, name:'Kiara Collection', cat:'Choker Sets', price:22.99, img:'products/Kiara-Collection.png', desc:'Modern kiara-style gold choker with linear bar design and cubic zirconia accents. Minimalist elegance for daily wear.' },
+      { id:10, name:'Maharani Bridal Collection', cat:'Bridal', price:85.00, img:'products/Maharani-Bridal-Collection.png', badge:'new', desc:'Opulent maharani-style bridal choker set with gold-plated finish, uncut diamond accents, and matching earrings. 3-piece set.' },
+      { id:11, name:'Meenwari Copper Choker Necklace Set', cat:'Necklace Sets', price:23.00, img:'products/Meenwari-Copper-Choker-Necklace-Set.png', desc:'Hand-painted meenwari copper choker set with enamel work and golden highlights. Unique artisan piece, limited stock.' },
+      { id:12, name:'Rajwadi Necklace Set', cat:'Necklace Sets', price:24.00, img:'products/Rajwadi-Necklace-Set.png', desc:'Rajwadi-inspired gold necklace set with traditional coin drops and oxidized detailing. Lightweight, perfect for festive wear.' },
+      { id:13, name:'Silver bangles (Pack of 2)', cat:'Bangles', price:12.00, img:'products/Silver-bangles-Pack-of-2.png', desc:'Sterling silver-toned bangle pair with minimalist design. Hypoallergenic, ideal for sensitive skin.' },
+      { id:14, name:'Single Jhumki gold bangles', cat:'Bangles', price:18.00, img:'products/Single-Jhumki-gold-bangles.png', desc:'Single premium jhumki-style gold bangle with bell-shaped drops and filigree detailing. Statement piece for any outfit.' },
+      { id:15, name:'Square Sahara Earring Set', cat:'Earrings', price:20.00, img:'products/Square-Sahara-Earring-Set.png', desc:'Statement square sahara gold earrings with open-work design and post-back closure. Lightweight and versatile.' },
+      { id:16, name:'The Maharani Heirloom Bridal Set', cat:'Bridal', price:80.00, img:'products/The-Maharani-Heirloom-Bridal-Set.png', desc:'Heirloom-quality bridal necklace set featuring layered gold strands, kundan work, and ruby-toned stone inlays. 5-piece set.' },
+      { id:17, name:'The Noor-e-Zar Bridal Ensemble', cat:'Bridal', price:95.00, img:'products/The-Noor-e-Zar-Bridal-Ensemble.png', desc:'Exclusive bridal ensemble with heavy gold-plated craftsmanship, pearl drops, and intricate meenakari detailing. Full set.' },
     ];
 
     var featured = [
-      { name:'Aaira Collection', price:'£28.99', img:'imgi_98_aaira12-300x300-1.webp' },
-      { name:'Rajwadi Necklace Set', price:'£24.00', img:'imgi_128_rajwadi-300x300.webp' },
-      { name:'Maharani Bridal Collection', price:'£85.00', img:'imgi_7_image-2-1-300x300-1.webp' },
-      { name:'Gold choker necklace set', price:'£18.00', img:'imgi_102_Gold-choker-necklace-set-300x300.webp' },
-      { name:'Square Sahara Earring Set', price:'£20.00', img:'imgi_10_square-12-300x300.webp' },
-      { name:'Hand Ring Pieces', price:'£20.00', img:'imgi_11_handpiece12-300x300.webp' },
-      { name:'Kiara Collection', price:'£22.99', img:'imgi_110_image-5-800x800-1-300x300.webp' },
-      { name:'Noor-e-Zar Bridal Ensemble', price:'£95.00', img:'imgi_9_noor-300x300.webp' },
-      { name:'Kundan Polki Necklace Set', price:'£45.00', img:'imgi_4_88CC97D6-F59B-44D9-B356-F70DF32B8F21-1-300x300.webp' },
-      { name:'Temple Gold Jhumka Earrings', price:'£32.00', img:'imgi_28_88CC97D6-F59B-44D9-B356-F70DF32B8F21-1-150x150.webp' },
+      { name:'Aaira Collection', price:'£28.99', img:'products/Aaira-Collection.png' },
+      { name:'Rajwadi Necklace Set', price:'£24.00', img:'products/Rajwadi-Necklace-Set.png' },
+      { name:'Maharani Bridal Collection', price:'£85.00', img:'products/Maharani-Bridal-Collection.png' },
+      { name:'Gold choker necklace set', price:'£18.00', img:'products/Gold-choker-necklace-set.png' },
+      { name:'Square Sahara Earring Set', price:'£20.00', img:'products/Square-Sahara-Earring-Set.png' },
+      { name:'Hand Ring Pieces', price:'£20.00', img:'products/Hand-Ring-Pieces.png' },
+      { name:'Kiara Collection', price:'£22.99', img:'products/Kiara-Collection.png' },
+      { name:'The Noor-e-Zar Bridal Ensemble', price:'£95.00', img:'products/The-Noor-e-Zar-Bridal-Ensemble.png' },
+      { name:'Bridal Jhumki Pearl Bangles', price:'£25.99', img:'products/Bridal-Jhumki-Pearl-Bangles.png' },
+      { name:'Gold Kundan Jhumki bangles', price:'£22.99', img:'products/Gold-Kundan-Jhumki-bangles.png' },
     ];
 
     var categories = [
       { id:'all', label:'All Products' },
-      { id:'Rings', label:'Rings' },
-      { id:'Necklace Sets', label:'Necklace Sets' },
-      { id:'Earrings', label:'Earrings' },
       { id:'Bangles', label:'Bangles' },
       { id:'Bridal', label:'Bridal Collection' },
-      { id:'Tikka Sets', label:'Tikka Sets' },
       { id:'Choker Sets', label:'Choker Sets' },
+      { id:'Necklace Sets', label:'Necklace Sets' },
+      { id:'Earrings', label:'Earrings' },
       { id:'Hand Pieces', label:'Hand Piece' },
     ];
 
@@ -1219,15 +1225,15 @@
     function dismissPreloader() {
       var p = document.getElementById('preloader');
       if (!p || p.classList.contains('hidden')) return;
+      clearInterval(preloaderInterval);
       var bar = document.getElementById('preloaderBar');
       if (bar) bar.style.width = '100%';
-      clearInterval(preloaderInterval);
       setTimeout(function(){
         p.classList.add('hidden');
         playHeroVideo();
         startCounters();
-        setTimeout(function(){ if (p.parentNode) p.parentNode.removeChild(p); }, 900);
-      }, 400);
+        setTimeout(function(){ if (p.parentNode) p.parentNode.removeChild(p); }, 500);
+      }, 300);
     }
     function playHeroVideo() {
       var v = document.getElementById('heroVideo');
@@ -1273,8 +1279,8 @@
       if (el) { el.style.display = 'block'; setTimeout(function(){ el.classList.add('active'); if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh(); }, 50); }
       closeMobileMenu();
       document.querySelectorAll('.bottom-nav-btn').forEach(function(b,i){
-        var targets = ['home','shop','cart','home'];
-        var isActive = targets[i] === page || (i === 2 && page === 'cart');
+        var targets = ['home','shop','shop','home','cart'];
+        var isActive = targets[i] === page;
         b.classList.toggle('active', isActive);
       });
       window.scrollTo(0, 0);
