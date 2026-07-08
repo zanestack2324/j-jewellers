@@ -164,7 +164,7 @@
     nav .logo:hover::after{transform:scaleX(1);}
     nav .logo img{height:70px;width:auto;transition:height 0.6s var(--ease-out);}
     nav.scrolled .logo img{height:55px;}
-    @media(max-width:768px){nav{padding:14px 16px;}nav.scrolled{padding:10px 16px;}nav .logo img{height:50px;}nav.scrolled .logo img{height:44px;}.nav-links{display:none !important;}.hamburger{display:flex !important;}nav .logo{font-size:0.8rem;}}
+    @media(max-width:768px){nav{padding:14px 16px;}nav.scrolled{padding:10px 16px;}nav .logo img{height:50px;}nav.scrolled .logo img{height:44px;}.nav-links{display:none;}.nav-links.open{display:flex !important;}.hamburger{display:flex !important;}nav .logo{font-size:0.8rem;}}
     .nav-links{display:flex;align-items:center;gap:2px;list-style:none;}
     .nav-links a{display:block;padding:8px 18px;font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:all 0.4s var(--ease-out);position:relative;}
     .nav-links a::before{content:'';position:absolute;bottom:2px;left:18px;right:18px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform 0.5s var(--ease-out);box-shadow:0 0 10px rgba(212,175,55,0.5);}
@@ -186,15 +186,19 @@
     .hero-bg-container{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
     .hero-bg-container>*{position:absolute;inset:0;}
     .hero-video{width:100%;height:100%;object-fit:cover;}
-    .hero-overlay{background:linear-gradient(to bottom,rgba(10,10,11,0.3) 0%,rgba(10,10,11,0.7) 50%,var(--dark) 100%);}
+    .hero-overlay{background:linear-gradient(to bottom,rgba(10,10,11,0.15) 0%,rgba(10,10,11,0.45) 30%,rgba(10,10,11,0.65) 60%,var(--dark) 100%);}
     .hero{position:relative;z-index:2;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden;background:transparent;}
     .hero-content{position:relative;z-index:3;width:100%;padding:0 40px;pointer-events:none;}
     .hero-content *{pointer-events:auto;}
-    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;margin-bottom:36px;border:1px solid rgba(212,175,55,0.12);font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,11,0.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
-    .hero h1{font-family:var(--font-heading);font-size:clamp(2.8rem,8vw,7rem);font-weight:700;line-height:1.02;margin-bottom:20px;max-width:900px;}
-    .hero p{font-family:var(--font-body);font-size:1.15rem;font-weight:300;color:var(--text-muted);max-width:520px;line-height:1.8;margin-bottom:44px;}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;margin-bottom:36px;border:1px solid rgba(212,175,55,0.12);font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,11,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+    .hero h1{font-family:var(--font-heading);font-size:clamp(2.8rem,8vw,7rem);font-weight:700;line-height:1.02;margin-bottom:20px;max-width:900px;text-shadow:0 4px 40px rgba(0,0,0,0.6),0 2px 8px rgba(0,0,0,0.4);}
+    .hero p{font-family:var(--font-body);font-size:1.15rem;font-weight:400;color:var(--text);max-width:520px;line-height:1.8;margin-bottom:44px;text-shadow:0 2px 20px rgba(0,0,0,0.7);}
     .hero-buttons{display:flex;gap:16px;flex-wrap:wrap;}
-    .hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--text-muted);font-family:var(--font-future);font-size:0.45rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;text-decoration:none;cursor:pointer;animation:bounce 2.5s ease-in-out infinite;}
+    .whatsapp-fab{position:fixed;bottom:90px;right:20px;z-index:9998;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:all 0.4s var(--ease-out);cursor:pointer;text-decoration:none;}
+    .whatsapp-fab:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 6px 30px rgba(37,211,102,0.6);}
+    .whatsapp-fab svg{width:26px;height:26px;}
+    @media(max-width:768px){.whatsapp-fab{bottom:76px;right:14px;width:48px;height:48px;}.whatsapp-fab svg{width:22px;height:22px;}}
+    .hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--text-muted);font-family:var(--font-future);font-size:0.45rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;text-decoration:none;cursor:pointer;}
     @media(min-width:769px){.hero-scroll{display:flex;}}
     @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(10px);}}
     .scroll-indicator{width:1px;height:50px;background:linear-gradient(to bottom,var(--gold),transparent);position:relative;}
@@ -370,15 +374,15 @@
     @media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:24px;}.footer-bottom{flex-direction:column;gap:14px;text-align:center;}}
 
     /* ─── BOTTOM NAV ─── */
-    .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(10,10,11,0.75);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border-top:1px solid var(--border);padding:4px 8px;padding-bottom:max(4px,env(safe-area-inset-bottom));}
-    .bottom-nav-inner{display:flex;justify-content:space-around;align-items:center;}
-    .bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:transparent;border:none;color:var(--text-dim);cursor:pointer;padding:6px 10px;position:relative;width:52px;height:48px;justify-content:center;transition:color 0.3s var(--ease-out);}
-    .bottom-nav-btn svg{width:18px;height:18px;}
+    .bottom-nav{display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:999;background:rgba(10,10,11,0.8);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border:1px solid var(--border);border-radius:50px;padding:6px 12px;box-shadow:0 4px 30px rgba(0,0,0,0.4);}
+    .bottom-nav-inner{display:flex;justify-content:space-around;align-items:center;gap:4px;}
+    .bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:transparent;border:none;color:var(--text-dim);cursor:pointer;padding:6px 12px;position:relative;min-width:48px;justify-content:center;transition:color 0.3s var(--ease-out);border-radius:30px;}
+    .bottom-nav-btn svg{width:20px;height:20px;}
     .bottom-nav-btn span{font-family:var(--font-future);font-size:0.4rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);}
-    .bottom-nav-btn.active{color:var(--gold);}
+    .bottom-nav-btn.active{color:var(--gold);background:rgba(212,175,55,0.08);}
     .bottom-nav-btn.active span{color:var(--gold);}
-    .bottom-nav-btn .cart-count{top:0;right:2px;width:14px;height:14px;font-size:0.4rem;}
-    @media(max-width:768px){.bottom-nav{display:block;}body{padding-bottom:58px;}}
+    .bottom-nav-btn .cart-count{top:-2px;right:4px;width:16px;height:16px;font-size:0.4rem;}
+    @media(max-width:768px){.bottom-nav{display:block;}body{padding-bottom:0;}}
     @media(min-width:769px){.bottom-nav{display:none!important;}body{padding-bottom:0!important;}}
 
     /* ─── CART ─── */
@@ -501,15 +505,14 @@
   <nav id="navbar">
     <a class="logo" id="logoHome" tabindex="0">
       <img src="imgi_2_head-logo.webp" alt="J JEWELLERS" />
-      <span>J JEWELLERS</span>
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('home')">Home</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('home')">Collections</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();goHome()">Home</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();goHome()">Collections</a></li>
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Categories</a></li>
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Shop</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('home')">Gallery</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('home')">Contact</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();goHome()">Gallery</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();goHome()">Contact</a></li>
     </ul>
     <div class="nav-icons">
       <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound" aria-pressed="false">
@@ -550,7 +553,7 @@
     </section>
 
     <!-- MARQUEE -->
-    <div class="marquee">
+    <div class="marquee reveal">
       <div class="marquee-track">
         <span>✦ Handcrafted Excellence <span class="sep">◆</span></span>
         <span>✦ 24K Gold Collection <span class="sep">◆</span></span>
@@ -997,10 +1000,10 @@
         </div>
         <div class="footer-col">
           <h4>Quick Links</h4>
-          <a onclick="playClick();navigateTo('home')">Home</a>
+          <a onclick="playClick();goHome()">Home</a>
           <a onclick="playClick();navigateTo('shop')">Products</a>
-          <a onclick="playClick();navigateTo('home')">Testimonials</a>
-          <a onclick="playClick();navigateTo('home')">Contact Us</a>
+          <a onclick="playClick();goHome()">Testimonials</a>
+          <a onclick="playClick();goHome()">Contact Us</a>
           <a onclick="playClick();navigateTo('privacy')">Privacy Policy</a>
           <a onclick="playClick();navigateTo('returns')">Returns &amp; Refunds</a>
         </div>
@@ -1034,7 +1037,7 @@
   <!-- BOTTOM NAV -->
   <div class="bottom-nav">
     <div class="bottom-nav-inner">
-      <button class="bottom-nav-btn active" onclick="playClick();navigateTo('home')" aria-pressed="false">
+      <button class="bottom-nav-btn active" onclick="playClick();goHome()" aria-pressed="false">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span>HOME</span>
       </button>
@@ -1047,12 +1050,17 @@
         <span>CART</span>
         <span class="cart-count" id="cartCountBottom">0</span>
       </button>
-      <button class="bottom-nav-btn" onclick="playClick();navigateTo('home')" aria-pressed="false">
+      <button class="bottom-nav-btn" onclick="playClick();goHome()" aria-pressed="false">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span>PROFILE</span>
+        <span>HOME</span>
       </button>
     </div>
   </div>
+
+  <!-- WHATSAPP FAB -->
+  <a href="https://wa.me/441234567890" target="_blank" class="whatsapp-fab" onclick="playClick()" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
 
   <!-- CART -->
   <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
@@ -1182,23 +1190,22 @@
     var countersStarted = false;
 
     // ─── AUDIO ───
-    function initAudio() {
-      if (!clickSound) { clickSound = new Audio('CLICK SOUND.mp3'); clickSound.volume = 0.5; }
-      if (!bgSound) { bgSound = new Audio('BACKGROUND SOUND.mp3'); bgSound.loop = true; bgSound.volume = 0.3; }
-    }
     function activateAudio() {
       if (audioActivated) return;
       audioActivated = true;
-      initAudio();
-      if (soundEnabled && bgSound) bgSound.play().catch(function(){});
+      if (!bgSound) { bgSound = new Audio('BACKGROUND SOUND.mp3'); bgSound.loop = true; bgSound.volume = 0.3; }
+      if (soundEnabled) {
+        if (bgSound) bgSound.play().catch(function(){});
+      }
     }
-    function playClick() {
+    function playClick(e) {
+      if (!e) e = window.event;
       if (!audioActivated) activateAudio();
       if (!soundEnabled) return;
-      if (!clickSound) initAudio();
+      if (!clickSound) { clickSound = new Audio('CLICK SOUND.mp3'); clickSound.volume = 0.5; }
       clickSound.currentTime = 0;
       clickSound.play().catch(function(){});
-      var t = event && event.target;
+      var t = e && e.target;
       if (t && t.getAttribute) { var p = t.getAttribute('aria-pressed'); if (p === 'false') t.setAttribute('aria-pressed', 'true'); }
     }
     document.addEventListener('click', function() { if (!audioActivated) activateAudio(); }, { once: true });
@@ -1209,8 +1216,9 @@
       btn.classList.toggle('muted', !soundEnabled);
       btn.setAttribute('aria-pressed', soundEnabled ? 'false' : 'true');
       if (soundEnabled) {
-        initAudio();
-        clickSound.play().catch(function(){});
+        if (!audioActivated) activateAudio();
+        if (!clickSound) { clickSound = new Audio('CLICK SOUND.mp3'); clickSound.volume = 0.5; }
+        clickSound.currentTime = 0; clickSound.play().catch(function(){});
         if (bgSound) bgSound.play().catch(function(){});
       } else {
         if (bgSound) bgSound.pause();
@@ -1234,7 +1242,6 @@
       clearInterval(preloaderInterval);
       setTimeout(function(){
         p.classList.add('hidden');
-        activateAudio();
         playHeroVideo();
         startCounters();
       }, 400);
@@ -1256,24 +1263,21 @@
     var lastScrollY = 0;
     function onScrollNav(sy) {
       var n = document.getElementById('navbar');
-      var b = document.querySelector('.bottom-nav');
       n.classList.toggle('scrolled', sy > 80);
       if (sy > 120) {
         if (sy > lastScrollY) {
           gsap.to(n, { y: '-100%', duration: 0.5, ease: 'power3.inOut' });
-          if (b) gsap.to(b, { y: '100%', duration: 0.5, ease: 'power3.inOut' });
         } else {
           gsap.to(n, { y: '0%', duration: 0.5, ease: 'power3.inOut' });
-          if (b) gsap.to(b, { y: '0%', duration: 0.5, ease: 'power3.inOut' });
         }
       } else {
         gsap.to(n, { y: '0%', duration: 0.3, ease: 'power2.out' });
-        if (b) gsap.to(b, { y: '0%', duration: 0.3, ease: 'power2.out' });
       }
       lastScrollY = sy;
     }
 
-    document.getElementById('logoHome').addEventListener('click', function() { playClick(); navigateTo('home'); });
+    document.getElementById('logoHome').addEventListener('click', function() { playClick(); goHome(); });
+    function goHome() { if (window.location.hash !== '#home') { navigateTo('home'); } else { window.scrollTo({top:0,behavior:'smooth'}); } }
 
 
 
@@ -1283,8 +1287,7 @@
       document.querySelectorAll('.page-content').forEach(function(p){ p.classList.remove('active'); p.style.display = 'none'; });
       var el = document.getElementById('page-' + page);
       if (el) { el.style.display = 'block'; setTimeout(function(){ el.classList.add('active'); if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh(); }, 50); }
-      var ml = document.getElementById('navLinks');
-      if (ml && ml.classList.contains('open')) { ml.classList.remove('open'); document.getElementById('hamburgerBtn').classList.remove('open'); }
+      closeMobileMenu();
       document.querySelectorAll('.bottom-nav-btn').forEach(function(b,i){
         var targets = ['home','shop','cart','home'];
         var isActive = targets[i] === page || (i === 2 && page === 'cart');
@@ -1484,13 +1487,20 @@
 
     document.getElementById('newsletterForm').addEventListener('submit', function(e){ e.preventDefault(); playClick(); showToast('✦ Welcome to the Boujee Circle!'); this.querySelector('input').value = ''; });
 
+    function closeMobileMenu() {
+      var l = document.getElementById('navLinks');
+      var h = document.getElementById('hamburgerBtn');
+      if (!l) return;
+      l.style.display = ''; l.style.position = ''; l.style.top = ''; l.style.left = ''; l.style.right = ''; l.style.flexDirection = ''; l.style.background = ''; l.style.padding = ''; l.style.gap = ''; l.style.borderBottom = ''; l.style.zIndex = ''; l.style.backdropFilter = ''; l.style.webkitBackdropFilter = '';
+      l.classList.remove('open');
+      if (h) h.classList.remove('open');
+    }
     function toggleMobileMenu() {
       playClick();
       var l = document.getElementById('navLinks');
-      var h = document.getElementById('hamburgerBtn');
-      if (l.classList.contains('open')) { l.style.display = ''; l.style.position = ''; l.style.top = ''; l.style.left = ''; l.style.right = ''; l.style.flexDirection = ''; l.style.background = ''; l.style.padding = ''; l.style.gap = ''; l.style.borderBottom = ''; l.style.zIndex = ''; l.style.backdropFilter = ''; l.style.webkitBackdropFilter = ''; l.classList.remove('open'); h.classList.remove('open'); return; }
+      if (l && l.classList.contains('open')) { closeMobileMenu(); return; }
       l.style.display = 'flex'; l.style.position = 'fixed'; l.style.top = '70px'; l.style.left = '0'; l.style.right = '0'; l.style.flexDirection = 'column'; l.style.background = 'rgba(10,10,11,0.7)'; l.style.padding = '20px 16px 30px'; l.style.gap = '4px'; l.style.borderBottom = '1px solid var(--border)'; l.style.zIndex = '999'; l.style.backdropFilter = 'blur(20px)'; l.style.webkitBackdropFilter = 'blur(20px)';
-      l.classList.add('open'); h.classList.add('open');
+      l.classList.add('open'); document.getElementById('hamburgerBtn').classList.add('open');
     }
 
     // ─── HORIZONTAL DRAG ───
@@ -1517,7 +1527,6 @@
 
     // ─── INIT ───
     initGSAP();
-    initAudio();
 
     window.addEventListener('load', function(){ setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }, 500); });
 
