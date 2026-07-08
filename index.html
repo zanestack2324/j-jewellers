@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>J JEWELLERS – Look Boujee On A Budget</title>
+  <link rel="icon" type="image/webp" href="imgi_2_head-logo.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    :root{
+      --gold:#D4AF37;
+      --gold-light:#F0D060;
+      --gold-dark:#B8941E;
+      --dark:#0A0A0B;
+      --dark-2:#111113;
+      --dark-3:#1A1A1E;
+      --surface:#131315;
+      --text:#FFFFFF;
+      --text-muted:#888892;
+      --text-dim:#55555E;
+      --border:rgba(212,175,55,0.08);
+      --border-light:rgba(212,175,55,0.18);
+      --font-heading:'Playfair Display',Georgia,serif;
+      --font-body:'Lato',Arial,sans-serif;
+      --ease-out: cubic-bezier(0.16,1,0.3,1);
+      --ease-in-out: cubic-bezier(0.65,0,0.35,1);
+      --radius-sm:2px;
+      --container:1400px;
+      --section-pad:120px;
+      --section-pad-mobile:60px;
+    }
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:var(--font-body);
+      background:var(--dark);
+      color:var(--text);
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    ::-webkit-scrollbar{width:4px;}
+    ::-webkit-scrollbar-track{background:var(--dark);}
+    ::-webkit-scrollbar-thumb{background:var(--gold);}
+    ::selection{background:rgba(212,175,55,0.25);color:var(--text);}
+    img{display:block;max-width:100%;}
+    a{color:inherit;text-decoration:none;}
+    button{cursor:pointer;font-family:inherit;}
+
+    /* ─── DESIGN TOKENS ─── */
+    .container{max-width:var(--container);margin:0 auto;padding:0 40px;}
+    @media(max-width:768px){.container{padding:0 16px;}}
+    section{padding:var(--section-pad) 0;position:relative;z-index:1;}
+    @media(max-width:768px){section{padding:var(--section-pad-mobile) 0;}}
+    .section-label{
+      display:inline-flex;align-items:center;gap:8px;
+      font-family:var(--font-body);
+      font-size:0.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+      color:var(--gold);margin-bottom:12px;
+    }
+    .section-label::before{
+      content:'';display:block;width:20px;height:1px;background:var(--gold);
+    }
+    .section-title{
+      font-family:var(--font-heading);
+      font-size:clamp(1.8rem,4vw,3.5rem);
+      font-weight:700;line-height:1.1;
+      margin-bottom:16px;
+      color:var(--text);
+    }
+    .section-desc{
+      color:var(--text-muted);
+      font-size:1rem;font-weight:300;line-height:1.7;
+      max-width:560px;margin-bottom:48px;
+    }
+    .gold-text{
+      background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    @media(max-width:480px){
+      .section-title{font-size:1.6rem;}
+      .section-desc{font-size:0.9rem;}
+    }
+
+    /* ─── REVEAL ANIMATIONS ─── */
+    .reveal{opacity:0;transform:translateY(40px);}
+    .reveal-l{opacity:0;transform:translateX(-50px);}
+    .reveal-r{opacity:0;transform:translateX(50px);}
+    .reveal-s{opacity:0;transform:scale(0.92);}
+
+    /* ─── PRELOADER ─── */
+    #preloader{
+      position:fixed;inset:0;z-index:99999;
+      background:var(--dark);
+      display:flex;align-items:center;justify-content:center;flex-direction:column;gap:40px;
+      transition:opacity 0.8s var(--ease-out),visibility 0.8s var(--ease-out);
+    }
+    #preloader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+    .preloader-logo{height:100px;width:auto;opacity:0;animation:fadeIn 1s var(--ease-out) 0.3s forwards;}
+    .preloader-sub{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--text-muted);opacity:0;animation:fadeIn 1s var(--ease-out) 0.6s forwards;}
+    .preloader-btn{
+      padding:16px 48px;font-size:0.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+      background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));
+      color:var(--dark);border:none;
+      transition:all 0.5s var(--ease-out);
+      opacity:0;animation:fadeIn 1s var(--ease-out) 0.9s forwards;
+      position:relative;overflow:hidden;
+    }
+    .preloader-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(212,175,55,0.3);}
+    .preloader-btn:active{transform:translateY(-1px) scale(0.98);}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
+
+    /* ─── NAVIGATION ─── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:1000;
+      padding:20px 40px;
+      display:flex;align-items:center;justify-content:space-between;
+      transition:background 0.6s var(--ease-out),padding 0.6s var(--ease-out),backdrop-filter 0.6s var(--ease-out);
+    }
+    nav.scrolled{
+      background:rgba(10,10,11,0.6);
+      backdrop-filter:blur(16px) saturate(1.2);
+      -webkit-backdrop-filter:blur(16px) saturate(1.2);
+      padding:14px 40px;
+    }
+    nav .logo{
+      display:flex;align-items:center;gap:12px;
+      font-family:var(--font-body);font-size:1.3rem;font-weight:700;
+      color:var(--text);letter-spacing:3px;cursor:pointer;
+      transition:opacity 0.3s;
+    }
+    nav .logo:hover{opacity:0.8;}
+    nav .logo img{height:90px;width:auto;transition:height 0.6s var(--ease-out);}
+    nav.scrolled .logo img{height:70px;}
+    @media(max-width:768px){
+      nav{padding:14px 16px;}
+      nav.scrolled{padding:10px 16px;}
+      nav .logo img{height:64px;}
+      nav.scrolled .logo img{height:54px;}
+      .nav-links{display:none;}
+      .hamburger{display:flex;}
+    }
+    .nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
+    .nav-links a{
+      display:block;
+      padding:8px 20px;
+      font-size:0.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+      color:var(--text-muted);text-decoration:none;
+      transition:color 0.4s var(--ease-out);
+      position:relative;
+    }
+    .nav-links a::after{
+      content:'';position:absolute;bottom:4px;left:20px;right:20px;
+      height:1px;background:var(--gold);
+      transform:scaleX(0);transform-origin:right;
+      transition:transform 0.5s var(--ease-out);
+    }
+    .nav-links a:hover{color:var(--text);}
+    .nav-links a:hover::after{transform:scaleX(1);transform-origin:left;}
+    .nav-icons{display:flex;align-items:center;gap:8px;}
+    .nav-icons button{
+      width:38px;height:38px;
+      display:flex;align-items:center;justify-content:center;
+      background:transparent;border:1px solid var(--border);
+      color:var(--text-muted);cursor:pointer;
+      transition:all 0.4s var(--ease-out);
+      position:relative;
+    }
+    .nav-icons button:hover{color:var(--gold);border-color:var(--border-light);background:rgba(212,175,55,0.04);}
+    .cart-count{
+      position:absolute;top:-3px;right:-3px;
+      background:var(--gold);color:var(--dark);
+      font-size:0.5rem;font-weight:700;
+      width:16px;height:16px;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .hamburger{display:none;cursor:pointer;width:38px;height:38px;border:1px solid var(--border);background:transparent;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;transition:border-color 0.4s var(--ease-out);}
+    .hamburger:hover{border-color:var(--border-light);}
+    .hamburger span{display:block;width:16px;height:1px;background:var(--text-muted);transition:all 0.4s var(--ease-out);}
+    .hamburger.open span:nth-child(1){transform:translateY(5px) rotate(45deg);}
+    .hamburger.open span:nth-child(2){opacity:0;}
+    .hamburger.open span:nth-child(3){transform:translateY(-5px) rotate(-45deg);}
+    .sound-toggle svg{width:14px;height:14px;}
+    .sound-toggle.muted{opacity:0.3;}
+
+    /* ─── HERO ─── */
+    .hero-bg-container{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+    .hero-bg-container>*{position:absolute;inset:0;}
+    .hero-bg{
+      background:url('HERO.png') center/cover no-repeat;
+      background-color:var(--dark);
+      transform-origin:50% 42%;
+      animation:heroZoom 16s var(--ease-out) forwards;
+    }
+    @keyframes heroZoom{0%{transform:scale(1);}100%{transform:scale(1.25);}}
+    .hero-video{width:100%;height:100%;object-fit:cover;}
+    .hero-overlay{background:linear-gradient(to bottom,rgba(10,10,11,0.4) 0%,rgba(10,10,11,0.6) 100%);}
+    .hero-glow{
+      top:50%;left:50%;transform:translate(-50%,-50%);
+      width:90vmin;height:90vmin;
+      background:radial-gradient(circle,rgba(212,175,55,0.04) 0%,transparent 50%);
+      pointer-events:none;
+      animation:glowPulse 5s ease-in-out infinite alternate;
+    }
+    @keyframes glowPulse{
+      0%{opacity:0.3;transform:translate(-50%,-50%) scale(1);}
+      100%{opacity:0.7;transform:translate(-50%,-50%) scale(1.1);}
+    }
+    #glitterCanvas{z-index:3;pointer-events:none;mix-blend-mode:screen;}
+    .hero{
+      position:relative;z-index:1;
+      height:100vh;min-height:650px;
+      display:flex;align-items:center;
+      overflow:hidden;background:transparent;
+    }
+    .hero-content{
+      position:relative;z-index:2;
+      width:100%;padding:0 40px;
+      pointer-events:none;
+    }
+    .hero-content *{pointer-events:auto;}
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 20px;margin-bottom:32px;
+      border:1px solid rgba(212,175,55,0.15);
+      font-family:var(--font-body);
+      font-size:0.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+      color:var(--gold);background:rgba(10,10,11,0.3);backdrop-filter:blur(8px);
+    }
+    .hero h1{
+      font-family:var(--font-heading);
+      font-size:clamp(2.5rem,7vw,6.5rem);
+      font-weight:700;line-height:1.05;
+      margin-bottom:24px;
+      max-width:900px;
+    }
+    .hero p{
+      font-family:var(--font-body);
+      font-size:1.1rem;font-weight:300;
+      color:var(--text-muted);
+      max-width:500px;line-height:1.7;
+      margin-bottom:40px;
+    }
+    .hero-buttons{display:flex;gap:16px;flex-wrap:wrap;}
+    .hero-scroll{
+      position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+      z-index:4;
+      display:flex;flex-direction:column;align-items:center;gap:8px;
+      color:var(--text-muted);
+      font-size:0.55rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+      text-decoration:none;cursor:pointer;
+      animation:bounce 2.5s ease-in-out infinite;
+    }
+    @media(min-width:769px){.hero-scroll{display:flex;}}
+    @keyframes bounce{
+      0%,100%{transform:translateX(-50%) translateY(0);}
+      50%{transform:translateX(-50%) translateY(10px);}
+    }
+    .scroll-indicator{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);}
+    @media(max-width:768px){
+      .hero-content{padding:0 16px;}
+      .hero h1{font-size:clamp(2rem,9vw,3rem);}
+      .hero p{font-size:0.9rem;max-width:100%;}
+      .hero-badge{font-size:0.5rem;padding:6px 14px;margin-bottom:20px;}
+    }
+
+    /* ─── BUTTON SYSTEM ─── */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:14px 36px;
+      font-family:var(--font-body);
+      font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+      border:none;cursor:pointer;text-decoration:none;
+      transition:all 0.5s var(--ease-out);
+      position:relative;overflow:hidden;
+      user-select:none;-webkit-tap-highlight-color:transparent;
+    }
+    .btn-cta{
+      background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));
+      color:var(--dark);
+      box-shadow:0 4px 20px rgba(212,175,55,0.2);
+    }
+    .btn-cta:hover{
+      transform:translateY(-3px);
+      box-shadow:0 12px 40px rgba(212,175,55,0.35);
+    }
+    .btn-cta:active{transform:translateY(-1px) scale(0.98);}
+    .btn-primary{
+      background:var(--surface);
+      color:var(--gold);
+      border:1px solid var(--border-light);
+    }
+    .btn-primary:hover{background:var(--dark-3);border-color:var(--gold);transform:translateY(-2px);}
+    .btn-primary:active{transform:translateY(0) scale(0.98);}
+    .btn-outline{
+      background:transparent;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,0.12);
+    }
+    .btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);}
+    .btn-outline:active{transform:translateY(0) scale(0.98);}
+    .btn-sm{padding:10px 24px;font-size:0.65rem;letter-spacing:1.5px;}
+
+    /* ─── MARQUEE ─── */
+    .marquee{
+      padding:14px 0;
+      background:var(--surface);
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+      overflow:hidden;white-space:nowrap;
+      position:relative;z-index:1;
+    }
+    .marquee-track{display:inline-flex;animation:marquee 40s linear infinite;}
+    .marquee-track span{
+      display:flex;align-items:center;gap:12px;
+      margin-right:48px;
+      font-family:var(--font-body);
+      font-size:0.85rem;font-weight:400;
+      color:var(--text-muted);letter-spacing:1.5px;
+    }
+    .marquee-track span .sep{color:var(--gold);font-size:0.5rem;}
+    @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    @media(max-width:768px){
+      .marquee{padding:10px 0;}
+      .marquee-track span{font-size:0.7rem;margin-right:32px;}
+    }
+
+    /* ─── STATEMENT / ESSENCE ─── */
+    .text-block{max-width:800px;margin:0 auto;}
+    .text-block p{
+      color:var(--text-muted);
+      font-size:1rem;font-weight:300;line-height:1.8;
+      margin-bottom:20px;
+    }
+    .text-block p:last-child{margin-bottom:0;}
+    @media(max-width:768px){.text-block p{font-size:0.9rem;}}
+
+    /* ─── COLLECTIONS ─── */
+    .categories{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+    .category-card{
+      position:relative;overflow:hidden;
+      aspect-ratio:1;cursor:pointer;
+      transition:all 0.7s var(--ease-out);
+      background:var(--dark-2);
+    }
+    .category-card:hover{transform:scale(0.97);z-index:2;}
+    .category-card img{
+      width:100%;height:100%;object-fit:cover;
+      transition:transform 0.8s var(--ease-out);
+    }
+    .category-card:hover img{transform:scale(1.08);}
+    .category-card .overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(10,10,11,0.8) 0%,rgba(10,10,11,0.1) 50%,transparent 80%);
+    }
+    .category-card .info{
+      position:absolute;bottom:0;left:0;right:0;padding:28px;
+    }
+    .category-card .info h3{
+      font-family:var(--font-heading);
+      font-size:1.3rem;font-weight:600;margin-bottom:4px;
+    }
+    .category-card .info p{
+      color:var(--text-muted);font-size:0.75rem;font-weight:300;
+    }
+    .category-card.tall{grid-row:span 2;aspect-ratio:auto;}
+    @media(max-width:1024px){
+      .categories{grid-template-columns:repeat(2,1fr);}
+    }
+    @media(max-width:768px){
+      .categories{grid-template-columns:1fr;gap:2px;}
+      .category-card.tall{grid-row:span 1;}
+      .category-card .info{padding:20px;}
+      .category-card .info h3{font-size:1.1rem;}
+    }
+
+    /* ─── SHOP BY CATEGORY ─── */
+    .shop-layout{display:grid;grid-template-columns:260px 1fr;gap:40px;align-items:start;}
+    .shop-sidebar{
+      position:sticky;top:100px;
+      background:var(--surface);
+      padding:24px;
+      border:1px solid var(--border);
+    }
+    .filter-section{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+    .filter-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+    .filter-section h4{
+      font-family:var(--font-body);
+      font-size:0.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+      color:var(--text);margin-bottom:14px;
+    }
+    .filter-list{display:flex;flex-direction:column;gap:8px;}
+    .filter-check{
+      display:flex;align-items:center;gap:10px;
+      font-size:0.8rem;font-weight:300;
+      color:var(--text-muted);cursor:pointer;
+      transition:color 0.3s var(--ease-out);
+    }
+    .filter-check:hover{color:var(--text);}
+    .filter-check input{accent-color:var(--gold);width:14px;height:14px;cursor:pointer;}
+    .filter-check span{color:var(--gold);font-size:0.7rem;margin-left:auto;}
+    .filter-check.active-cat{color:var(--gold);}
+    .stone-colors{display:flex;flex-wrap:wrap;gap:6px;}
+    .stone-colors span{
+      width:28px;height:28px;display:block;
+      cursor:pointer;border:2px solid transparent;
+      transition:all 0.3s var(--ease-out);
+      font-size:0;
+    }
+    .stone-colors span:hover{border-color:var(--gold);transform:scale(1.12);}
+    .reset-price{
+      background:transparent;border:1px solid var(--border);
+      color:var(--text-muted);padding:8px 16px;margin-top:10px;
+      font-size:0.65rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+      cursor:pointer;transition:all 0.3s var(--ease-out);
+    }
+    .reset-price:hover{border-color:var(--border-light);color:var(--gold);}
+    @media(max-width:1024px){
+      .shop-layout{grid-template-columns:1fr;}
+      .shop-sidebar{position:static;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px;}
+      .shop-sidebar .filter-section:last-child{grid-column:span 2;}
+    }
+    @media(max-width:768px){
+      .shop-sidebar{grid-template-columns:1fr;}
+      .shop-sidebar .filter-section:last-child{grid-column:span 1;}
+    }
+
+    .cat-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px;}
+    .cat-tab{
+      padding:10px 24px;
+      background:transparent;border:1px solid var(--border);
+      color:var(--text-muted);
+      font-family:var(--font-body);
+      font-size:0.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+      cursor:pointer;transition:all 0.4s var(--ease-out);
+    }
+    .cat-tab:hover{border-color:var(--border-light);color:var(--text);}
+    .cat-tab.active{background:var(--surface);border-color:var(--gold);color:var(--gold);}
+    @media(max-width:768px){
+      .cat-tabs{gap:6px;}
+      .cat-tab{font-size:0.6rem;padding:8px 16px;}
+    }
+
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px;}
+    .product-card{
+      background:var(--surface);
+      overflow:hidden;
+      border:1px solid var(--border);
+      cursor:pointer;
+      transition:all 0.6s var(--ease-out);
+    }
+    .product-card:hover{
+      background:var(--dark-3);
+      border-color:var(--border-light);
+      transform:translateY(-4px);
+    }
+    .product-img{position:relative;overflow:hidden;aspect-ratio:1;}
+    .product-img img{
+      width:100%;height:100%;object-fit:cover;
+      transition:transform 0.8s var(--ease-out);
+    }
+    .product-card:hover .product-img img{transform:scale(1.06);}
+    .product-img .badge{
+      position:absolute;top:12px;left:12px;
+      padding:4px 12px;
+      font-family:var(--font-body);
+      font-size:0.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+    }
+    .badge-new{background:var(--gold);color:var(--dark);}
+    .badge-sale{background:#E74C3C;color:white;}
+    .product-info{padding:18px;}
+    .product-info .cat{
+      font-size:0.6rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+      color:var(--text-dim);margin-bottom:4px;
+    }
+    .product-info h3{
+      font-family:var(--font-heading);
+      font-size:1rem;font-weight:600;margin-bottom:4px;
+    }
+    .product-info .p-desc{
+      font-size:0.7rem;color:var(--text-muted);font-weight:300;line-height:1.4;margin-bottom:8px;
+      display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+    }
+    .product-info .price{font-size:1.1rem;font-weight:700;color:var(--gold);}
+    .product-info .price .old{
+      font-size:0.75rem;color:var(--text-dim);text-decoration:line-through;margin-right:8px;font-weight:400;
+    }
+    .product-info .price .currency{font-size:0.65rem;color:var(--text-dim);font-weight:400;}
+    .add-to-cart{
+      width:100%;margin-top:12px;padding:11px;
+      background:transparent;border:1px solid var(--border);
+      color:var(--text-muted);
+      font-family:var(--font-body);
+      font-size:0.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+      cursor:pointer;transition:all 0.4s var(--ease-out);
+    }
+    .add-to-cart:hover{background:var(--dark-3);border-color:var(--border-light);color:var(--gold);}
+    @media(max-width:768px){
+      .products-grid{grid-template-columns:repeat(2,1fr);gap:2px;}
+      .product-info{padding:12px;}
+      .product-info h3{font-size:0.85rem;}
+    }
+    @media(max-width:480px){
+      .products-grid{grid-template-columns:1fr 1fr;}
+      .product-info{padding:10px;}
+    }
+
+    /* ─── HORIZONTAL SCROLL ─── */
+    .h-scroll-wrap{position:relative;}
+    .h-scroll-arrows{display:flex;gap:8px;justify-content:flex-end;margin-bottom:16px;}
+    .h-scroll-arrows button{
+      width:36px;height:36px;
+      display:flex;align-items:center;justify-content:center;
+      background:transparent;border:1px solid var(--border);
+      color:var(--text-muted);cursor:pointer;
+      transition:all 0.4s var(--ease-out);
+      font-size:0.85rem;
+    }
+    .h-scroll-arrows button:hover{border-color:var(--border-light);color:var(--gold);}
+    .h-scroll{
+      display:flex;gap:2px;overflow-x:auto;padding:4px 0 16px;
+      scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;cursor:grab;
+    }
+    .h-scroll::-webkit-scrollbar{height:3px;}
+    .h-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,0.02);}
+    .h-scroll::-webkit-scrollbar-thumb{background:var(--gold);}
+    .h-card{
+      flex:0 0 300px;scroll-snap-align:start;
+      background:var(--surface);
+      border:1px solid var(--border);
+      overflow:hidden;
+      transition:all 0.6s var(--ease-out);
+    }
+    .h-card:hover{background:var(--dark-3);border-color:var(--border-light);transform:translateY(-4px);}
+    .h-card .h-img{position:relative;overflow:hidden;aspect-ratio:1;}
+    .h-card .h-img img{
+      width:100%;height:100%;object-fit:cover;
+      transition:transform 0.8s var(--ease-out);
+    }
+    .h-card:hover .h-img img{transform:scale(1.06);}
+    .h-card .h-info{padding:16px;}
+    .h-card .h-info h3{font-family:var(--font-heading);font-size:0.95rem;font-weight:600;margin-bottom:4px;}
+    .h-card .h-info .h-price{font-size:1rem;font-weight:700;color:var(--gold);}
+    @media(max-width:768px){.h-card{flex:0 0 240px;}}
+
+    /* ─── GALLERY ─── */
+    .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:300px 300px;gap:2px;}
+    .gallery-grid .g-item{overflow:hidden;transition:all 0.6s var(--ease-out);}
+    .gallery-grid .g-item:hover{transform:scale(0.97);}
+    .gallery-grid .g-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out);}
+    .gallery-grid .g-item:hover img{transform:scale(1.06);}
+    .gallery-grid .g-item:nth-child(1){grid-column:span 2;grid-row:span 2;}
+    .gallery-grid .g-item:nth-child(2){grid-column:span 1;grid-row:span 1;}
+    .gallery-grid .g-item:nth-child(3){grid-column:span 1;grid-row:span 1;}
+    .gallery-grid .g-item:nth-child(4){grid-column:span 2;}
+    @media(max-width:768px){
+      .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:2px;}
+      .gallery-grid .g-item:nth-child(1){grid-column:span 2;grid-row:span 1;}
+      .gallery-grid .g-item:nth-child(4){grid-column:span 2;}
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+    .testimonial-card{
+      padding:36px 30px;
+      border:1px solid var(--border);
+      background:var(--surface);
+      transition:all 0.6s var(--ease-out);
+      text-align:center;
+      display:flex;flex-direction:column;align-items:center;
+    }
+    .testimonial-card:hover{border-color:var(--border-light);background:var(--dark-3);transform:translateY(-4px);}
+    .testimonial-card .avatar{
+      width:64px;height:64px;object-fit:cover;
+      margin:0 auto 16px;display:block;
+      border:2px solid var(--border);
+    }
+    .testimonial-card .stars{color:var(--gold);font-size:0.85rem;margin-bottom:12px;letter-spacing:2px;}
+    .testimonial-card blockquote{
+      font-style:italic;font-weight:300;
+      color:var(--text-muted);line-height:1.7;margin-bottom:18px;
+      font-size:0.85rem;flex:1;
+    }
+    .testimonial-card .author{font-weight:600;font-size:0.8rem;color:var(--text);}
+    .testimonial-card .author span{display:block;color:var(--text-dim);font-weight:300;font-size:0.65rem;margin-top:4px;}
+    @media(max-width:1024px){.testimonial-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:768px){.testimonial-grid{grid-template-columns:1fr;}}
+
+    /* ─── NEWSLETTER ─── */
+    .newsletter{text-align:center;}
+    .newsletter .section-title{max-width:600px;margin:0 auto 12px;}
+    .newsletter .section-desc{margin:0 auto 36px;text-align:center;}
+    .newsletter-form{display:flex;max-width:440px;margin:0 auto;gap:10px;}
+    .newsletter-form input{
+      flex:1;padding:14px 20px;
+      background:var(--surface);border:1px solid var(--border);
+      color:var(--text);font-size:0.85rem;font-weight:300;font-family:var(--font-body);
+      outline:none;transition:border-color 0.4s var(--ease-out);
+    }
+    .newsletter-form input:focus{border-color:var(--gold);}
+    .newsletter-form input::placeholder{color:var(--text-dim);}
+    @media(max-width:768px){.newsletter-form{flex-direction:column;}}
+
+    /* ─── FOOTER ─── */
+    footer{padding:80px 0 30px;border-top:1px solid var(--border);}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+    .footer-brand .logo{font-family:var(--font-heading);font-size:1.5rem;font-weight:700;margin-bottom:14px;display:block;cursor:pointer;}
+    .footer-brand .logo span{background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .footer-brand p{color:var(--text-muted);font-size:0.85rem;font-weight:300;line-height:1.7;max-width:280px;}
+    .footer-features{margin-top:20px;}
+    .footer-features .f-item{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+    .footer-features .f-item svg{flex-shrink:0;width:14px;height:14px;color:var(--gold);}
+    .footer-features .f-item span{font-size:0.75rem;color:var(--text-muted);font-weight:300;}
+    .footer-col h4{
+      font-family:var(--font-body);
+      font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+      margin-bottom:18px;color:var(--text);
+    }
+    .footer-col a{
+      display:block;
+      color:var(--text-muted);text-decoration:none;
+      font-size:0.85rem;font-weight:300;margin-bottom:10px;
+      transition:color 0.3s var(--ease-out);cursor:pointer;
+    }
+    .footer-col a:hover{color:var(--gold);}
+    .footer-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:var(--text-dim);font-weight:300;}
+    .footer-socials{display:flex;gap:12px;}
+    .footer-socials a{color:var(--text-dim);transition:color 0.3s var(--ease-out);cursor:pointer;}
+    .footer-socials a:hover{color:var(--gold);}
+    @media(max-width:1024px){.footer-grid{grid-template-columns:repeat(2,1fr);gap:32px;}}
+    @media(max-width:768px){
+      .footer-grid{grid-template-columns:1fr;gap:24px;}
+      .footer-bottom{flex-direction:column;gap:14px;text-align:center;}
+    }
+
+    /* ─── BOTTOM NAV ─── */
+    .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(10,10,11,0.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--border);padding:4px 8px;padding-bottom:max(4px,env(safe-area-inset-bottom));}
+    .bottom-nav-inner{display:flex;justify-content:space-around;align-items:center;}
+    .bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:transparent;border:none;color:var(--text-dim);cursor:pointer;padding:6px 10px;position:relative;width:52px;height:48px;justify-content:center;transition:color 0.3s var(--ease-out);}
+    .bottom-nav-btn svg{width:18px;height:18px;}
+    .bottom-nav-btn span{font-size:0.5rem;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-dim);}
+    .bottom-nav-btn.active{color:var(--gold);}
+    .bottom-nav-btn.active span{color:var(--gold);}
+    .bottom-nav-btn .cart-count{top:0;right:2px;width:14px;height:14px;font-size:0.4rem;}
+    @media(max-width:768px){.bottom-nav{display:block;}body{padding-bottom:58px;}}
+    @media(min-width:769px){.bottom-nav{display:none!important;}body{padding-bottom:0!important;}}
+
+    /* ─── CART ─── */
+    .cart-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.5);opacity:0;visibility:hidden;transition:all 0.5s var(--ease-out);}
+    .cart-overlay.open{opacity:1;visibility:visible;}
+    .cart-panel{position:fixed;top:0;right:0;bottom:0;width:400px;max-width:90vw;z-index:2001;background:var(--dark-2);border-left:1px solid var(--border);padding:28px;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.6s var(--ease-out);}
+    .cart-panel.open{transform:translateX(0);}
+    .cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+    .cart-header h2{font-family:var(--font-heading);font-size:1.3rem;}
+    .cart-close{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;font-size:1rem;transition:all 0.4s var(--ease-out);}
+    .cart-close:hover{border-color:var(--border-light);color:var(--text);}
+    .cart-items{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+    .cart-item{display:flex;gap:14px;padding:14px;background:var(--surface);border:1px solid var(--border);}
+    .cart-item img{width:60px;height:60px;object-fit:cover;}
+    .cart-item-info{flex:1;min-width:0;}
+    .cart-item-info h4{font-family:var(--font-heading);font-size:0.85rem;margin-bottom:2px;}
+    .cart-item-info p{color:var(--gold);font-size:0.85rem;font-weight:600;}
+    .cart-item-qty{display:flex;align-items:center;gap:10px;margin-top:8px;}
+    .cart-item-qty button{width:24px;height:24px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.75rem;transition:all 0.3s var(--ease-out);}
+    .cart-item-qty button:hover{border-color:var(--border-light);color:var(--text);}
+    .cart-item-remove{background:none;border:none;color:var(--text-dim);cursor:pointer;align-self:flex-start;font-size:0.85rem;transition:color 0.3s var(--ease-out);}
+    .cart-item-remove:hover{color:#E74C3C;}
+    .cart-total{padding-top:18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:1.05rem;font-weight:600;margin-top:18px;}
+    .cart-total span:last-child{color:var(--gold);}
+    .cart-empty{text-align:center;padding:50px 20px;color:var(--text-dim);}
+    .cart-empty svg{width:32px;height:32px;margin-bottom:8px;}
+
+    /* ─── PAGE CONTENT ─── */
+    .page-content{display:none;opacity:0;transition:opacity 0.5s var(--ease-out);}
+    .page-content.active{display:block;opacity:1;}
+
+    /* ─── PRODUCT DETAIL ─── */
+    .product-detail-wrap{max-width:1000px;margin:0 auto;padding:40px 0;}
+    .product-detail-wrap .back-link{color:var(--gold);cursor:pointer;font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;display:inline-block;transition:color 0.3s;}
+    .product-detail-wrap .back-link:hover{color:var(--gold-light);}
+    .product-detail-inner{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start;}
+    .product-detail-img{overflow:hidden;border:1px solid var(--border);}
+    .product-detail-img img{width:100%;height:100%;object-fit:cover;display:block;}
+    .product-detail-info .p-category{font-size:0.6rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-dim);font-weight:600;margin-bottom:8px;}
+    .product-detail-info h2{font-family:var(--font-heading);font-size:2rem;margin-bottom:12px;line-height:1.2;}
+    .product-detail-info .p-price{font-size:1.8rem;font-weight:700;color:var(--gold);margin-bottom:20px;}
+    .product-detail-info .p-description{color:var(--text-muted);font-weight:300;line-height:1.8;margin-bottom:30px;font-size:0.95rem;}
+    .product-detail-info .btn{width:100%;justify-content:center;}
+    .product-detail-anim{animation:slideUp 0.6s var(--ease-out);}
+    @keyframes slideUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+    @media(max-width:768px){
+      .product-detail-inner{grid-template-columns:1fr;gap:28px;}
+      .product-detail-info h2{font-size:1.5rem;}
+      .product-detail-info .p-price{font-size:1.4rem;}
+    }
+
+    /* ─── POLICY PAGES ─── */
+    .policy-content{max-width:760px;margin:0 auto;color:var(--text-muted);font-size:0.9rem;font-weight:300;line-height:1.8;}
+    .policy-content h3{color:var(--gold);margin:32px 0 10px;font-family:var(--font-heading);font-size:1.2rem;font-weight:600;}
+    .policy-content p{margin-bottom:16px;}
+    .policy-content a{color:var(--gold);}
+
+    /* ─── LOADING SHIMMER ─── */
+    .product-img,.h-card .h-img,.g-item,.category-card{position:relative;overflow:hidden;}
+    .product-img::before,.h-card .h-img::before,.g-item::before,.category-card::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,0.02) 50%,transparent 70%);
+      background-size:200% 100%;
+      animation:shimmer 2.5s ease-in-out infinite;
+      z-index:2;pointer-events:none;
+    }
+    @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+    /* ─── LAZY LOAD ─── */
+    img[loading="lazy"]{opacity:0;transform:scale(0.95);filter:blur(6px);transition:opacity 0.8s var(--ease-out),transform 0.8s var(--ease-out),filter 0.8s var(--ease-out);}
+    img[loading="lazy"].loaded{opacity:1;transform:scale(1);filter:blur(0);}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <img class="preloader-logo" src="imgi_2_head-logo.webp" alt="J JEWELLERS" />
+    <div class="preloader-sub">Handcrafted Luxury</div>
+    <button class="preloader-btn" onclick="dismissPreloader()">Click to Explore</button>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav id="navbar">
+    <a class="logo" id="logoHome" tabindex="0">
+      <img src="imgi_2_head-logo.webp" alt="J JEWELLERS" />
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('home')">Home</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('home')">Collections</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Categories</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Shop</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('home')">Gallery</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('home')">Contact</a></li>
+    </ul>
+    <div class="nav-icons">
+      <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound" aria-pressed="false">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+      </button>
+      <button onclick="playClick();openCart()" aria-label="Cart" aria-pressed="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count" id="cartCountNav">0</span>
+      </button>
+      <button class="hamburger" id="hamburgerBtn" onclick="playClick();toggleMobileMenu()" aria-label="Menu" aria-pressed="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- ====== HOME PAGE ====== -->
+  <div id="page-home" class="page-content" style="display:block;opacity:1;">
+
+    <!-- HERO -->
+    <div class="hero-bg-container">
+      <div class="hero-bg" id="heroBg"></div>
+      <video class="hero-video" id="heroVideo" muted loop playsinline preload="auto">
+        <source src="HERO VIDEO.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-overlay"></div>
+      <div class="hero-glow"></div>
+      <canvas id="glitterCanvas"></canvas>
+    </div>
+    <section class="hero" id="home">
+      <div class="hero-content container">
+        <div class="hero-badge">✦ Est. 2024</div>
+        <h1>Look <span class="gold-text">Boujee</span><br />On A Budget</h1>
+        <p>Elevate your style with handcrafted luxury jewelry that speaks volumes without breaking the bank.</p>
+        <div class="hero-buttons">
+          <a href="#shop" class="btn btn-cta" role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Shop Now</a>
+          <a href="javascript:void(0)" class="btn btn-outline" role="button" aria-pressed="false" onclick="playClick();scrollToSection('statement')">Explore</a>
+        </div>
+      </div>
+      <div class="hero-scroll" onclick="playClick();scrollToSection('statement')" role="button" aria-pressed="false"><div class="scroll-indicator"></div></div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>Handcrafted Excellence <span class="sep">◆</span></span>
+        <span>24K Gold Collection <span class="sep">◆</span></span>
+        <span>Diamond Certified <span class="sep">◆</span></span>
+        <span>Free Shipping Worldwide <span class="sep">◆</span></span>
+        <span>30-Day Returns <span class="sep">◆</span></span>
+        <span>Lifetime Warranty <span class="sep">◆</span></span>
+        <span>Handcrafted Excellence <span class="sep">◆</span></span>
+        <span>24K Gold Collection <span class="sep">◆</span></span>
+        <span>Diamond Certified <span class="sep">◆</span></span>
+        <span>Free Shipping Worldwide <span class="sep">◆</span></span>
+        <span>30-Day Returns <span class="sep">◆</span></span>
+        <span>Lifetime Warranty <span class="sep">◆</span></span>
+      </div>
+    </div>
+
+    <!-- STATEMENT -->
+    <section id="statement">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Our Philosophy</p></div>
+        <div class="reveal-r"><h2 class="section-title">Statement Jewellery for <span class="gold-text">Everyday Style</span> and Confidence</h2></div>
+        <div class="text-block">
+          <p class="reveal-l">Everyday jewellery should feel effortless, confident, and expressive. Each piece is designed to complement your personal style while adding a refined touch to daily wear. Influences from Indian and Bangladeshi jewellery traditions bring character and depth without feeling heavy or overdone.</p>
+          <p class="reveal-r">Rings, earrings, and statement pieces are crafted to move easily from casual settings to more polished moments. Jewellery feels intentional rather than occasional, allowing you to express individuality without relying on excess.</p>
+          <p class="reveal-l">Design, comfort, and affordability come together to make jewellery part of your routine, not something saved for special days.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLLECTIONS -->
+    <section id="collections">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Curated Collections</p></div>
+        <div class="reveal-r"><h2 class="section-title">Discover Our <span class="gold-text">Signature</span> Lines</h2></div>
+        <div class="reveal-l"><p class="section-desc">From timeless classics to contemporary statements, each collection is thoughtfully designed to celebrate your unique brilliance.</p></div>
+        <div class="categories">
+          <div class="category-card tall reveal-l">
+            <img src="imgi_94_classic-diamond-gold-jewelryfor-women-1.webp" alt="Gold Collection" loading="lazy" />
+            <div class="overlay"></div>
+            <div class="info"><h3>Gold Collection</h3><p>24K purity meets modern design</p></div>
+          </div>
+          <div class="category-card reveal-r">
+            <img src="imgi_95_luxury-gold-diamond-jewelry-3-1.webp" alt="Diamond" loading="lazy" />
+            <div class="overlay"></div>
+            <div class="info"><h3>Diamond</h3><p>Certified brilliance</p></div>
+          </div>
+          <div class="category-card reveal-l">
+            <img src="imgi_97_stylish-jewelry-like-silver-gold-diamonds-precious-stones-2.webp" alt="Bridal" loading="lazy" />
+            <div class="overlay"></div>
+            <div class="info"><h3>Bridal</h3><p>Your forever piece</p></div>
+          </div>
+          <div class="category-card reveal-r">
+            <img src="imgi_92_elevate-bg.webp" alt="Elevate" loading="lazy" />
+            <div class="overlay"></div>
+            <div class="info"><h3>Elevate</h3><p>Statement pieces</p></div>
+          </div>
+          <div class="category-card reveal-l">
+            <img src="imgi_90_as23d1ae-5w4 (1).webp" alt="Heritage" loading="lazy" />
+            <div class="overlay"></div>
+            <div class="info"><h3>Heritage</h3><p>Timeless elegance</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOP BY CATEGORY -->
+    <section id="shop-cat">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Browse Our Range</p></div>
+        <div class="reveal-r"><h2 class="section-title">Shop Our <span class="gold-text">Collection</span></h2></div>
+        <div class="reveal-l shop-layout">
+          <aside class="shop-sidebar" id="shopSidebar">
+            <div class="filter-section">
+              <h4>Categories</h4>
+              <div class="filter-list" id="filterCategories"></div>
+            </div>
+            <div class="filter-section">
+              <h4>Availability</h4>
+              <label class="filter-check"><input type="checkbox" checked /> In Stock</label>
+              <label class="filter-check"><input type="checkbox" /> Out of Stock</label>
+            </div>
+            <div class="filter-section">
+              <h4>Stone Colour</h4>
+              <div class="stone-colors" id="stoneColors">
+                <span data-color="#E74C3C">Red</span>
+                <span data-color="#3498DB">Blue</span>
+                <span data-color="#D4AF37">Gold</span>
+                <span data-color="#2ECC71">Green</span>
+                <span data-color="#E91E63">Pink</span>
+                <span data-color="#FFFFFF">White</span>
+                <span data-color="#9B59B6">Purple</span>
+                <span data-color="#8B4513">Brown</span>
+                <span data-color="#000000">Black</span>
+                <span data-color="#FF6B9D">Multicolour</span>
+              </div>
+            </div>
+            <div class="filter-section">
+              <h4>Size</h4>
+              <div class="filter-list" id="sizeFilter">
+                <label class="filter-check"><input type="checkbox" /> 2.4</label>
+                <label class="filter-check"><input type="checkbox" /> 2.6</label>
+                <label class="filter-check"><input type="checkbox" /> 2.8</label>
+                <label class="filter-check"><input type="checkbox" /> 2.10</label>
+              </div>
+            </div>
+            <div class="filter-section">
+              <h4>Price</h4>
+              <div class="filter-list" id="priceFilter">
+                <label class="filter-check"><input type="checkbox" data-max="50" /> Under £50</label>
+                <label class="filter-check"><input type="checkbox" data-min="50" data-max="100" /> Under £100</label>
+                <label class="filter-check"><input type="checkbox" data-min="100" data-max="200" /> Between £100 – £200</label>
+                <label class="filter-check"><input type="checkbox" data-min="200" /> Over £200</label>
+              </div>
+              <button class="reset-price" onclick="resetFilters()">Reset</button>
+            </div>
+          </aside>
+          <div class="shop-main">
+            <div class="cat-tabs" id="catTabs"></div>
+            <div class="products-grid" id="catProducts"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED -->
+    <section id="featured" style="padding-top:0;">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Featured</p></div>
+        <div class="reveal-r"><h2 class="section-title">Trending <span class="gold-text">Now</span></h2></div>
+        <div class="reveal-l h-scroll-wrap">
+          <div class="h-scroll-arrows">
+            <button onclick="playClick();document.querySelector('.h-scroll').scrollBy({left:-340,behavior:'smooth'})" aria-pressed="false">←</button>
+            <button onclick="playClick();document.querySelector('.h-scroll').scrollBy({left:340,behavior:'smooth'})" aria-pressed="false">→</button>
+          </div>
+          <div class="h-scroll" id="hScroll"></div>
+        </div>
+      </div>
+    </section>
+    <section id="shop" style="display:none;"></section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Inspiration</p></div>
+        <div class="reveal-r"><h2 class="section-title">As Seen On <span class="gold-text">You</span></h2></div>
+        <div class="reveal-l"><p class="section-desc">Real customers, real style. Tag us to be featured.</p></div>
+        <div class="gallery-grid">
+          <div class="g-item reveal-l"><img src="imgi_21_showcase-img1.webp" alt="Gallery 1" loading="lazy" /></div>
+          <div class="g-item reveal-r"><img src="imgi_22_image-25.webp" alt="Gallery 2" loading="lazy" /></div>
+          <div class="g-item reveal-l"><img src="imgi_23_image-26.webp" alt="Gallery 3" loading="lazy" /></div>
+          <div class="g-item reveal-r"><img src="imgi_24_image-27.webp" alt="Gallery 4" loading="lazy" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+      <div class="container">
+        <div class="reveal-l" style="text-align:center"><p class="section-label">Testimonials</p></div>
+        <div class="reveal-r" style="text-align:center"><h2 class="section-title">What Our <span class="gold-text">Customers</span> Say</h2></div>
+        <div class="testimonial-grid">
+          <div class="testimonial-card reveal-l">
+            <img src="imgi_15_image-17.png" alt="Priya" class="avatar" loading="lazy" />
+            <div class="stars">★★★★★</div>
+            <blockquote>"Absolutely stunning craftsmanship! The gold choker is even more beautiful in person. I've received countless compliments."</blockquote>
+            <div class="author">Priya S. <span>Verified Buyer — Leicester, UK</span></div>
+          </div>
+          <div class="testimonial-card reveal-s">
+            <img src="imgi_16_image-18.png" alt="Sarah" class="avatar" loading="lazy" />
+            <div class="stars">★★★★★</div>
+            <blockquote>"Ordered the Rajwadi bangles for my mum's birthday and she hasn't taken them off since. Proper quality, quick delivery to Manchester."</blockquote>
+            <div class="author">Sarah T. <span>Verified Buyer — Manchester, UK</span></div>
+          </div>
+          <div class="testimonial-card reveal-r">
+            <img src="imgi_17_image-19.png" alt="Rhea" class="avatar" loading="lazy" />
+            <div class="stars">★★★★★</div>
+            <blockquote>"The packaging alone felt like unwrapping a gift from a high-end boutique. Fast shipping and absolutely gorgeous pieces!"</blockquote>
+            <div class="author">Rhea K. <span>Verified Buyer — London, UK</span></div>
+          </div>
+          <div class="testimonial-card reveal-l">
+            <img src="imgi_15_image-17.png" alt="Lakshmi" class="avatar" loading="lazy" />
+            <div class="stars">★★★★★</div>
+            <blockquote>"Very happy with my purchase. The meenwari choker set is exactly like the photos — vibrant colours and neat finishing."</blockquote>
+            <div class="author">Lakshmi N. <span>Verified Buyer — Chennai, India</span></div>
+          </div>
+          <div class="testimonial-card reveal-s">
+            <img src="imgi_16_image-18.png" alt="James" class="avatar" loading="lazy" />
+            <div class="stars">★★★★★</div>
+            <blockquote>"Bought the square sahara earrings for my wife and she was over the moon. Great value for money, nicely packaged, and arrived in 3 days."</blockquote>
+            <div class="author">James W. <span>Verified Buyer — Birmingham, UK</span></div>
+          </div>
+          <div class="testimonial-card reveal-r">
+            <img src="imgi_17_image-19.png" alt="Arun" class="avatar" loading="lazy" />
+            <div class="stars">★★★★★</div>
+            <blockquote>"Got the bridal choker set for my sister's wedding. The gold finish looks way more expensive than what we paid. Excellent service."</blockquote>
+            <div class="author">Arun K. <span>Verified Buyer — Glasgow, UK</span></div>
+          </div>
+          <div class="testimonial-card reveal-l">
+            <img src="imgi_15_image-17.png" alt="Deepa" class="avatar" loading="lazy" />
+            <div class="stars">★★★★★</div>
+            <blockquote>"The hand ring pieces (set of 3) are gorgeous! I wear them to work and get asked where I got them every single time."</blockquote>
+            <div class="author">Deepa R. <span>Verified Buyer — Bangalore, India</span></div>
+          </div>
+          <div class="testimonial-card reveal-s">
+            <img src="imgi_16_image-18.png" alt="Emma" class="avatar" loading="lazy" />
+            <div class="stars">★★★★★</div>
+            <blockquote>"Honestly wasn't sure about ordering jewellery online but I'm so glad I did. The aaira choker set is stunning and the size guide was spot on."</blockquote>
+            <div class="author">Emma L. <span>Verified Buyer — Bristol, UK</span></div>
+          </div>
+          <div class="testimonial-card reveal-r">
+            <img src="imgi_17_image-19.png" alt="Suresh" class="avatar" loading="lazy" />
+            <div class="stars">★★★★★</div>
+            <blockquote>"Bought the Noor-e-Zar ensemble for my daughter's engagement and it looked absolutely regal. The craftsmanship is incredible for the price."</blockquote>
+            <div class="author">Suresh P. <span>Verified Buyer — Hyderabad, India</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESSENCE -->
+    <section id="essence">
+      <div class="container">
+        <div class="reveal-r" style="text-align:center"><p class="section-label">Our Essence</p></div>
+        <div class="reveal-l" style="text-align:center"><h2 class="section-title">Statement Jewellery That <span class="gold-text">Captures Your Essence</span></h2></div>
+        <div class="text-block">
+          <p class="reveal-r">Jewellery becomes powerful when it feels personal. Every design is created to reflect confidence, individuality, and cultural pride. Influences drawn from Indian and Bangladeshi jewellery traditions blend seamlessly with modern styling, allowing each piece to feel expressive without feeling overwhelming.</p>
+          <p class="reveal-l">Statement jewellery here is designed for women who value meaning as much as beauty. Pieces are bold yet wearable, elegant yet rooted in tradition. Jewellery moves with you through everyday moments and special occasions, becoming part of how you present yourself to the world.</p>
+          <p class="reveal-r">Each detail is intentional, allowing jewellery to feel like an extension of who you are rather than something you simply wear.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter" id="contact">
+      <div class="container">
+        <div class="reveal-l" style="text-align:center"><p class="section-label">Let's Get In Touch!</p></div>
+        <div class="reveal-r" style="text-align:center"><h2 class="section-title">What's Inside? <span class="gold-text">Exclusive Sales</span>, New Arrivals &amp; Much More</h2></div>
+        <div class="reveal-l"><p class="section-desc" style="margin:0 auto 36px;text-align:center;">Be the first to know about exclusive drops, special offers, and behind-the-scenes stories.</p></div>
+        <div class="reveal-r">
+          <form class="newsletter-form" id="newsletterForm">
+            <input type="email" placeholder="Enter your email" required />
+            <button class="btn btn-cta" type="submit" aria-pressed="false">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ====== SHOP PAGE ====== -->
+  <div id="page-shop" class="page-content">
+    <section style="padding-top:140px;">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Browse All</p></div>
+        <div class="reveal-r"><h2 class="section-title">Shop Our <span class="gold-text">Collection</span></h2></div>
+        <div class="reveal-l shop-layout">
+          <aside class="shop-sidebar">
+            <div class="filter-section">
+              <h4>Categories</h4>
+              <div class="filter-list" id="filterCategoriesShop"></div>
+            </div>
+            <div class="filter-section">
+              <h4>Availability</h4>
+              <label class="filter-check"><input type="checkbox" checked /> In Stock</label>
+              <label class="filter-check"><input type="checkbox" /> Out of Stock</label>
+            </div>
+            <div class="filter-section">
+              <h4>Stone Colour</h4>
+              <div class="stone-colors" id="stoneColorsShop">
+                <span data-color="#E74C3C">Red</span>
+                <span data-color="#3498DB">Blue</span>
+                <span data-color="#D4AF37">Gold</span>
+                <span data-color="#2ECC71">Green</span>
+                <span data-color="#E91E63">Pink</span>
+                <span data-color="#FFFFFF">White</span>
+                <span data-color="#9B59B6">Purple</span>
+                <span data-color="#8B4513">Brown</span>
+                <span data-color="#000000">Black</span>
+                <span data-color="#FF6B9D">Multicolour</span>
+              </div>
+            </div>
+            <div class="filter-section">
+              <h4>Size</h4>
+              <div class="filter-list">
+                <label class="filter-check"><input type="checkbox" /> 2.4</label>
+                <label class="filter-check"><input type="checkbox" /> 2.6</label>
+                <label class="filter-check"><input type="checkbox" /> 2.8</label>
+                <label class="filter-check"><input type="checkbox" /> 2.10</label>
+              </div>
+            </div>
+            <div class="filter-section">
+              <h4>Price</h4>
+              <div class="filter-list">
+                <label class="filter-check"><input type="checkbox" data-max="50" /> Under £50</label>
+                <label class="filter-check"><input type="checkbox" data-min="50" data-max="100" /> Under £100</label>
+                <label class="filter-check"><input type="checkbox" data-min="100" data-max="200" /> Between £100 – £200</label>
+                <label class="filter-check"><input type="checkbox" data-min="200" /> Over £200</label>
+              </div>
+              <button class="reset-price" onclick="resetFilters()">Reset</button>
+            </div>
+          </aside>
+          <div class="shop-main">
+            <div class="cat-tabs" id="catTabsShop"></div>
+            <div class="products-grid" id="catProductsShop"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ====== PRODUCT DETAIL PAGE ====== -->
+  <div id="page-product" class="page-content">
+    <section style="padding-top:140px;">
+      <div class="container">
+        <div class="product-detail-wrap">
+          <a class="back-link" onclick="navigateTo('shop')">← Back to Shop</a>
+          <div id="productDetailContent"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ====== PRIVACY POLICY ====== -->
+  <div id="page-privacy" class="page-content">
+    <section style="padding-top:140px;padding-bottom:60px;">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Policies</p></div>
+        <div class="reveal-r"><h2 class="section-title">Privacy <span class="gold-text">Policy</span></h2></div>
+        <div class="policy-content">
+          <p class="reveal-l" style="margin-bottom:20px;">At J JEWELLERS, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you visit our website or make a purchase.</p>
+          <h3>Information We Collect</h3>
+          <p class="reveal-r" style="margin-bottom:16px;">We collect personal information you provide directly to us, including your name, email address, shipping address, billing address, phone number, and payment details when you place an order. We also automatically collect certain information when you visit our site, such as your IP address, browser type, device information, and browsing behaviour through cookies and similar technologies.</p>
+          <h3>How We Use Your Information</h3>
+          <p class="reveal-l" style="margin-bottom:16px;">We use your information to process and fulfil your orders, communicate with you about your purchases, send you marketing communications (with your consent), improve our website and services, and comply with legal obligations.</p>
+          <h3>Data Protection and Security</h3>
+          <p class="reveal-r" style="margin-bottom:16px;">We implement appropriate technical and organisational measures to protect your personal data against unauthorised access, alteration, disclosure, or destruction. All payment transactions are encrypted using SSL technology and processed through secure payment gateways. We do not store full credit card details on our servers.</p>
+          <h3>Third-Party Disclosures</h3>
+          <p class="reveal-l" style="margin-bottom:16px;">We do not sell, trade, or rent your personal information to third parties. We may share your data with trusted service providers who assist us in operating our website, processing payments, shipping orders, and conducting our business, provided they agree to keep your information confidential.</p>
+          <h3>Cookies</h3>
+          <p class="reveal-r" style="margin-bottom:16px;">Our website uses cookies to enhance your browsing experience, analyse site traffic, and understand where our visitors come from. You can control cookie preferences through your browser settings. Disabling cookies may affect certain features of our website.</p>
+          <h3>Your Rights Under UK GDPR</h3>
+          <p class="reveal-l" style="margin-bottom:16px;">Under UK data protection law, you have the right to access your personal data, request correction or deletion of your data, restrict or object to processing, request data portability, and withdraw consent at any time where we rely on your consent to process your data.</p>
+          <h3>Contact Us</h3>
+          <p class="reveal-r" style="margin-bottom:16px;">If you have any questions about this Privacy Policy or wish to exercise your data protection rights, please contact us at <a href="mailto:info@jjewellers.co.uk">info@jjewellers.co.uk</a>.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ====== RETURNS PAGE ====== -->
+  <div id="page-returns" class="page-content">
+    <section style="padding-top:140px;padding-bottom:60px;">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Policies</p></div>
+        <div class="reveal-r"><h2 class="section-title">Returns &amp; <span class="gold-text">Refunds</span></h2></div>
+        <div class="policy-content">
+          <p class="reveal-l" style="margin-bottom:20px;">We want you to love your J JEWELLERS purchase. If you are not completely satisfied, we offer a straightforward returns and refunds policy.</p>
+          <h3>30-Day Return Policy</h3>
+          <p class="reveal-r" style="margin-bottom:16px;">You have 30 calendar days from the date of delivery to return your item for a full refund or exchange. Returns received after 30 days may not be accepted.</p>
+          <h3>Conditions for Returns</h3>
+          <p class="reveal-l" style="margin-bottom:16px;">To be eligible for a return, items must be unworn, unused, and in the same condition as received. All items must be returned in their original packaging, including any boxes, pouches, and certificates. We reserve the right to refuse returns that show signs of wear or damage.</p>
+          <h3>Earrings — Hygiene Reasons</h3>
+          <p class="reveal-r" style="margin-bottom:16px;">For hygiene reasons, we cannot accept returns on earrings unless they are faulty or damaged upon arrival. This policy is in place to protect the health and safety of all our customers.</p>
+          <h3>Refund Processing Time</h3>
+          <p class="reveal-l" style="margin-bottom:16px;">Once we receive and inspect your return, we will notify you of the approval or rejection of your refund. If approved, your refund will be processed within 5-10 business days and automatically applied to your original payment method.</p>
+          <h3>Shipping Costs for Returns</h3>
+          <p class="reveal-r" style="margin-bottom:16px;">Customers are responsible for return shipping costs unless the item is faulty, damaged, or an error was made on our part. We recommend using a tracked shipping service, as we cannot be held responsible for items lost in transit during return.</p>
+          <h3>How to Initiate a Return</h3>
+          <p class="reveal-l" style="margin-bottom:16px;">To start a return, please email us at <a href="mailto:info@jjewellers.co.uk">info@jjewellers.co.uk</a> with your order number, the item you wish to return, and the reason for return. Our team will provide you with the return address and further instructions.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo" onclick="playClick();scrollToSection('home')"><span>J JEWELLERS</span></div>
+          <p>Look Boujee On A Budget — luxury jewellery handcrafted for every occasion.</p>
+          <div class="footer-features">
+            <div class="f-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
+              <span>Free Shipping — You'll love at great low prices</span>
+            </div>
+            <div class="f-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>No Returns due to hygiene — If damaged, please contact us</span>
+            </div>
+            <div class="f-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M12 6v6l4 2"/></svg>
+              <span>Customer Support — 24 hours a day, 7 days a week</span>
+            </div>
+            <div class="f-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <span>Flexible Payment — Pay with multiple credit cards</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a onclick="playClick();navigateTo('home')">Home</a>
+          <a onclick="playClick();navigateTo('shop')">Products</a>
+          <a onclick="playClick();navigateTo('home')">Testimonials</a>
+          <a onclick="playClick();navigateTo('home')">Contact Us</a>
+          <a onclick="playClick();navigateTo('privacy')">Privacy Policy</a>
+          <a onclick="playClick();navigateTo('returns')">Returns &amp; Refunds</a>
+        </div>
+        <div class="footer-col">
+          <h4>Social Networks</h4>
+          <a onclick="playClick()">Instagram</a>
+          <a onclick="playClick()">Facebook</a>
+          <a onclick="playClick()">Pinterest</a>
+          <a onclick="playClick()">YouTube</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <a onclick="playClick()">info@jjewellers.co.uk</a>
+          <a onclick="playClick()">+44 1234 567 890</a>
+          <a onclick="playClick();scrollToSection('contact')">Newsletter Signup</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 J JEWELLERS. All rights reserved.</span>
+        <div class="footer-socials">
+          <a aria-label="Instagram" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a aria-label="Facebook" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a aria-label="Pinterest" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/></svg></a>
+          <a aria-label="YouTube" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/><path d="M19.6 5.4A2 2 0 0022 7.4v9.2a2 2 0 01-2.4 2l-16-1.6A2 2 0 012 15V9a2 2 0 011.6-2l16-1.6a2 2 0 012 1.6z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <button class="bottom-nav-btn active" onclick="playClick();navigateTo('home')" aria-pressed="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>HOME</span>
+      </button>
+      <button class="bottom-nav-btn" onclick="playClick();navigateTo('shop')" aria-pressed="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        <span>SHOP</span>
+      </button>
+      <button class="bottom-nav-btn" onclick="playClick();openCart()" aria-pressed="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <span>CART</span>
+        <span class="cart-count" id="cartCountBottom">0</span>
+      </button>
+      <button class="bottom-nav-btn" onclick="playClick();navigateTo('home')" aria-pressed="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>PROFILE</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- CART -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <div class="cart-panel" id="cartPanel">
+    <div class="cart-header"><h2>Shopping Bag</h2><button class="cart-close" onclick="closeCart()" aria-pressed="false">✕</button></div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <p style="margin-top:8px;">Your bag is empty</p>
+      </div>
+    </div>
+    <div class="cart-total"><span>Total</span><span id="cartTotal">£0</span></div>
+    <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;margin-top:12px;" onclick="playClick();checkout()" aria-pressed="false">Checkout</button>
+  </div>
+
+  <script>
+    // ─── ALL PRODUCTS ───
+    var products = [
+      { id:1, name:'Rajwadi Gold-Plated Bridal Bangles', cat:'Bangles', price:25.99, img:'imgi_106_Gold-choker-necklace-set-500x500.webp', desc:'Traditional Rajwadi-style gold-plated bridal bangles with intricate embossed floral motifs. Set of 2, adjustable fit.' },
+      { id:2, name:'Kundan Jhumki Gold Drop Bangles', cat:'Bangles', price:22.99, img:'imgi_107_Gold-choker-necklace-set-350x350.webp', desc:'Handcrafted kundan jhumki-style drop bangles with gold-toned finish and delicate pearl accents. Lightweight daily wear.' },
+      { id:3, name:'Single Jhumki Gold Bangle', cat:'Bangles', price:18.00, img:'imgi_132_rajwadi-500x500.webp', desc:'Single premium jhumki-style gold bangle with bell-shaped drops and filigree detailing. Statement piece for any outfit.' },
+      { id:4, name:'Golden Bangle Set (Pack of 2)', cat:'Bangles', price:12.00, img:'imgi_133_rajwadi-350x350.webp', desc:'Classic golden bangle pair with polished finish. Everyday essential — comfortable, durable, and tarnish-resistant.' },
+      { id:5, name:'Golden Bangle Set (Pack of 4)', cat:'Bangles', price:14.00, img:'imgi_69_square-12-500x500.webp', badge:'new', desc:'Set of 4 assorted golden bangles with mixed textures — matte, glossy, twisted, and engraved. Stackable party wear.' },
+      { id:6, name:'Silver-Toned Bangle Set (Pack of 2)', cat:'Bangles', price:10.00, img:'imgi_70_square-12-350x350.webp', desc:'Sterling silver-toned bangle pair with minimalist design. Hypoallergenic, ideal for sensitive skin, perfect for office wear.' },
+      { id:7, name:'Maharani Bridal Gold Choker Set', cat:'Bridal', price:85.00, img:'imgi_7_image-2-1-300x300-1.webp', badge:'new', desc:'Opulent maharani-style bridal choker set with gold-plated finish, uncut diamond accents, and matching earrings. 3-piece set.' },
+      { id:8, name:'Maharani Heirloom Bridal Necklace Set', cat:'Bridal', price:80.00, img:'imgi_8_image-12-1-800x800-1-300x300.webp', desc:'Heirloom-quality bridal necklace set featuring layered gold strands, kundan work, and ruby-toned stone inlays. 5-piece set.' },
+      { id:9, name:'Noor-e-Zar Bridal Ensemble', cat:'Bridal', price:95.00, img:'imgi_9_noor-300x300.webp', desc:'Exclusive Noor-e-Zar bridal ensemble with heavy gold-plated craftsmanship, pearl drops, and intricate meenakari detailing. Full set.' },
+      { id:10, name:'Aaira Gold Choker Set', cat:'Choker Sets', price:28.99, img:'imgi_98_aaira12-300x300-1.webp', badge:'new', desc:'Contemporary aaira-style gold choker set with geometric patterns and adjustable back chain. Includes matching drop earrings.' },
+      { id:11, name:'Rajwadi Gold Necklace Set', cat:'Necklace Sets', price:24.00, img:'imgi_128_rajwadi-300x300.webp', desc:'Rajwadi-inspired gold necklace set with traditional coin drops and oxidized detailing. Lightweight, perfect for festive wear.' },
+      { id:12, name:'Meenwari Copper Choker Necklace Set', cat:'Necklace Sets', price:23.00, img:'imgi_119_image-800x800-1-300x300.webp', desc:'Hand-painted meenwari copper choker set with enamel work and golden highlights. Unique artisan piece, limited stock.' },
+      { id:13, name:'Kiara Gold Choker Set', cat:'Choker Sets', price:22.99, img:'imgi_110_image-5-800x800-1-300x300.webp', desc:'Modern kiara-style gold choker with linear bar design and cubic zirconia accents. Minimalist elegance for daily wear.' },
+      { id:14, name:'Classic Gold Choker Necklace Set', cat:'Choker Sets', price:18.00, img:'imgi_102_Gold-choker-necklace-set-300x300.webp', desc:'Timeless classic gold choker necklace set with engraved scrollwork and secure lobster clasp. Budget-friendly bridesmaid pick.' },
+      { id:15, name:'Square Sahara Gold Earring Set', cat:'Earrings', price:20.00, img:'imgi_10_square-12-300x300.webp', desc:'Statement square sahara gold earrings with open-work design and post-back closure. Lightweight, bold, and versatile.' },
+      { id:16, name:'Hand Ring Pieces (Set of 3)', cat:'Hand Pieces', price:20.00, img:'imgi_11_handpiece12-300x300.webp', badge:'new', desc:'Set of 3 adjustable hand ring pieces in mixed gold finishes — floral, twisted band, and stone-accented. Stackable haathphool style.' },
+    ];
+
+    var featured = [
+      { name:'Aaira Gold Choker Set', price:'£28.99', img:'imgi_98_aaira12-300x300-1.webp' },
+      { name:'Rajwadi Gold Necklace Set', price:'£24.00', img:'imgi_128_rajwadi-300x300.webp' },
+      { name:'Maharani Bridal Gold Choker Set', price:'£85.00', img:'imgi_7_image-2-1-300x300-1.webp' },
+      { name:'Classic Gold Choker Necklace Set', price:'£18.00', img:'imgi_102_Gold-choker-necklace-set-300x300.webp' },
+      { name:'Square Sahara Gold Earring Set', price:'£20.00', img:'imgi_10_square-12-300x300.webp' },
+      { name:'Hand Ring Pieces (Set of 3)', price:'£20.00', img:'imgi_11_handpiece12-300x300.webp' },
+      { name:'Kiara Gold Choker Set', price:'£22.99', img:'imgi_110_image-5-800x800-1-300x300.webp' },
+      { name:'Noor-e-Zar Bridal Ensemble', price:'£95.00', img:'imgi_9_noor-300x300.webp' },
+    ];
+
+    var categories = [
+      { id:'all', label:'All Products' },
+      { id:'Rings', label:'Rings' },
+      { id:'Necklace Sets', label:'Necklace Sets' },
+      { id:'Earrings', label:'Earrings' },
+      { id:'Bangles', label:'Bangles' },
+      { id:'Bridal', label:'Bridal Collection' },
+      { id:'Tikka Sets', label:'Tikka Sets' },
+      { id:'Choker Sets', label:'Choker Sets' },
+      { id:'Hand Pieces', label:'Hand Piece' },
+    ];
+
+    var cart = [];
+    var clickSound = null;
+    var bgSound = null;
+    var soundEnabled = true;
+    var audioActivated = false;
+
+    // ─── AUDIO ───
+    function initAudio() {
+      if (!clickSound) { clickSound = new Audio('CLICK SOUND.mp3'); clickSound.volume = 0.5; }
+      if (!bgSound) { bgSound = new Audio('BACKGROUND SOUND.mp3'); bgSound.loop = true; bgSound.volume = 0.3; }
+    }
+    function activateAudio() {
+      if (audioActivated) return;
+      audioActivated = true;
+      initAudio();
+      if (soundEnabled && bgSound) bgSound.play().catch(function(){});
+    }
+    function playClick() {
+      if (!audioActivated) activateAudio();
+      if (!soundEnabled) return;
+      if (!clickSound) initAudio();
+      clickSound.currentTime = 0;
+      clickSound.play().catch(function(){});
+      var t = event && event.target;
+      if (t && t.getAttribute) { var p = t.getAttribute('aria-pressed'); if (p === 'false') t.setAttribute('aria-pressed', 'true'); }
+    }
+    document.addEventListener('click', function() { if (!audioActivated) activateAudio(); }, { once: true });
+
+    function toggleSound() {
+      var btn = document.getElementById('soundToggle');
+      soundEnabled = !soundEnabled;
+      btn.classList.toggle('muted', !soundEnabled);
+      btn.setAttribute('aria-pressed', soundEnabled ? 'false' : 'true');
+      if (soundEnabled) {
+        initAudio();
+        clickSound.play().catch(function(){});
+        if (bgSound) bgSound.play().catch(function(){});
+      } else {
+        if (bgSound) bgSound.pause();
+      }
+    }
+    document.getElementById('soundToggle').addEventListener('click', toggleSound);
+
+    function dismissPreloader() {
+      var p = document.getElementById('preloader');
+      p.classList.add('hidden');
+      activateAudio();
+      var v = document.getElementById('heroVideo');
+      if (v) {
+        v.muted = true;
+        v.setAttribute('playsinline','');
+        v.play().then(function(){ console.log('hero video started'); }).catch(function(e){ console.warn('hero video play failed:', e); });
+      }
+    }
+
+    // ─── NAVBAR HIDE/SHOW ───
+    var lastScrollY = 0;
+    function onScrollNav(sy) {
+      var n = document.getElementById('navbar');
+      var b = document.querySelector('.bottom-nav');
+      n.classList.toggle('scrolled', sy > 80);
+      if (sy > 120) {
+        if (sy > lastScrollY) {
+          gsap.to(n, { y: '-100%', duration: 0.5, ease: 'power3.inOut' });
+          if (b) gsap.to(b, { y: '100%', duration: 0.5, ease: 'power3.inOut' });
+        } else {
+          gsap.to(n, { y: '0%', duration: 0.5, ease: 'power3.inOut' });
+          if (b) gsap.to(b, { y: '0%', duration: 0.5, ease: 'power3.inOut' });
+        }
+      } else {
+        gsap.to(n, { y: '0%', duration: 0.3, ease: 'power2.out' });
+        if (b) gsap.to(b, { y: '0%', duration: 0.3, ease: 'power2.out' });
+      }
+      lastScrollY = sy;
+    }
+
+    // ─── VIDEO FALLBACK ───
+    (function(){
+      var v = document.getElementById('heroVideo');
+      if (!v) return;
+      var played = false;
+      function tryPlay(){
+        if (played) return;
+        played = true;
+        v.muted = true;
+        v.setAttribute('playsinline','');
+        v.play().then(function(){ console.log('hero video started (scroll/tap)'); }).catch(function(e){ console.warn('hero video scroll play failed:', e); });
+      }
+      ['scroll','click','touchstart','wheel'].forEach(function(ev){ document.addEventListener(ev, tryPlay, { once:true, passive:true }); });
+    })();
+
+    document.getElementById('logoHome').addEventListener('click', function() { playClick(); navigateTo('home'); });
+
+    // ─── GLITTER ───
+    function initGlitter() {
+      var canvas = document.getElementById('glitterCanvas');
+      var ctx = canvas.getContext('2d');
+      var W, H, particles = [];
+      function resize() { var container = document.querySelector('.hero-bg-container'); W = canvas.width = container.offsetWidth; H = canvas.height = container.offsetHeight; }
+      function create() {
+        particles = [];
+        for (var i = 0; i < 100; i++) {
+          var angle = Math.random() * Math.PI * 2;
+          particles.push({
+            baseX: W/2 + Math.cos(angle)*(80+Math.random()*200)*0.5,
+            baseY: H*0.38 + Math.sin(angle)*(80+Math.random()*200)*0.3,
+            size: 1.2+Math.random()*3, speed: 0.15+Math.random()*0.25, angle: Math.random()*Math.PI*2,
+            driftX: (Math.random()-0.5)*0.3, driftY: (Math.random()-0.5)*0.2-0.1,
+            opacity: 0.3+Math.random()*0.7, twinkleSpeed: 0.02+Math.random()*0.04, twinklePhase: Math.random()*Math.PI*2,
+          });
+        }
+      }
+      function draw() {
+        ctx.clearRect(0,0,W,H);
+        var t = Date.now()*0.001;
+        particles.forEach(function(p){
+          p.angle += p.speed*0.005;
+          p.x = p.baseX + Math.sin(t*0.3+p.angle)*8 + Math.sin(t*p.driftX)*15;
+          p.y = p.baseY + Math.cos(t*0.4+p.angle)*6 + Math.cos(t*p.driftY)*10 + Math.sin(t*0.2+p.angle)*5;
+          var tw = 0.4+0.6*Math.sin(t*p.twinkleSpeed*10+p.twinklePhase);
+          var a = p.opacity*tw;
+          var g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.size*2.5);
+          g.addColorStop(0,'rgba(255,215,80,'+(a*0.9)+')'); g.addColorStop(0.3,'rgba(255,200,60,'+(a*0.5)+')'); g.addColorStop(0.7,'rgba(255,180,40,'+(a*0.15)+')'); g.addColorStop(1,'rgba(255,180,40,0)');
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x,p.y,p.size*2.5,0,Math.PI*2); ctx.fill();
+          ctx.fillStyle = 'rgba(255,235,180,'+(a*0.95)+')'; ctx.beginPath(); ctx.arc(p.x,p.y,p.size*0.35,0,Math.PI*2); ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      resize(); create(); draw();
+      window.addEventListener('resize',function(){resize();create();});
+    }
+
+    // ─── SPA ROUTING ───
+    function navigateTo(page) { window.location.hash = page; }
+    function showPage(page) {
+      document.querySelectorAll('.page-content').forEach(function(p){ p.classList.remove('active'); p.style.display = 'none'; });
+      var el = document.getElementById('page-' + page);
+      if (el) { el.style.display = 'block'; setTimeout(function(){ el.classList.add('active'); if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh(); }, 50); }
+      var ml = document.getElementById('navLinks');
+      if (ml && ml.classList.contains('open')) { ml.classList.remove('open'); document.getElementById('hamburgerBtn').classList.remove('open'); }
+      document.querySelectorAll('.bottom-nav-btn').forEach(function(b,i){
+        var targets = ['home','shop','cart','home'];
+        var isActive = targets[i] === page || (i === 2 && page === 'cart');
+        b.classList.toggle('active', isActive);
+      });
+      window.scrollTo(0, 0);
+    }
+    window.addEventListener('hashchange', function(){ var page = window.location.hash.slice(1) || 'home'; if (page.indexOf('/') > 0) { var parts = page.split('/'); if (parts[0] === 'product') { showPage('product'); showProductDetail(parseInt(parts[1])); return; } } showPage(page); });
+    (function(){ var page = window.location.hash.slice(1) || 'home'; if (page.indexOf('/') > 0) { var parts = page.split('/'); if (parts[0] === 'product') { showPage('product'); showProductDetail(parseInt(parts[1])); return; } } showPage(page); })();
+
+    // ─── PRODUCT DETAIL ───
+    function showProductDetail(id) {
+      var p = products.find(function(x){ return x.id === id; });
+      if (!p) { navigateTo('shop'); return; }
+      var desc = p.desc || 'A stunning ' + p.name.toLowerCase() + ' from J JEWELLERS. Expertly crafted with premium materials, this ' + p.cat.toLowerCase() + ' piece combines traditional elegance with contemporary design — perfect for adding a touch of luxury to any outfit.';
+      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><img src="' + p.img + '" alt="' + p.name + '" /></div><div class="product-detail-info"><div class="p-category">' + p.cat + '</div><h2>' + p.name + '</h2><div class="p-price">£' + p.price.toFixed(2) + '</div><div class="p-description">' + desc + '</div><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
+      document.getElementById('productDetailContent').innerHTML = html;
+    }
+
+    // ─── CATEGORY TABS ───
+    function renderCategoryTabs() {
+      var ids = ['catTabs','catTabsShop'];
+      ids.forEach(function(id){
+        var el = document.getElementById(id);
+        if (!el) return;
+        var html = '';
+        categories.forEach(function(c, i) { html += '<button class="cat-tab' + (i===0?' active':'') + '" data-cat="' + c.id + '" onclick="playClick();filterCategory(\'' + c.id + '\');">' + c.label + '</button>'; });
+        el.innerHTML = html;
+      });
+    }
+
+    function filterCategory(catId) {
+      document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.cat-tab[data-cat="' + catId + '"]').forEach(function(t){ t.classList.add('active'); });
+      var filtered = catId === 'all' ? products : products.filter(function(p){ return p.cat === catId; });
+      renderCatProducts(filtered);
+    }
+
+    function renderCatProducts(list) {
+      var ids = ['catProducts','catProductsShop'];
+      ids.forEach(function(id){
+        var el = document.getElementById(id);
+        if (!el) return;
+        var html = '';
+        list.forEach(function(p){
+          var badge = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
+          html += '<div class="product-card reveal-s" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" />' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button></div></div>';
+        });
+        el.innerHTML = html;
+        setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh(); }, 100);
+      });
+    }
+
+    renderCategoryTabs();
+    filterCategory('all');
+
+    function renderSidebarCategories() {
+      var ids = ['filterCategories','filterCategoriesShop'];
+      ids.forEach(function(id){
+        var el = document.getElementById(id);
+        if (!el) return;
+        var counts = {};
+        products.forEach(function(p){ counts[p.cat] = (counts[p.cat]||0)+1; });
+        var allCount = products.length;
+        var html = '<label class="filter-check active-cat" data-cat="all"><input type="radio" name="sideCat" checked /> All Products <span>(' + allCount + ')</span></label>';
+        categories.forEach(function(c){
+          if (c.id === 'all') return;
+          var cnt = counts[c.id] || 0;
+          html += '<label class="filter-check" data-cat="' + c.id + '"><input type="radio" name="sideCat" /> ' + c.label + ' <span>(' + cnt + ')</span></label>';
+        });
+        el.innerHTML = html;
+        el.querySelectorAll('.filter-check').forEach(function(l){
+          l.addEventListener('click', function(){
+            var cat = this.getAttribute('data-cat');
+            if (!cat) return;
+            el.querySelectorAll('.filter-check').forEach(function(c){ c.classList.remove('active-cat'); });
+            this.classList.add('active-cat');
+            filterCategory(cat);
+            document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('active'); });
+            document.querySelectorAll('.cat-tab[data-cat="' + cat + '"]').forEach(function(t){ t.classList.add('active'); });
+          });
+        });
+      });
+    }
+    renderSidebarCategories();
+
+    function resetFilters() {
+      document.querySelectorAll('.filter-check input').forEach(function(i){ i.checked = false; });
+      document.querySelectorAll('.stone-colors span').forEach(function(s){ s.style.borderColor = 'transparent'; });
+      document.querySelector('.filter-check.active-cat input').checked = true;
+      filterCategory('all');
+    }
+
+    // ─── STONE COLORS ───
+    (function(){
+      ['stoneColors','stoneColorsShop'].forEach(function(id){
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.querySelectorAll('span').forEach(function(s){
+          var color = s.getAttribute('data-color');
+          if (color) s.style.backgroundColor = color;
+        });
+      });
+    })();
+
+    // ─── RENDER FEATURED ───
+    function renderFeatured() {
+      var el = document.getElementById('hScroll');
+      var html = '';
+      featured.forEach(function(f){ html += '<div class="h-card"><div class="h-img"><img src="' + f.img + '" alt="' + f.name + '" loading="lazy" /></div><div class="h-info"><h3>' + f.name + '</h3><div class="h-price">' + f.price + '</div></div></div>'; });
+      el.innerHTML = html;
+    }
+    renderFeatured();
+
+    // ─── CART ───
+    function addToCart(id) {
+      playClick();
+      var p = products.find(function(x){ return x.id === id; });
+      if (!p) return;
+      var e = cart.find(function(x){ return x.id === id; });
+      if (e) e.qty++;
+      else cart.push({id:p.id, name:p.name, price:p.price, img:p.img, qty:1});
+      updateCart(); openCart();
+    }
+    function removeFromCart(id) { playClick(); cart = cart.filter(function(x){ return x.id !== id; }); updateCart(); }
+    function changeQty(id,d) {
+      var i = cart.find(function(x){ return x.id === id; });
+      if (!i) return; i.qty += d;
+      if (i.qty <= 0) cart = cart.filter(function(x){ return x.id !== id; });
+      updateCart();
+    }
+    function updateCart() {
+      var el = document.getElementById('cartItems'), t = document.getElementById('cartTotal'), n = document.getElementById('cartCountNav'), b = document.getElementById('cartCountBottom');
+      var total = 0, cnt = 0;
+      cart.forEach(function(i){ total += i.price * i.qty; cnt += i.qty; });
+      n.textContent = cnt; b.textContent = cnt;
+      if (!cart.length) {
+        el.innerHTML = '<div class="cart-empty"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg><p style="margin-top:8px;">Your bag is empty</p></div>';
+        t.textContent = '£0'; return;
+      }
+      var html = '';
+      cart.forEach(function(i){ html += '<div class="cart-item"><img src="' + i.img + '" alt="' + i.name + '" /><div class="cart-item-info"><h4>' + i.name + '</h4><p>£' + i.price.toFixed(2) + '</p><div class="cart-item-qty"><button onclick="changeQty(' + i.id + ',-1)" aria-pressed="false">−</button><span>' + i.qty + '</span><button onclick="changeQty(' + i.id + ',1)" aria-pressed="false">+</button></div></div><button class="cart-item-remove" onclick="removeFromCart(' + i.id + ')" aria-pressed="false">✕</button></div>'; });
+      el.innerHTML = html;
+      t.textContent = '£' + total.toFixed(2);
+    }
+    function openCart() { playClick(); document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartPanel').classList.add('open'); }
+    function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartPanel').classList.remove('open'); }
+    function checkout() { if (!cart.length) { alert('Your bag is empty!'); return; } alert('Thank you for your order!'); cart = []; updateCart(); closeCart(); }
+
+    // ─── GSAP ANIMATIONS ───
+    function initGSAP() {
+      gsap.utils.toArray('.reveal-l').forEach(function(el){ gsap.fromTo(el, {x:-50, opacity:0}, {x:0, opacity:1, duration:1, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
+      gsap.utils.toArray('.reveal-r').forEach(function(el){ gsap.fromTo(el, {x:50, opacity:0}, {x:0, opacity:1, duration:1, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
+      gsap.utils.toArray('.reveal-s').forEach(function(el){ gsap.fromTo(el, {scale:0.9, opacity:0}, {scale:1, opacity:1, duration:1, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
+      gsap.utils.toArray('.reveal').forEach(function(el){ gsap.fromTo(el, {y:40, opacity:0}, {y:0, opacity:1, duration:1, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
+      // Hero parallax
+      gsap.to('.hero-bg-container', { yPercent:12, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true} });
+      // Section title stagger
+      gsap.utils.toArray('.section-title').forEach(function(el){ gsap.fromTo(el, {y:30, opacity:0}, {y:0, opacity:1, duration:0.8, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 85%', toggleActions:'play none none none'}}); });
+    }
+
+    // ─── SCROLL ───
+    function scrollToSection(id) { var el = document.getElementById(id); if (el) el.scrollIntoView({behavior:'smooth'}); }
+
+    document.getElementById('newsletterForm').addEventListener('submit', function(e){ e.preventDefault(); playClick(); alert('Welcome to the Boujee Circle!'); this.querySelector('input').value = ''; });
+
+    function toggleMobileMenu() {
+      playClick();
+      var l = document.getElementById('navLinks');
+      var h = document.getElementById('hamburgerBtn');
+      if (l.classList.contains('open')) { l.style.display = ''; l.style.position = ''; l.style.top = ''; l.style.left = ''; l.style.right = ''; l.style.flexDirection = ''; l.style.background = ''; l.style.padding = ''; l.style.gap = ''; l.style.borderBottom = ''; l.style.zIndex = ''; l.style.backdropFilter = ''; l.style.webkitBackdropFilter = ''; l.classList.remove('open'); h.classList.remove('open'); return; }
+      l.style.display = 'flex'; l.style.position = 'fixed'; l.style.top = '70px'; l.style.left = '0'; l.style.right = '0'; l.style.flexDirection = 'column'; l.style.background = 'rgba(10,10,11,0.7)'; l.style.padding = '20px 16px 30px'; l.style.gap = '4px'; l.style.borderBottom = '1px solid var(--border)'; l.style.zIndex = '999'; l.style.backdropFilter = 'blur(20px)'; l.style.webkitBackdropFilter = 'blur(20px)';
+      l.classList.add('open'); h.classList.add('open');
+    }
+
+    // ─── HORIZONTAL DRAG ───
+    (function(){
+      var el = document.getElementById('hScroll');
+      if (!el) return;
+      var isDown = false, startX, scrollLeft;
+      el.addEventListener('mousedown',function(e){ isDown=true; startX=e.pageX-el.offsetLeft; scrollLeft=el.scrollLeft; });
+      el.addEventListener('mouseleave',function(){ isDown=false; });
+      el.addEventListener('mouseup',function(){ isDown=false; });
+      el.addEventListener('mousemove',function(e){ if(!isDown)return; e.preventDefault(); var x=e.pageX-el.offsetLeft; el.scrollLeft=scrollLeft-(x-startX)*1.5; });
+    })();
+
+    // ─── SCROLL LISTENER ───
+    window.addEventListener('scroll', function(){ onScrollNav(window.scrollY); if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update(); });
+
+    // ─── LAZY LOAD ───
+    (function(){
+      document.querySelectorAll('img[loading="lazy"]').forEach(function(img){
+        if (img.complete) img.classList.add('loaded');
+        else img.addEventListener('load', function(){ img.classList.add('loaded'); });
+      });
+    })();
+
+    // ─── INIT ───
+    initGSAP();
+    initGlitter();
+    initAudio();
+
+    window.addEventListener('load', function(){ setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }, 500); });
+
+    console.log('✨ J JEWELLERS — Look Boujee On A Budget');
+  </script>
+</body>
+</html>
