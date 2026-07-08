@@ -160,12 +160,20 @@
     nav.scrolled{background:rgba(10,10,11,0.7);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);padding:14px 40px;}
     nav .logo{display:flex;align-items:center;cursor:pointer;transition:opacity 0.3s;position:relative;}
     nav .logo:hover{opacity:0.85;}
-    nav .logo img{height:70px;width:auto;transition:height 0.6s var(--ease-out);border-radius:50%;}
+    nav .logo img{height:70px;width:auto;transition:height 0.6s var(--ease-out);}
     nav.scrolled .logo img{height:55px;}
     @media(max-width:768px){
       nav{padding:14px 16px;}
       nav.scrolled{padding:10px 16px;}
-      .nav-links{display:none !important;}
+      .nav-links{display:none;position:fixed;top:70px;left:16px;right:16px;flex-direction:column;background:rgba(10,10,11,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:8px;gap:2px;opacity:0;transform:translateY(-16px) scaleY(0.95);transform-origin:top center;pointer-events:none;transition:all 0.35s cubic-bezier(0.22,1,0.36,1);}
+      .nav-links.open{opacity:1;transform:translateY(0) scaleY(1);pointer-events:auto;}
+      .nav-links a{border-radius:12px;padding:14px 20px;font-size:0.5rem;letter-spacing:3px;opacity:0;transform:translateY(-8px);transition:all 0.35s cubic-bezier(0.22,1,0.36,1);transition-delay:0s;}
+      .nav-links.open a{opacity:1;transform:translateY(0);}
+      .nav-links.open a:nth-child(1){transition-delay:0.08s;}
+      .nav-links.open a:nth-child(2){transition-delay:0.14s;}
+      .nav-links.open a:nth-child(3){transition-delay:0.20s;}
+      .nav-links.open a:nth-child(4){transition-delay:0.26s;}
+      .nav-links a:hover{background:rgba(212,175,55,0.1);color:var(--text);}
       nav .logo img{height:65px;}
       nav.scrolled .logo img{height:58px;}
       .hamburger{display:flex !important;}
@@ -335,16 +343,17 @@
     @media(max-width:768px){.gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:2px;}.gallery-grid .g-item:nth-child(1){grid-column:span 2;grid-row:span 1;}.gallery-grid .g-item:nth-child(4){grid-column:span 2;}}
 
     /* ─── TESTIMONIALS ─── */
-    .testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
-    .testimonial-card{padding:36px 30px;border:1px solid var(--border);background:var(--surface-glass);backdrop-filter:blur(10px);transition:all 0.6s var(--ease-out);text-align:center;display:flex;flex-direction:column;align-items:center;}
-    .testimonial-card:hover{border-color:var(--border-light);background:rgba(22,22,27,0.5);transform:translateY(-4px);box-shadow:0 0 30px rgba(212,175,55,0.05);}
-    .testimonial-card .avatar{width:64px;height:64px;object-fit:cover;border-radius:50%;margin:0 auto 16px;display:block;border:2px solid var(--border);}
-    .testimonial-card .stars{color:var(--gold);font-size:0.85rem;margin-bottom:12px;letter-spacing:3px;}
-    .testimonial-card blockquote{font-style:italic;font-weight:300;color:var(--text-muted);line-height:1.8;margin-bottom:18px;font-size:0.85rem;flex:1;}
-    .testimonial-card .author{font-weight:600;font-size:0.8rem;color:var(--text);}
-    .testimonial-card .author span{display:block;color:var(--text-dim);font-weight:300;font-size:0.65rem;margin-top:4px;}
-    @media(max-width:1024px){.testimonial-grid{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:768px){.testimonial-grid{grid-template-columns:1fr;}}
+    .testimonial-carousel{position:relative;max-width:600px;margin:0 auto;overflow:hidden;min-height:260px;}
+    .testimonial-slide{position:absolute;top:0;left:0;right:0;padding:36px 30px;border:1px solid var(--border);background:var(--surface-glass);backdrop-filter:blur(10px);text-align:center;display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateY(30px);transition:all 0.6s cubic-bezier(0.22,1,0.36,1);pointer-events:none;}
+    .testimonial-slide.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+    .testimonial-slide.exit{opacity:0;transform:translateY(-30px);}
+    .testimonial-slide .stars{color:var(--gold);font-size:0.85rem;margin-bottom:12px;letter-spacing:3px;}
+    .testimonial-slide blockquote{font-style:italic;font-weight:300;color:var(--text);line-height:1.8;margin-bottom:18px;font-size:0.9rem;flex:1;max-width:500px;}
+    .testimonial-slide .author{font-weight:600;font-size:0.8rem;color:var(--gold);}
+    .testimonial-slide .author span{display:block;color:var(--text-dim);font-weight:300;font-size:0.65rem;margin-top:4px;}
+    .testimonial-dots{display:flex;justify-content:center;gap:8px;margin-top:24px;}
+    .testimonial-dot{width:8px;height:8px;border-radius:4px;background:var(--border);border:none;cursor:pointer;transition:all 0.4s var(--ease-out);padding:0;}
+    .testimonial-dot.active{width:28px;background:var(--gold);box-shadow:0 0 12px rgba(212,175,55,0.3);}
 
     /* ─── NEWSLETTER ─── */
     .newsletter{text-align:center;}
@@ -755,62 +764,8 @@
       <div class="container">
         <div class="reveal-l" style="text-align:center"><p class="section-label">Testimonials</p></div>
         <div class="reveal-r" style="text-align:center"><h2 class="section-title">What Our <span class="gold-text">Customers</span> Say</h2></div>
-        <div class="testimonial-grid">
-          <div class="testimonial-card reveal-l">
-            <img src="imgi_15_image-17.png" alt="Priya" class="avatar" loading="lazy" />
-            <div class="stars">★★★★★</div>
-            <blockquote>"Absolutely stunning craftsmanship! The gold choker is even more beautiful in person. I've received countless compliments."</blockquote>
-            <div class="author">Priya S. <span>Verified Buyer — Leicester, UK</span></div>
-          </div>
-          <div class="testimonial-card reveal-s">
-            <img src="imgi_16_image-18.png" alt="Sarah" class="avatar" loading="lazy" />
-            <div class="stars">★★★★★</div>
-            <blockquote>"Ordered the Rajwadi bangles for my mum's birthday and she hasn't taken them off since. Proper quality, quick delivery to Manchester."</blockquote>
-            <div class="author">Sarah T. <span>Verified Buyer — Manchester, UK</span></div>
-          </div>
-          <div class="testimonial-card reveal-r">
-            <img src="imgi_17_image-19.png" alt="Rhea" class="avatar" loading="lazy" />
-            <div class="stars">★★★★★</div>
-            <blockquote>"The packaging alone felt like unwrapping a gift from a high-end boutique. Fast shipping and absolutely gorgeous pieces!"</blockquote>
-            <div class="author">Rhea K. <span>Verified Buyer — London, UK</span></div>
-          </div>
-          <div class="testimonial-card reveal-l">
-            <img src="imgi_15_image-17.png" alt="Lakshmi" class="avatar" loading="lazy" />
-            <div class="stars">★★★★★</div>
-            <blockquote>"Very happy with my purchase. The meenwari choker set is exactly like the photos — vibrant colours and neat finishing."</blockquote>
-            <div class="author">Lakshmi N. <span>Verified Buyer — Chennai, India</span></div>
-          </div>
-          <div class="testimonial-card reveal-s">
-            <img src="imgi_16_image-18.png" alt="James" class="avatar" loading="lazy" />
-            <div class="stars">★★★★★</div>
-            <blockquote>"Bought the square sahara earrings for my wife and she was over the moon. Great value for money, nicely packaged, and arrived in 3 days."</blockquote>
-            <div class="author">James W. <span>Verified Buyer — Birmingham, UK</span></div>
-          </div>
-          <div class="testimonial-card reveal-r">
-            <img src="imgi_17_image-19.png" alt="Arun" class="avatar" loading="lazy" />
-            <div class="stars">★★★★★</div>
-            <blockquote>"Got the bridal choker set for my sister's wedding. The gold finish looks way more expensive than what we paid. Excellent service."</blockquote>
-            <div class="author">Arun K. <span>Verified Buyer — Glasgow, UK</span></div>
-          </div>
-          <div class="testimonial-card reveal-l">
-            <img src="imgi_15_image-17.png" alt="Deepa" class="avatar" loading="lazy" />
-            <div class="stars">★★★★★</div>
-            <blockquote>"The hand ring pieces (set of 3) are gorgeous! I wear them to work and get asked where I got them every single time."</blockquote>
-            <div class="author">Deepa R. <span>Verified Buyer — Bangalore, India</span></div>
-          </div>
-          <div class="testimonial-card reveal-s">
-            <img src="imgi_16_image-18.png" alt="Emma" class="avatar" loading="lazy" />
-            <div class="stars">★★★★★</div>
-            <blockquote>"Honestly wasn't sure about ordering jewellery online but I'm so glad I did. The aaira choker set is stunning and the size guide was spot on."</blockquote>
-            <div class="author">Emma L. <span>Verified Buyer — Bristol, UK</span></div>
-          </div>
-          <div class="testimonial-card reveal-r">
-            <img src="imgi_17_image-19.png" alt="Suresh" class="avatar" loading="lazy" />
-            <div class="stars">★★★★★</div>
-            <blockquote>"Bought the Noor-e-Zar ensemble for my daughter's engagement and it looked absolutely regal. The craftsmanship is incredible for the price."</blockquote>
-            <div class="author">Suresh P. <span>Verified Buyer — Hyderabad, India</span></div>
-          </div>
-        </div>
+        <div class="testimonial-carousel" id="testimonialCarousel"></div>
+        <div class="testimonial-dots" id="testimonialDots"></div>
       </div>
       <div class="section-divider"></div>
     </section>
@@ -1492,11 +1447,19 @@
     document.getElementById('newsletterForm').addEventListener('submit', function(e){ e.preventDefault(); playClick(); showToast('✦ Welcome to the Boujee Circle!'); this.querySelector('input').value = ''; });
 
     function closeMobileMenu() {
+      var l = document.getElementById('navLinks');
       var h = document.getElementById('hamburgerBtn');
+      if (l) l.classList.remove('open');
       if (h) h.classList.remove('open');
     }
     function toggleMobileMenu() {
       playClick();
+      var l = document.getElementById('navLinks');
+      var h = document.getElementById('hamburgerBtn');
+      if (l && h) {
+        l.classList.toggle('open');
+        h.classList.toggle('open');
+      }
     }
 
     // ─── HORIZONTAL DRAG ───
@@ -1508,6 +1471,53 @@
       el.addEventListener('mouseleave',function(){ isDown=false; });
       el.addEventListener('mouseup',function(){ isDown=false; });
       el.addEventListener('mousemove',function(e){ if(!isDown)return; e.preventDefault(); var x=e.pageX-el.offsetLeft; el.scrollLeft=scrollLeft-(x-startX)*1.5; });
+    })();
+
+    // ─── TESTIMONIAL CAROUSEL ───
+    (function(){
+      var data = [
+        {stars:'★★★★★',quote:'"Absolutely stunning craftsmanship! The gold choker is even more beautiful in person. I\'ve received countless compliments."',name:'Priya S.',loc:'Leicester, UK'},
+        {stars:'★★★★★',quote:'"Ordered the Rajwadi bangles for my mum\'s birthday and she hasn\'t taken them off since. Proper quality, quick delivery to Manchester."',name:'Sarah T.',loc:'Manchester, UK'},
+        {stars:'★★★★★',quote:'"The packaging alone felt like unwrapping a gift from a high-end boutique. Fast shipping and absolutely gorgeous pieces!"',name:'Rhea K.',loc:'London, UK'},
+        {stars:'★★★★★',quote:'"Very happy with my purchase. The meenwari choker set is exactly like the photos — vibrant colours and neat finishing."',name:'Lakshmi N.',loc:'Chennai, India'},
+        {stars:'★★★★★',quote:'"Bought the square sahara earrings for my wife and she was over the moon. Great value for money, nicely packaged, and arrived in 3 days."',name:'James W.',loc:'Birmingham, UK'},
+        {stars:'★★★★★',quote:'"Got the bridal choker set for my sister\'s wedding. The gold finish looks way more expensive than what we paid. Excellent service."',name:'Arun K.',loc:'Glasgow, UK'},
+        {stars:'★★★★★',quote:'"The hand ring pieces (set of 3) are gorgeous! I wear them to work and get asked where I got them every single time."',name:'Deepa R.',loc:'Bangalore, India'},
+        {stars:'★★★★★',quote:'"Honestly wasn\'t sure about ordering jewellery online but I\'m so glad I did. The aaira choker set is stunning and the size guide was spot on."',name:'Emma L.',loc:'Bristol, UK'},
+        {stars:'★★★★★',quote:'"Bought the Noor-e-Zar ensemble for my daughter\'s engagement and it looked absolutely regal. The craftsmanship is incredible for the price."',name:'Suresh P.',loc:'Hyderabad, India'}
+      ];
+      var carousel = document.getElementById('testimonialCarousel');
+      var dotsEl = document.getElementById('testimonialDots');
+      if (!carousel) return;
+      var current = 0, timer;
+      data.forEach(function(t,i){
+        var div = document.createElement('div');
+        div.className = 'testimonial-slide' + (i===0?' active':'');
+        div.innerHTML = '<div class="stars">'+t.stars+'</div><blockquote>'+t.quote+'</blockquote><div class="author">'+t.name+' <span>Verified Buyer — '+t.loc+'</span></div>';
+        carousel.appendChild(div);
+        if (dotsEl) {
+          var dot = document.createElement('button');
+          dot.className = 'testimonial-dot' + (i===0?' active':'');
+          dot.setAttribute('aria-label','Go to testimonial '+(i+1));
+          dot.addEventListener('click',function(){ goTo(i); });
+          dotsEl.appendChild(dot);
+        }
+      });
+      function goTo(idx){
+        if (idx === current) return;
+        var slides = carousel.querySelectorAll('.testimonial-slide');
+        var dots = dotsEl ? dotsEl.querySelectorAll('.testimonial-dot') : [];
+        slides[current].classList.remove('active');
+        slides[current].classList.add('exit');
+        setTimeout(function(){ slides[current].classList.remove('exit'); }, 600);
+        slides[idx].classList.add('active');
+        if (dots.length){ dots[current].classList.remove('active'); dots[idx].classList.add('active'); }
+        current = idx;
+        resetTimer();
+      }
+      function next(){ goTo((current+1)%data.length); }
+      function resetTimer(){ clearInterval(timer); timer = setInterval(next, 5000); }
+      resetTimer();
     })();
 
     // ─── SCROLL LISTENER ───
