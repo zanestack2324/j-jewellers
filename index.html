@@ -529,7 +529,7 @@
   <!-- NAVIGATION -->
   <nav id="navbar">
     <a class="logo" id="logoHome" tabindex="0">
-      <img src="imgi_2_head-logo.webp" alt="J JEWELLERS" />
+      <img src="imgi_2_head-logo.webp" alt="J JEWELLERS" loading="lazy" />
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a role="button" aria-pressed="false" onclick="playClick();goHome()">Home</a></li>
@@ -537,7 +537,7 @@
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Categories</a></li>
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Shop</a></li>
       <li><a role="button" aria-pressed="false" onclick="playClick();goHome()">Gallery</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();goHome()">Contact</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();navigateToSection('contact')">Contact</a></li>
     </ul>
     <div class="nav-icons">
       <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound" aria-pressed="false">
@@ -684,16 +684,16 @@
         <div class="reveal-r"><h2 class="section-title">Shop Our <span class="gold-text">Collection</span></h2></div>
         <div class="reveal-l shop-layout">
           <aside class="shop-sidebar" id="shopSidebar">
-            <div class="filter-section">
+            <div class="filter-section reveal-l">
               <h4>Categories</h4>
               <div class="filter-list" id="filterCategories"></div>
             </div>
-            <div class="filter-section">
+            <div class="filter-section reveal-l">
               <h4>Availability</h4>
               <label class="filter-check"><input type="checkbox" checked /> In Stock</label>
               <label class="filter-check"><input type="checkbox" /> Out of Stock</label>
             </div>
-            <div class="filter-section">
+            <div class="filter-section reveal-l">
               <h4>Stone Colour</h4>
               <div class="stone-colors" id="stoneColors">
                 <span data-color="#E74C3C">Red</span>
@@ -708,7 +708,7 @@
                 <span data-color="#FF6B9D">Multicolour</span>
               </div>
             </div>
-            <div class="filter-section">
+            <div class="filter-section reveal-l">
               <h4>Size</h4>
               <div class="filter-list" id="sizeFilter">
                 <label class="filter-check"><input type="checkbox" /> 2.4</label>
@@ -717,7 +717,7 @@
                 <label class="filter-check"><input type="checkbox" /> 2.10</label>
               </div>
             </div>
-            <div class="filter-section">
+            <div class="filter-section reveal-l">
               <h4>Price</h4>
               <div class="filter-list" id="priceFilter">
                 <label class="filter-check"><input type="checkbox" data-max="50" /> Under £50</label>
@@ -777,7 +777,7 @@
       <div class="container">
         <div class="reveal-l" style="text-align:center"><p class="section-label">Testimonials</p></div>
         <div class="reveal-r" style="text-align:center"><h2 class="section-title">What Our <span class="gold-text">Customers</span> Say</h2></div>
-        <div class="testimonial-carousel" id="testimonialCarousel"></div>
+        <div class="testimonial-carousel reveal-s" id="testimonialCarousel"></div>
         <div class="testimonial-dots" id="testimonialDots"></div>
       </div>
       <div class="section-divider"></div>
@@ -826,16 +826,16 @@
         <div class="reveal-r"><h2 class="section-title">Shop Our <span class="gold-text">Collection</span></h2></div>
         <div class="reveal-l shop-layout">
           <aside class="shop-sidebar">
-            <div class="filter-section">
+            <div class="filter-section reveal-l">
               <h4>Categories</h4>
               <div class="filter-list" id="filterCategoriesShop"></div>
             </div>
-            <div class="filter-section">
+            <div class="filter-section reveal-l">
               <h4>Availability</h4>
               <label class="filter-check"><input type="checkbox" checked /> In Stock</label>
               <label class="filter-check"><input type="checkbox" /> Out of Stock</label>
             </div>
-            <div class="filter-section">
+            <div class="filter-section reveal-l">
               <h4>Stone Colour</h4>
               <div class="stone-colors" id="stoneColorsShop">
                 <span data-color="#E74C3C">Red</span>
@@ -850,7 +850,7 @@
                 <span data-color="#FF6B9D">Multicolour</span>
               </div>
             </div>
-            <div class="filter-section">
+            <div class="filter-section reveal-l">
               <h4>Size</h4>
               <div class="filter-list">
                 <label class="filter-check"><input type="checkbox" /> 2.4</label>
@@ -859,7 +859,7 @@
                 <label class="filter-check"><input type="checkbox" /> 2.10</label>
               </div>
             </div>
-            <div class="filter-section">
+            <div class="filter-section reveal-l">
               <h4>Price</h4>
               <div class="filter-list">
                 <label class="filter-check"><input type="checkbox" data-max="50" /> Under £50</label>
@@ -870,7 +870,7 @@
               <button class="reset-price" onclick="resetFilters()">Reset</button>
             </div>
           </aside>
-          <div class="shop-main">
+          <div class="shop-main reveal-r">
             <div class="cat-tabs" id="catTabsShop"></div>
             <div class="products-grid" id="catProductsShop"></div>
           </div>
@@ -884,7 +884,7 @@
     <section style="padding-top:140px;">
       <div class="container">
         <div class="product-detail-wrap">
-          <a class="back-link" onclick="navigateTo('shop')">← Back to Shop</a>
+          <a class="back-link reveal-l" onclick="navigateTo('shop')">← Back to Shop</a>
           <div id="productDetailContent"></div>
         </div>
       </div>
@@ -947,7 +947,7 @@
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
+        <div class="footer-brand reveal-l">
           <div class="logo" onclick="playClick();scrollToSection('home')"><span>J JEWELLERS</span></div>
           <p>Look Boujee On A Budget — luxury jewellery handcrafted for every occasion. Inspired by South Asian heritage, designed for the modern woman.</p>
           <div class="footer-features">
@@ -969,7 +969,7 @@
             </div>
           </div>
         </div>
-        <div class="footer-col">
+        <div class="footer-col reveal-l">
           <h4>Quick Links</h4>
           <a onclick="playClick();goHome()">Home</a>
           <a onclick="playClick();navigateTo('shop')">Products</a>
@@ -978,7 +978,7 @@
           <a onclick="playClick();navigateTo('privacy')">Privacy Policy</a>
           <a onclick="playClick();navigateTo('returns')">Returns &amp; Refunds</a>
         </div>
-        <div class="footer-col">
+        <div class="footer-col reveal-l">
           <h4>Social Networks</h4>
           <a href="https://instagram.com" target="_blank" rel="noopener" onclick="playClick()">Instagram</a>
           <a href="https://facebook.com" target="_blank" rel="noopener" onclick="playClick()">Facebook</a>
@@ -986,14 +986,14 @@
           <a href="https://youtube.com" target="_blank" rel="noopener" onclick="playClick()">YouTube</a>
           <a href="https://tiktok.com" target="_blank" rel="noopener" onclick="playClick()">TikTok</a>
         </div>
-        <div class="footer-col">
+        <div class="footer-col reveal-l">
           <h4>Contact Us</h4>
           <a href="mailto:info@jjewellers.co.uk" onclick="playClick()">info@jjewellers.co.uk</a>
           <a href="tel:+441234567890" onclick="playClick()">+44 1234 567 890</a>
           <a onclick="playClick();scrollToSection('contact')">Newsletter Signup</a>
         </div>
       </div>
-      <div class="footer-bottom">
+      <div class="footer-bottom reveal-s">
         <span>&copy; 2026 J JEWELLERS. All rights reserved. Crafted with heritage.</span>
         <div class="footer-payments">
           <svg viewBox="0 0 38 24" width="38" height="24" aria-label="Visa"><rect width="38" height="24" rx="3" fill="#1A1F71"/><path d="M15.5 7.5H13l-2.5 6h2.5l.5-1.2h2.5l.5 1.2h2.7l-2.7-6zm-1.8 3.6l.8-2.1.8 2.1h-1.6zm6.3-1.7c0-.9.7-1.2 1.3-1.2.6 0 1.2.2 1.7.5l.5-2c-.5-.2-1.1-.4-1.8-.4-1.9 0-3.2 1-3.2 2.5 0 1.1.9 1.7 1.7 2 .6.3.9.5.9.8 0 .4-.5.6-1.1.6-.7 0-1.4-.2-2-.6l-.5 2c.6.3 1.4.5 2.2.5 2.1 0 3.4-1 3.4-2.6 0-1.4-1.4-1.9-2.2-2.2-.5-.2-.8-.4-.8-.7zm5.4-.1l.5-1.3h-2.1l-1.5 6h2.5l.4-1.7h1.2l.5-1.3h-1.2l.3-1.2h2.1l.5-1.3h-3.2zm-14 4.2l-.8 2h-2.3l2.8-6.5h2.7l.5 1.2L14 14h-2.4l.8-2h2.5z" fill="white"/></svg>
@@ -1009,7 +1009,7 @@
           <a aria-label="YouTube" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/><path d="M19.6 5.4A2 2 0 0022 7.4v9.2a2 2 0 01-2.4 2l-16-1.6A2 2 0 012 15V9a2 2 0 011.6-2l16-1.6a2 2 0 012 1.6z"/></svg></a>
         </div>
       </div>
-      <div class="footer-watermark">
+      <div class="footer-watermark reveal-s">
         <span>DESIGNED BY ZANEDEV&lt;/&gt;</span>
         <img src="WATER MARK.png" alt="ZANEDEV" />
       </div>
@@ -1287,7 +1287,7 @@
       var p = products.find(function(x){ return x.id === id; });
       if (!p) { navigateTo('shop'); return; }
       var desc = p.desc || 'A stunning ' + p.name.toLowerCase() + ' from J JEWELLERS. Expertly crafted with premium materials, this ' + p.cat.toLowerCase() + ' piece combines traditional elegance with contemporary design — perfect for adding a touch of luxury to any outfit.';
-      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><img src="' + p.img + '" alt="' + p.name + '" /></div><div class="product-detail-info"><div class="p-category">' + p.cat + '</div><h2>' + p.name + '</h2><div class="p-price">£' + p.price.toFixed(2) + '</div><div class="p-description">' + desc + '</div><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">✦ Add to Bag</button><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
+      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" /></div><div class="product-detail-info"><div class="p-category">' + p.cat + '</div><h2>' + p.name + '</h2><div class="p-price">£' + p.price.toFixed(2) + '</div><div class="p-description">' + desc + '</div><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">✦ Add to Bag</button><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
       document.getElementById('productDetailContent').innerHTML = html;
     }
 
