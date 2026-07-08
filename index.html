@@ -104,6 +104,11 @@
       background:linear-gradient(to bottom,var(--dark) 0%,transparent 20%,transparent 80%,var(--dark) 100%);
     }
 
+    #essence .section-bg::after{background:linear-gradient(to bottom,rgba(255,255,255,0.95) 0%,rgba(255,255,255,0.6) 50%,rgba(255,255,255,0.95) 100%);}
+    #essence .section-bg img{opacity:0.25;}
+    #essence .section-title{color:#111;}
+    #essence .essence-text p{color:#222 !important;font-weight:400;}
+
     .section-label{
       display:inline-flex;align-items:center;gap:10px;
       font-family:var(--font-future);
@@ -156,16 +161,16 @@
     .preloader-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,0.2) 50%,transparent 70%);background-size:200% 100%;animation:shimmer 3s ease-in-out infinite;}
 
     /* ─── NAVIGATION ─── */
-    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:22px 40px;display:flex;align-items:center;justify-content:space-between;transition:all 0.6s var(--ease-out);}
-    nav.scrolled{background:rgba(10,10,11,0.7);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);padding:14px 40px;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 52px;display:flex;align-items:center;justify-content:space-between;transition:all 0.6s var(--ease-out);border:none;outline:none;}
+    nav.scrolled{background:rgba(10,10,11,0.7);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);padding:18px 52px;}
     nav .logo{display:flex;align-items:center;cursor:pointer;transition:opacity 0.3s;position:relative;}
     nav .logo:hover{opacity:0.85;}
-    nav .logo img{height:70px;width:auto;transition:height 0.6s var(--ease-out);}
-    nav.scrolled .logo img{height:55px;}
+    nav .logo img{height:80px;width:auto;transition:height 0.6s var(--ease-out);}
+    nav.scrolled .logo img{height:65px;}
     @media(max-width:768px){
-      nav{padding:14px 16px;}
-      nav.scrolled{padding:10px 16px;}
-      .nav-links{display:none;position:fixed;top:70px;left:16px;right:16px;flex-direction:column;background:rgba(10,10,11,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:8px;gap:2px;opacity:0;transform:translateY(-16px) scaleY(0.95);transform-origin:top center;pointer-events:none;transition:all 0.35s cubic-bezier(0.22,1,0.36,1);}
+      nav{padding:18px 20px;border:none;outline:none;box-shadow:none;}
+      nav.scrolled{padding:14px 20px;}
+      .nav-links{display:none;position:fixed;top:76px;left:16px;right:16px;flex-direction:column;background:rgba(10,10,11,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:8px;gap:2px;opacity:0;transform:translateY(-16px) scaleY(0.95);transform-origin:top center;pointer-events:none;transition:all 0.35s cubic-bezier(0.22,1,0.36,1);}
       .nav-links.open{opacity:1;transform:translateY(0) scaleY(1);pointer-events:auto;}
       .nav-links a{border-radius:12px;padding:14px 20px;font-size:0.5rem;letter-spacing:3px;opacity:0;transform:translateY(-8px);transition:all 0.35s cubic-bezier(0.22,1,0.36,1);transition-delay:0s;}
       .nav-links.open a{opacity:1;transform:translateY(0);}
@@ -174,15 +179,20 @@
       .nav-links.open a:nth-child(3){transition-delay:0.20s;}
       .nav-links.open a:nth-child(4){transition-delay:0.26s;}
       .nav-links a:hover{background:rgba(212,175,55,0.1);color:var(--text);}
-      nav .logo img{height:65px;}
-      nav.scrolled .logo img{height:58px;}
-      .hamburger{display:flex !important;}
+      nav .logo img{height:70px;}
+      nav.scrolled .logo img{height:62px;}
+      .nav-icons{display:flex;align-items:center;gap:8px;}
+      .nav-icons button{width:38px;height:38px;}
+      .hamburger{width:38px;height:38px;display:flex !important;border-radius:50%;}
+      .hamburger span{width:15px;height:1.5px;}
+      .hamburger.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+      .hamburger.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
     }
-    .nav-links{display:flex;align-items:center;list-style:none;background:rgba(10,10,11,0.3);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border:1px solid var(--border);border-radius:50px;padding:4px;gap:2px;}
-    .nav-links a{display:block;padding:8px 18px;font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:all 0.4s var(--ease-out);border-radius:30px;}
+    .nav-links{display:flex;align-items:center;list-style:none;background:rgba(10,10,11,0.3);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border:1px solid var(--border);border-radius:50px;padding:6px;gap:4px;}
+    .nav-links a{display:block;padding:12px 26px;font-family:var(--font-future);font-size:0.6rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:all 0.4s var(--ease-out);border-radius:30px;}
     .nav-links a:hover{color:var(--text);background:rgba(212,175,55,0.08);}
-    .nav-icons{display:flex;align-items:center;gap:6px;}
-    .nav-icons button{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;transition:all 0.4s var(--ease-out);position:relative;border-radius:50%;}
+    .nav-icons{display:flex;align-items:center;gap:10px;}
+    .nav-icons button{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;transition:all 0.4s var(--ease-out);position:relative;border-radius:50%;}
     .nav-icons button:hover{color:var(--gold);border-color:var(--border-light);box-shadow:0 0 20px rgba(212,175,55,0.1);}
     .cart-count{position:absolute;top:-4px;right:-4px;background:var(--gold);color:var(--dark);font-size:0.45rem;font-weight:900;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-family:var(--font-future);border-radius:50%;}
     .hamburger{display:none;cursor:pointer;width:36px;height:36px;border:1px solid var(--border);background:transparent;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;transition:border-color 0.4s var(--ease-out);border-radius:50%;}
@@ -194,7 +204,7 @@
     .sound-toggle svg{width:14px;height:14px;}.sound-toggle.muted{opacity:0.3;}
 
     /* ─── HERO ─── */
-    .hero-bg-container{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+    .hero-bg-container{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;border:none;outline:none;}
     .hero-bg-container>*{position:absolute;inset:0;}
     .hero-video{width:100%;height:100%;object-fit:cover;}
     .hero-overlay{background:linear-gradient(to bottom,rgba(10,10,11,0.15) 0%,rgba(10,10,11,0.45) 30%,rgba(10,10,11,0.65) 60%,var(--dark) 100%);}
@@ -378,7 +388,9 @@
     .footer-col h4{font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;color:var(--text);}
     .footer-col a{display:block;color:var(--text-muted);text-decoration:none;font-size:0.85rem;font-weight:300;margin-bottom:10px;transition:all 0.3s var(--ease-out);cursor:pointer;}
     .footer-col a:hover{color:var(--gold);padding-left:4px;}
-    .footer-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:0.7rem;color:var(--text-dim);font-weight:300;}
+    .footer-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:0.7rem;color:var(--text-dim);font-weight:300;flex-wrap:wrap;gap:14px;}
+    .footer-payments{display:flex;gap:8px;align-items:center;}
+    .footer-payments svg{width:34px;height:auto;border-radius:2px;display:block;}
     .footer-socials{display:flex;gap:12px;}
     .footer-socials a{color:var(--text-dim);transition:all 0.3s var(--ease-out);cursor:pointer;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);}
     .footer-socials a:hover{color:var(--gold);border-color:var(--border-light);transform:translateY(-2px);}
@@ -422,7 +434,7 @@
     .cart-empty{text-align:center;padding:50px 20px;color:var(--text-dim);}
     .cart-empty svg{width:32px;height:32px;margin-bottom:8px;}
 
-    .page-content{display:none;opacity:0;transition:opacity 0.5s var(--ease-out);}
+    .page-content{display:none;opacity:0;transition:opacity 0.5s var(--ease-out);margin:0;padding:0;border:none;}
     .page-content.active{display:block;opacity:1;}
 
     /* ─── PRODUCT DETAIL ─── */
@@ -777,8 +789,8 @@
       </div>
       <div class="container">
         <div class="reveal-r" style="text-align:center"><p class="section-label">Our Essence</p></div>
-        <div class="reveal-l" style="text-align:center"><h2 class="section-title">Statement Jewellery That <span class="gold-text">Captures Your Essence</span></h2></div>
-        <div class="text-block">
+        <div class="reveal-l" style="text-align:center"><h2 class="section-title" style="color:#111;">Statement Jewellery That <span class="gold-text">Captures Your Essence</span></h2></div>
+        <div class="text-block essence-text">
           <p class="reveal-r">Jewellery becomes powerful when it feels personal. Every design is created to reflect confidence, individuality, and cultural pride. Influences drawn from South Asian jewellery traditions — including intricate meenakari, kundan, and temple jewellery techniques — blend seamlessly with modern styling, allowing each piece to feel expressive without feeling overwhelming.</p>
           <p class="reveal-l">Statement jewellery here is designed for women who value meaning as much as beauty. Pieces are bold yet wearable, elegant yet rooted in tradition. Jewellery moves with you through everyday moments and special occasions, becoming part of how you present yourself to the world.</p>
           <p class="reveal-r">Each detail is intentional, allowing jewellery to feel like an extension of who you are rather than something you simply wear.</p>
@@ -982,6 +994,13 @@
       </div>
       <div class="footer-bottom">
         <span>&copy; 2026 J JEWELLERS. All rights reserved. Crafted with heritage.</span>
+        <div class="footer-payments">
+          <svg viewBox="0 0 38 24" width="38" height="24" aria-label="Visa"><rect width="38" height="24" rx="3" fill="#1A1F71"/><path d="M15.5 7.5H13l-2.5 6h2.5l.5-1.2h2.5l.5 1.2h2.7l-2.7-6zm-1.8 3.6l.8-2.1.8 2.1h-1.6zm6.3-1.7c0-.9.7-1.2 1.3-1.2.6 0 1.2.2 1.7.5l.5-2c-.5-.2-1.1-.4-1.8-.4-1.9 0-3.2 1-3.2 2.5 0 1.1.9 1.7 1.7 2 .6.3.9.5.9.8 0 .4-.5.6-1.1.6-.7 0-1.4-.2-2-.6l-.5 2c.6.3 1.4.5 2.2.5 2.1 0 3.4-1 3.4-2.6 0-1.4-1.4-1.9-2.2-2.2-.5-.2-.8-.4-.8-.7zm5.4-.1l.5-1.3h-2.1l-1.5 6h2.5l.4-1.7h1.2l.5-1.3h-1.2l.3-1.2h2.1l.5-1.3h-3.2zm-14 4.2l-.8 2h-2.3l2.8-6.5h2.7l.5 1.2L14 14h-2.4l.8-2h2.5z" fill="white"/></svg>
+          <svg viewBox="0 0 38 24" width="38" height="24" aria-label="Mastercard"><rect width="38" height="24" rx="3" fill="#000"/><circle cx="15" cy="12" r="6" fill="#EB001B"/><circle cx="23" cy="12" r="6" fill="#F79E1B"/><path d="M19 7.5A6 6 0 0019 16.5 6 6 0 0019 7.5z" fill="#FF5F00"/></svg>
+          <svg viewBox="0 0 38 24" width="38" height="24" aria-label="PayPal"><rect width="38" height="24" rx="3" fill="#003087"/><path d="M26.5 8c-2.5 0-4 1.5-4.5 4l-1 5h2.5l.5-3h1.5c2 0 4-1 4-3.5C29.5 8.5 28 8 26.5 8zm-.5 2.5c0 .8-.7 1.5-1.5 1.5h-1l.5-2.5c.3-.5.8-.7 1.3-.7.8 0 1.2.5 1.2 1.2 0 .3-.1.5-.5.5zM16 8c-2.5 0-4 1.5-4.5 4l-1 5h2.5l.5-3h1.5c2 0 4-1 4-3.5C19 8.5 17.5 8 16 8zm-.5 2.5c0 .8-.7 1.5-1.5 1.5h-1l.5-2.5c.3-.5.8-.7 1.3-.7.8 0 1.2.5 1.2 1.2 0 .3-.1.3-.5.5zM8.5 8l-1.5 8h2.5l1.5-8H8.5zm4 0l-1.5 8h2.5l1.5-8h-2.5z" fill="white"/></svg>
+          <svg viewBox="0 0 38 24" width="38" height="24" aria-label="Amex"><rect width="38" height="24" rx="3" fill="#2E77BC"/><path d="M6 8l2.5 6.5L11 8h3l-3.5 8.5H7.5L4 8h2zM16 8h5.5c1.5 0 2.5.5 3 1.5.5.7.5 1.5.5 2 0 1-.5 1.8-1 2.5-.5.5-1.5 1-3 1h-2L18 16h-2l2.5-8zm2.5 3h2c.5 0 .8-.2 1-.5.2-.3.3-.7.3-1 0-.3-.1-.7-.3-1-.2-.3-.5-.5-1-.5h-2l-1 3z" fill="white"/></svg>
+          <svg viewBox="0 0 38 24" width="38" height="24" aria-label="Apple Pay"><rect width="38" height="24" rx="3" fill="#000"/><path d="M12 7.5c.5-.7 1.2-1.2 2-1.2.2-.8.5-1.5 1-2 .5-.5 1.2-.8 2-.8.5 0 1 .2 1.5.5.3.2.5.5.7.8-.5.3-.8.8-1 1.3-.2.5-.2 1 0 1.5.2.5.5 1 1 1.3-.2.5-.5 1-.8 1.3-.5.5-1 .8-1.5 1-.5.2-1 .3-1.5.3-.5 0-1-.1-1.5-.3-.5-.2-1-.5-1.5-1 .2-.3.3-.5.3-.8 0-.3-.1-.5-.3-.8-.2-.2-.3-.5-.3-.8 0-.3.1-.5.3-.8z" fill="#fff"/></svg>
+        </div>
         <div class="footer-socials">
           <a aria-label="Instagram" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
           <a aria-label="Facebook" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
