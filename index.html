@@ -99,19 +99,14 @@
       transition:opacity 0.8s var(--ease-out),visibility 0.8s var(--ease-out);
     }
     #preloader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
-    .preloader-logo{height:100px;width:auto;opacity:0;animation:fadeIn 1s var(--ease-out) 0.3s forwards;}
-    .preloader-sub{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--text-muted);opacity:0;animation:fadeIn 1s var(--ease-out) 0.6s forwards;}
+    .preloader-logo{height:100px;width:auto;}
+    .preloader-sub{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--text-muted);}
     .preloader-btn{
       padding:16px 48px;font-size:0.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
       background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));
-      color:var(--dark);border:none;
-      transition:all 0.5s var(--ease-out);
-      opacity:0;animation:fadeIn 1s var(--ease-out) 0.9s forwards;
-      position:relative;overflow:hidden;
+      color:var(--dark);border:none;cursor:pointer;
     }
-    .preloader-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(212,175,55,0.3);}
-    .preloader-btn:active{transform:translateY(-1px) scale(0.98);}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
+    .preloader-btn:hover{box-shadow:0 12px 40px rgba(212,175,55,0.3);}
 
     /* ─── NAVIGATION ─── */
     nav{
@@ -189,27 +184,8 @@
     /* ─── HERO ─── */
     .hero-bg-container{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
     .hero-bg-container>*{position:absolute;inset:0;}
-    .hero-bg{
-      background:url('HERO.png') center/cover no-repeat;
-      background-color:var(--dark);
-      transform-origin:50% 42%;
-      animation:heroZoom 16s var(--ease-out) forwards;
-    }
-    @keyframes heroZoom{0%{transform:scale(1);}100%{transform:scale(1.25);}}
     .hero-video{width:100%;height:100%;object-fit:cover;}
     .hero-overlay{background:linear-gradient(to bottom,rgba(10,10,11,0.4) 0%,rgba(10,10,11,0.6) 100%);}
-    .hero-glow{
-      top:50%;left:50%;transform:translate(-50%,-50%);
-      width:90vmin;height:90vmin;
-      background:radial-gradient(circle,rgba(212,175,55,0.04) 0%,transparent 50%);
-      pointer-events:none;
-      animation:glowPulse 5s ease-in-out infinite alternate;
-    }
-    @keyframes glowPulse{
-      0%{opacity:0.3;transform:translate(-50%,-50%) scale(1);}
-      100%{opacity:0.7;transform:translate(-50%,-50%) scale(1.1);}
-    }
-    #glitterCanvas{z-index:3;pointer-events:none;mix-blend-mode:screen;}
     .hero{
       position:relative;z-index:1;
       height:100vh;min-height:650px;
@@ -760,13 +736,10 @@
 
     <!-- HERO -->
     <div class="hero-bg-container">
-      <div class="hero-bg" id="heroBg"></div>
-      <video class="hero-video" id="heroVideo" muted loop playsinline preload="auto">
+      <video class="hero-video" id="heroVideo" muted loop playsinline preload="auto" poster="HERO.png">
         <source src="HERO VIDEO.mp4" type="video/mp4" />
       </video>
       <div class="hero-overlay"></div>
-      <div class="hero-glow"></div>
-      <canvas id="glitterCanvas"></canvas>
     </div>
     <section class="hero" id="home">
       <div class="hero-content container">
@@ -1343,8 +1316,12 @@
 
     function dismissPreloader() {
       var p = document.getElementById('preloader');
+      if (!p || p.classList.contains('hidden')) return;
       p.classList.add('hidden');
       activateAudio();
+      playHeroVideo();
+    }
+    function playHeroVideo() {
       var v = document.getElementById('heroVideo');
       if (v) {
         v.muted = true;
@@ -1352,6 +1329,10 @@
         v.play().then(function(){ console.log('hero video started'); }).catch(function(e){ console.warn('hero video play failed:', e); });
       }
     }
+    // Auto-dismiss preloader as fast as possible
+    if (document.readyState === 'complete') { dismissPreloader(); }
+    else { window.addEventListener('load', function(){ setTimeout(dismissPreloader, 100); }); }
+    document.addEventListener('DOMContentLoaded', function(){ setTimeout(dismissPreloader, 300); });
 
     // ─── NAVBAR HIDE/SHOW ───
     var lastScrollY = 0;
@@ -1374,61 +1355,9 @@
       lastScrollY = sy;
     }
 
-    // ─── VIDEO FALLBACK ───
-    (function(){
-      var v = document.getElementById('heroVideo');
-      if (!v) return;
-      var played = false;
-      function tryPlay(){
-        if (played) return;
-        played = true;
-        v.muted = true;
-        v.setAttribute('playsinline','');
-        v.play().then(function(){ console.log('hero video started (scroll/tap)'); }).catch(function(e){ console.warn('hero video scroll play failed:', e); });
-      }
-      ['scroll','click','touchstart','wheel'].forEach(function(ev){ document.addEventListener(ev, tryPlay, { once:true, passive:true }); });
-    })();
-
     document.getElementById('logoHome').addEventListener('click', function() { playClick(); navigateTo('home'); });
 
-    // ─── GLITTER ───
-    function initGlitter() {
-      var canvas = document.getElementById('glitterCanvas');
-      var ctx = canvas.getContext('2d');
-      var W, H, particles = [];
-      function resize() { var container = document.querySelector('.hero-bg-container'); W = canvas.width = container.offsetWidth; H = canvas.height = container.offsetHeight; }
-      function create() {
-        particles = [];
-        for (var i = 0; i < 100; i++) {
-          var angle = Math.random() * Math.PI * 2;
-          particles.push({
-            baseX: W/2 + Math.cos(angle)*(80+Math.random()*200)*0.5,
-            baseY: H*0.38 + Math.sin(angle)*(80+Math.random()*200)*0.3,
-            size: 1.2+Math.random()*3, speed: 0.15+Math.random()*0.25, angle: Math.random()*Math.PI*2,
-            driftX: (Math.random()-0.5)*0.3, driftY: (Math.random()-0.5)*0.2-0.1,
-            opacity: 0.3+Math.random()*0.7, twinkleSpeed: 0.02+Math.random()*0.04, twinklePhase: Math.random()*Math.PI*2,
-          });
-        }
-      }
-      function draw() {
-        ctx.clearRect(0,0,W,H);
-        var t = Date.now()*0.001;
-        particles.forEach(function(p){
-          p.angle += p.speed*0.005;
-          p.x = p.baseX + Math.sin(t*0.3+p.angle)*8 + Math.sin(t*p.driftX)*15;
-          p.y = p.baseY + Math.cos(t*0.4+p.angle)*6 + Math.cos(t*p.driftY)*10 + Math.sin(t*0.2+p.angle)*5;
-          var tw = 0.4+0.6*Math.sin(t*p.twinkleSpeed*10+p.twinklePhase);
-          var a = p.opacity*tw;
-          var g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.size*2.5);
-          g.addColorStop(0,'rgba(255,215,80,'+(a*0.9)+')'); g.addColorStop(0.3,'rgba(255,200,60,'+(a*0.5)+')'); g.addColorStop(0.7,'rgba(255,180,40,'+(a*0.15)+')'); g.addColorStop(1,'rgba(255,180,40,0)');
-          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x,p.y,p.size*2.5,0,Math.PI*2); ctx.fill();
-          ctx.fillStyle = 'rgba(255,235,180,'+(a*0.95)+')'; ctx.beginPath(); ctx.arc(p.x,p.y,p.size*0.35,0,Math.PI*2); ctx.fill();
-        });
-        requestAnimationFrame(draw);
-      }
-      resize(); create(); draw();
-      window.addEventListener('resize',function(){resize();create();});
-    }
+
 
     // ─── SPA ROUTING ───
     function navigateTo(page) { window.location.hash = page; }
@@ -1637,7 +1566,6 @@
 
     // ─── INIT ───
     initGSAP();
-    initGlitter();
     initAudio();
 
     window.addEventListener('load', function(){ setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }, 500); });
