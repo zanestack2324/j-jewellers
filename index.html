@@ -166,7 +166,7 @@
     nav .logo img{height:80px;width:auto;transition:height 0.6s var(--ease-out);}
     nav.scrolled .logo img{height:65px;}
     @media(max-width:768px){
-      nav{padding:18px 20px;border:none;outline:none;box-shadow:none;background:rgba(10,10,11,0.25);}
+      nav{padding:18px 20px;border:none;outline:none;box-shadow:none;background:transparent;}
       nav.scrolled{padding:14px 20px;}
       .nav-links{display:none;position:fixed;top:76px;left:16px;right:16px;flex-direction:column;background:rgba(10,10,11,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:8px;gap:2px;opacity:0;transform:translateY(-16px) scaleY(0.95);transform-origin:top center;pointer-events:none;transition:all 0.35s cubic-bezier(0.22,1,0.36,1);}
       .nav-links.open{opacity:1;transform:translateY(0) scaleY(1);pointer-events:auto;}
@@ -536,7 +536,7 @@
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateToSection('collections')">Collections</a></li>
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Categories</a></li>
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Shop</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();goHome()">Gallery</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();navigateToSection('gallery')">Gallery</a></li>
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateToSection('contact')">Contact</a></li>
     </ul>
     <div class="nav-icons">
@@ -1226,7 +1226,7 @@
         p.classList.add('hidden');
         playHeroVideo();
         startCounters();
-        setTimeout(function(){ p.style.display = 'none'; }, 900);
+        setTimeout(function(){ if (p.parentNode) p.parentNode.removeChild(p); }, 900);
       }, 400);
     }
     function playHeroVideo() {
