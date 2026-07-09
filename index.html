@@ -46,6 +46,17 @@
       overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
+      position:relative;
+    }
+    body::before{
+      content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+      border:3px solid rgba(60,30,10,0.15);
+      box-shadow:inset 0 0 80px rgba(60,30,10,0.08),inset 0 0 200px rgba(40,20,8,0.05);
+    }
+    body::after{
+      content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+      background:repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(60,30,10,0.03) 30px,rgba(60,30,10,0.03) 31px),
+                 repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(60,30,10,0.03) 30px,rgba(60,30,10,0.03) 31px);
     }
     ::-webkit-scrollbar{width:4px;}
     ::-webkit-scrollbar-track{background:var(--dark);}
@@ -55,35 +66,12 @@
     a{color:inherit;text-decoration:none;}
     button{cursor:pointer;font-family:inherit;outline:none;}
 
-    /* ─── PARTICLE CANVAS ─── */
-    #particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.5;}
-
-    /* ─── MOUSE GLOW ─── */
-    #mouseGlow{
-      position:fixed;width:400px;height:400px;border-radius:50%;
-      background:radial-gradient(circle,rgba(212,175,55,0.08) 0%,transparent 70%);
-      pointer-events:none;z-index:1;transform:translate(-50%,-50%);
-      transition:opacity 0.3s;mix-blend-mode:screen;
-    }
-
     /* ─── CYBER GRID OVERLAY ─── */
     .cyber-grid{
       position:fixed;inset:0;z-index:0;pointer-events:none;
       background-image:linear-gradient(rgba(212,175,55,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(212,175,55,0.02) 1px,transparent 1px);
       background-size:60px 60px;
     }
-
-    /* ─── FLOATING GEOMETRIC SHAPES ─── */
-    .geo-shapes{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-    .geo-shape{
-      position:absolute;border:1px solid rgba(212,175,55,0.08);
-      animation:floatGeo 20s ease-in-out infinite;
-    }
-    .geo-shape:nth-child(1){width:300px;height:300px;top:-100px;right:-100px;border-radius:50%;animation-delay:0s;}
-    .geo-shape:nth-child(2){width:200px;height:200px;bottom:10%;left:-60px;transform:rotate(45deg);animation-delay:-5s;}
-    .geo-shape:nth-child(3){width:150px;height:150px;top:40%;right:5%;border-radius:50%;animation-delay:-10s;}
-    .geo-shape:nth-child(4){width:250px;height:250px;bottom:-80px;right:20%;transform:rotate(30deg);animation-delay:-15s;}
-    @keyframes floatGeo{0%,100%{transform:translateY(0) rotate(0deg);}25%{transform:translateY(-30px) rotate(5deg);}75%{transform:translateY(20px) rotate(-3deg);}}
 
     .container{max-width:var(--container);margin:0 auto;padding:0 40px;position:relative;z-index:2;}
     @media(max-width:768px){.container{padding:0 16px;}}
@@ -108,6 +96,10 @@
     #essence .section-bg img{opacity:0.25;}
     #essence .section-title{color:#111;}
     #essence .essence-text p{color:#222 !important;font-weight:400;}
+    #shop-cat .section-bg::after,#page-shop .section-bg::after{background:linear-gradient(to bottom,rgba(10,10,11,0.35) 0%,transparent 20%,transparent 85%,rgba(10,10,11,0.5) 100%) !important;}
+    #shop-cat .section-bg img,#page-shop .section-bg img{opacity:0.85 !important;filter:grayscale(0.1) brightness(0.9) !important;object-position:center 30% !important;}
+    #footer .section-bg::after{background:linear-gradient(to bottom,rgba(10,10,11,0.6) 0%,transparent 15%,transparent 80%,rgba(10,10,11,0.85) 100%);}
+    #footer .section-bg img{opacity:0.4;filter:grayscale(0.2) brightness(0.7);object-position:center 40%;}
 
     .section-label{
       display:inline-flex;align-items:center;gap:10px;
@@ -193,9 +185,10 @@
     .nav-links a{display:block;padding:12px 26px;font-family:var(--font-future);font-size:0.6rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:all 0.4s var(--ease-out);border-radius:30px;}
     .nav-links a:hover{color:var(--text);background:rgba(212,175,55,0.08);}
     .nav-icons{display:flex;align-items:center;gap:10px;}
-    .nav-icons button{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;transition:all 0.4s var(--ease-out);position:relative;border-radius:50%;}
-    .nav-icons button:hover{color:var(--gold);border-color:var(--border-light);box-shadow:0 0 20px rgba(212,175,55,0.1);}
+    .nav-icons button{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:var(--text);cursor:pointer;transition:all 0.4s var(--ease-out);position:relative;border-radius:50%;}
+    .nav-icons button:hover{color:var(--gold);border-color:var(--gold);background:rgba(212,175,55,0.1);box-shadow:0 0 25px rgba(212,175,55,0.15);}
     .cart-count{position:absolute;top:-4px;right:-4px;background:var(--gold);color:var(--dark);font-size:0.45rem;font-weight:900;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-family:var(--font-future);border-radius:50%;}
+    @media(min-width:769px){.hamburger{display:none !important;}}
     .hamburger{display:none;cursor:pointer;width:36px;height:36px;border:1px solid var(--border);background:transparent;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;transition:border-color 0.4s var(--ease-out);border-radius:50%;}
     .nav-mobile-row{display:none;}
     .hamburger:hover{border-color:var(--border-light);}
@@ -203,7 +196,7 @@
     .hamburger.open span:nth-child(1){transform:translateY(5px) rotate(45deg);background:var(--gold);}
     .hamburger.open span:nth-child(2){opacity:0;}
     .hamburger.open span:nth-child(3){transform:translateY(-5px) rotate(-45deg);background:var(--gold);}
-    .sound-toggle svg{width:14px;height:14px;}.sound-toggle.muted{opacity:0.3;}
+    .sound-toggle svg{width:16px;height:16px;}.sound-toggle.muted{opacity:0.3;}
 
     /* ─── HERO ─── */
     .hero-bg-container{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;border:none;outline:none;background:var(--dark);}
@@ -214,26 +207,22 @@
     .hero-content{position:relative;z-index:3;width:100%;padding:0 40px;pointer-events:none;}
     .hero-content *{pointer-events:auto;}
     .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;margin-bottom:36px;border:1px solid rgba(212,175,55,0.12);font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,11,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
-    .hero h1{font-family:var(--font-heading);font-size:clamp(2.8rem,8vw,7rem);font-weight:700;line-height:1.02;margin-bottom:20px;max-width:900px;text-shadow:0 4px 40px rgba(0,0,0,0.6),0 2px 8px rgba(0,0,0,0.4);}
-    .hero p{font-family:var(--font-body);font-size:1.15rem;font-weight:400;color:var(--text);max-width:520px;line-height:1.8;margin-bottom:44px;text-shadow:0 2px 20px rgba(0,0,0,0.7);}
+    .hero h1{font-family:var(--font-heading);font-size:clamp(2.8rem,8vw,7rem);font-weight:700;font-style:italic;line-height:1.02;margin-bottom:20px;max-width:900px;text-shadow:0 4px 40px rgba(0,0,0,0.6),0 2px 8px rgba(0,0,0,0.4);}
+    .hero p{font-family:var(--font-body);font-size:1.15rem;font-weight:400;font-style:italic;color:var(--text);max-width:520px;line-height:1.8;margin-bottom:44px;text-shadow:0 2px 20px rgba(0,0,0,0.7);}
     .hero-buttons{display:flex;gap:16px;flex-wrap:wrap;}
     .whatsapp-fab{position:fixed;bottom:90px;right:20px;z-index:9998;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:all 0.4s var(--ease-out);cursor:pointer;text-decoration:none;}
     .whatsapp-fab:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 6px 30px rgba(37,211,102,0.6);}
     .whatsapp-fab svg{width:26px;height:26px;}
     @media(max-width:768px){.whatsapp-fab{bottom:76px;right:14px;width:48px;height:48px;}.whatsapp-fab svg{width:22px;height:22px;}}
-    .hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--text-muted);font-family:var(--font-future);font-size:0.45rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;text-decoration:none;cursor:pointer;}
-    @media(min-width:769px){.hero-scroll{display:flex;}}
-    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(10px);}}
-    .scroll-indicator{width:1px;height:50px;background:linear-gradient(to bottom,var(--gold),transparent);position:relative;}
-    .scroll-indicator-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);position:absolute;top:0;left:50%;transform:translateX(-50%);animation:scrollDot 2s ease-in-out infinite;}
-    @keyframes scrollDot{0%{top:0;opacity:1;}100%{top:50px;opacity:0;}}
+    @media(min-width:769px){}
     @media(max-width:768px){.hero-content{padding:0 16px;}.hero h1{font-size:clamp(2.2rem,10vw,3.2rem);}.hero p{font-size:0.9rem;max-width:100%;}.hero-badge{font-size:0.45rem;padding:6px 14px;margin-bottom:20px;}}
 
     /* ─── BUTTON SYSTEM ─── */
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 40px;font-family:var(--font-future);font-size:0.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;transition:all 0.5s var(--ease-out);position:relative;overflow:hidden;user-select:none;-webkit-tap-highlight-color:transparent;}
-    .btn-cta{background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));color:var(--dark);box-shadow:var(--glow-gold);}
-    .btn-cta:hover{transform:translateY(-3px);box-shadow:var(--glow-gold-strong);}
+    .btn-cta{background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));color:var(--dark);box-shadow:var(--glow-gold);animation:btnVibrate 0.4s ease-in-out infinite;}
+    .btn-cta:hover{transform:translateY(-3px);box-shadow:var(--glow-gold-strong);animation-play-state:paused;}
     .btn-cta:active{transform:translateY(-1px) scale(0.98);}
+    @keyframes btnVibrate{0%,100%{transform:translate(0);box-shadow:var(--glow-gold);}10%{transform:translate(-2px,-1px);}20%{transform:translate(2px,1px);}30%{transform:translate(-1px,2px);}40%{transform:translate(1px,-2px);}50%{transform:translate(-2px,0);box-shadow:0 0 40px rgba(212,175,55,0.6),0 0 100px rgba(212,175,55,0.2);}60%{transform:translate(2px,1px);}70%{transform:translate(-1px,-1px);}80%{transform:translate(1px,2px);}90%{transform:translate(-2px,1px);}}
     .btn-primary{background:var(--surface-glass);backdrop-filter:blur(10px);color:var(--gold);border:1px solid var(--border-light);}
     .btn-primary:hover{background:rgba(22,22,27,0.8);border-color:var(--gold);transform:translateY(-2px);box-shadow:0 0 20px rgba(212,175,55,0.15);}
     .btn-primary:active{transform:translateY(0) scale(0.98);}
@@ -304,11 +293,11 @@
     @media(max-width:768px){.cat-tabs{gap:4px;}.cat-tab{font-size:0.5rem;padding:8px 14px;}}
 
     .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:2px;}
-    .product-card{background:var(--surface-glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all 0.6s var(--ease-out);}
-    .product-card:hover{background:rgba(22,22,27,0.7);border-color:var(--border-light);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.3),0 0 30px rgba(212,175,55,0.05);}
+    .product-card{background:var(--surface-glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all 0.6s var(--ease-out);will-change:transform;}
+    .product-card:hover{background:rgba(22,22,27,0.7);border-color:var(--border-light);transform:translateY(-6px) scale(1.02);box-shadow:0 20px 60px rgba(0,0,0,0.3),0 0 40px rgba(212,175,55,0.1);}
     .product-img{position:relative;overflow:hidden;aspect-ratio:1;}
     .product-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out);}
-    .product-card:hover .product-img img{transform:scale(1.06);}
+    .product-card:hover .product-img img{transform:scale(1.08) rotate(1deg);}
     .product-img .badge{position:absolute;top:12px;left:12px;padding:4px 12px;font-family:var(--font-future);font-size:0.45rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
     .badge-new{background:var(--gold);color:var(--dark);}
     .badge-sale{background:#E74C3C;color:white;}
@@ -376,6 +365,9 @@
     .newsletter-form input:focus{border-color:var(--gold);box-shadow:0 0 20px rgba(212,175,55,0.1);}
     .newsletter-form input::placeholder{color:var(--text-dim);}
     @media(max-width:768px){.newsletter-form{flex-direction:column;}}
+
+    /* ─── LAPPING ─── */
+    .lap{margin-top:-1px;position:relative;z-index:1;}
 
     /* ─── FOOTER ─── */
     footer{padding:80px 0 30px;border-top:1px solid var(--border);position:relative;z-index:2;}
@@ -486,27 +478,15 @@
     .modal-content h3{font-family:var(--font-heading);font-size:1.5rem;margin-bottom:12px;}
     .modal-content p{color:var(--text-muted);font-size:0.9rem;margin-bottom:24px;}
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link rel="preload" href="HERO.png" as="image" />
+    <link rel="preload" href="Rajwadi Necklace Set.png" as="image" />
+    <link rel="preload" href="imgi_2_head-logo.webp" as="image" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
 </head>
 <body>
 
-  <!-- PARTICLE CANVAS -->
-  <canvas id="particleCanvas"></canvas>
-
   <!-- CYBER GRID -->
   <div class="cyber-grid"></div>
-
-  <!-- FLOATING GEOMETRIC SHAPES -->
-  <div class="geo-shapes">
-    <div class="geo-shape"></div>
-    <div class="geo-shape"></div>
-    <div class="geo-shape"></div>
-    <div class="geo-shape"></div>
-  </div>
-
-  <!-- MOUSE GLOW -->
-  <div id="mouseGlow"></div>
 
   <!-- PRELOADER -->
   <div id="preloader">
@@ -541,7 +521,7 @@
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Categories</a></li>
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Shop</a></li>
       <li><a role="button" aria-pressed="false" onclick="playClick();navigateToSection('gallery')">Gallery</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();navigateToSection('contact')">Contact</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();scrollToSection('footer')">Contact</a></li>
     </ul>
     <div class="nav-icons">
       <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound" aria-pressed="false">
@@ -578,33 +558,29 @@
         <h1>Look <span class="gold-text gold-glow">Boujee</span><br />On A Budget</h1>
         <p id="heroTyping"></p>
         <div class="hero-buttons">
-          <a href="#shop" class="btn btn-cta" role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">✦ Shop Now</a>
+          <a href="#shop" class="btn btn-cta" role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Shop Now</a>
           <a href="javascript:void(0)" class="btn btn-outline" role="button" aria-pressed="false" onclick="playClick();scrollToSection('statement')">Explore</a>
         </div>
-      </div>
-      <div class="hero-scroll" onclick="playClick();scrollToSection('statement')" role="button" aria-pressed="false">
-        <span>Scroll</span>
-        <div class="scroll-indicator"><div class="scroll-indicator-dot"></div></div>
       </div>
     </section>
 
     <!-- MARQUEE -->
     <div class="marquee reveal">
       <div class="marquee-track">
-        <span>✦ Handcrafted Excellence <span class="sep">◆</span></span>
-        <span>✦ 24K Gold Collection <span class="sep">◆</span></span>
-        <span>✦ Diamond Certified <span class="sep">◆</span></span>
-        <span>✦ Free Shipping Worldwide <span class="sep">◆</span></span>
-        <span>✦ 30-Day Returns <span class="sep">◆</span></span>
-        <span>✦ Lifetime Warranty <span class="sep">◆</span></span>
-        <span>✦ South Asian Heritage <span class="sep">◆</span></span>
-        <span>✦ Handcrafted Excellence <span class="sep">◆</span></span>
-        <span>✦ 24K Gold Collection <span class="sep">◆</span></span>
-        <span>✦ Diamond Certified <span class="sep">◆</span></span>
-        <span>✦ Free Shipping Worldwide <span class="sep">◆</span></span>
-        <span>✦ 30-Day Returns <span class="sep">◆</span></span>
-        <span>✦ Lifetime Warranty <span class="sep">◆</span></span>
-        <span>✦ South Asian Heritage <span class="sep">◆</span></span>
+        <span>Handcrafted Excellence <span class="sep">·</span></span>
+        <span>24K Gold Collection <span class="sep">·</span></span>
+        <span>Diamond Certified <span class="sep">·</span></span>
+        <span>Free Shipping Worldwide <span class="sep">·</span></span>
+        <span>30-Day Returns <span class="sep">·</span></span>
+        <span>Lifetime Warranty <span class="sep">·</span></span>
+        <span>South Asian Heritage <span class="sep">·</span></span>
+        <span>Handcrafted Excellence <span class="sep">·</span></span>
+        <span>24K Gold Collection <span class="sep">·</span></span>
+        <span>Diamond Certified <span class="sep">·</span></span>
+        <span>Free Shipping Worldwide <span class="sep">·</span></span>
+        <span>30-Day Returns <span class="sep">·</span></span>
+        <span>Lifetime Warranty <span class="sep">·</span></span>
+        <span>South Asian Heritage <span class="sep">·</span></span>
       </div>
     </div>
 
@@ -633,7 +609,7 @@
     </section>
 
     <!-- STATEMENT -->
-    <section id="statement">
+    <section class="lap" id="statement">
       <div class="section-bg">
         <img src="https://images.unsplash.com/photo-1611598935678-c88dca238fce?w=1920&q=80" alt="" loading="lazy" />
       </div>
@@ -649,7 +625,7 @@
     </section>
 
     <!-- COLLECTIONS -->
-    <section id="collections">
+    <section class="lap" id="collections">
       <div class="section-bg">
         <img src="https://images.unsplash.com/photo-1741071520895-47d81779c11e?w=1920&q=80" alt="" loading="lazy" />
       </div>
@@ -690,6 +666,9 @@
 
     <!-- SHOP BY CATEGORY -->
     <section id="shop-cat">
+      <div class="section-bg">
+        <img src="Bridal Jhumki Pearl Bangles.png" alt="" loading="lazy" />
+      </div>
       <div class="container">
         <div class="reveal-l"><p class="section-label">Browse Our Range</p></div>
         <div class="reveal-r"><h2 class="section-title">Shop Our <span class="gold-text">Collection</span></h2></div>
@@ -749,7 +728,7 @@
     </section>
 
     <!-- FEATURED -->
-    <section id="featured" style="padding-top:0;">
+    <section class="lap" id="featured" style="padding-top:0;">
       <div class="container">
         <div class="reveal-l"><p class="section-label">Featured</p></div>
         <div class="reveal-r"><h2 class="section-title">Trending <span class="gold-text">Now</span></h2></div>
@@ -765,7 +744,7 @@
     <section id="shop" style="display:none;"></section>
 
     <!-- GALLERY -->
-    <section id="gallery">
+    <section class="lap" id="gallery">
       <div class="section-bg">
         <img src="https://images.unsplash.com/photo-1742891603547-950f510710d7?w=1920&q=80" alt="" loading="lazy" />
       </div>
@@ -784,7 +763,7 @@
     </section>
 
     <!-- TESTIMONIALS -->
-    <section id="testimonials">
+    <section class="lap" id="testimonials">
       <div class="container">
         <div class="reveal-l" style="text-align:center"><p class="section-label">Testimonials</p></div>
         <div class="reveal-r" style="text-align:center"><h2 class="section-title">What Our <span class="gold-text">Customers</span> Say</h2></div>
@@ -795,7 +774,7 @@
     </section>
 
     <!-- ESSENCE -->
-    <section id="essence">
+    <section class="lap" id="essence">
       <div class="section-bg">
         <img src="https://images.unsplash.com/photo-1741071520904-37ef3c0fea09?w=1920&q=80" alt="" loading="lazy" />
       </div>
@@ -811,7 +790,7 @@
     </section>
 
     <!-- NEWSLETTER -->
-    <section class="newsletter" id="contact">
+    <section class="lap newsletter" id="contact">
       <div class="section-bg">
         <img src="https://images.unsplash.com/photo-1611598935678-c88dca238fce?w=1920&q=80" alt="" loading="lazy" />
       </div>
@@ -832,6 +811,9 @@
   <!-- ====== SHOP PAGE ====== -->
   <div id="page-shop" class="page-content">
     <section style="padding-top:140px;">
+      <div class="section-bg">
+        <img src="Rajwadi Necklace Set.png" alt="" loading="lazy" />
+      </div>
       <div class="container">
         <div class="reveal-l"><p class="section-label">Browse All</p></div>
         <div class="reveal-r"><h2 class="section-title">Shop Our <span class="gold-text">Collection</span></h2></div>
@@ -955,10 +937,13 @@
   </div>
 
   <!-- ====== FOOTER ====== -->
-  <footer>
+  <footer id="footer">
+    <div class="section-bg">
+      <img src="Rajwadi Necklace Set.png" alt="" loading="lazy" />
+    </div>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand reveal-l">
+        <div class="footer-brand">
           <div class="logo" onclick="playClick();scrollToSection('home')"><span>J JEWELLERS</span></div>
           <p>Look Boujee On A Budget — luxury jewellery handcrafted for every occasion. Inspired by South Asian heritage, designed for the modern woman.</p>
           <div class="footer-features">
@@ -980,31 +965,28 @@
             </div>
           </div>
         </div>
-        <div class="footer-col reveal-l">
+        <div class="footer-col">
           <h4>Quick Links</h4>
           <a onclick="playClick();goHome()">Home</a>
           <a onclick="playClick();navigateTo('shop')">Products</a>
           <a onclick="playClick();goHome()">Testimonials</a>
-          <a onclick="playClick();goHome()">Contact Us</a>
+          <a onclick="playClick();scrollToSection('footer')">Contact Us</a>
           <a onclick="playClick();navigateTo('privacy')">Privacy Policy</a>
           <a onclick="playClick();navigateTo('returns')">Returns &amp; Refunds</a>
         </div>
-        <div class="footer-col reveal-l">
+        <div class="footer-col">
           <h4>Social Networks</h4>
-          <a href="https://instagram.com" target="_blank" rel="noopener" onclick="playClick()">Instagram</a>
-          <a href="https://facebook.com" target="_blank" rel="noopener" onclick="playClick()">Facebook</a>
-          <a href="https://pinterest.com" target="_blank" rel="noopener" onclick="playClick()">Pinterest</a>
-          <a href="https://youtube.com" target="_blank" rel="noopener" onclick="playClick()">YouTube</a>
-          <a href="https://tiktok.com" target="_blank" rel="noopener" onclick="playClick()">TikTok</a>
+          <a href="https://www.instagram.com/jjewellers._/" target="_blank" rel="noopener" onclick="playClick()">Instagram</a>
+          <a href="https://www.tiktok.com/@j.jewellers13" target="_blank" rel="noopener" onclick="playClick()">TikTok</a>
         </div>
-        <div class="footer-col reveal-l">
+        <div class="footer-col">
           <h4>Contact Us</h4>
           <a href="mailto:info@jjewellers.co.uk" onclick="playClick()">info@jjewellers.co.uk</a>
           <a href="tel:+441234567890" onclick="playClick()">+44 1234 567 890</a>
           <a onclick="playClick();scrollToSection('contact')">Newsletter Signup</a>
         </div>
       </div>
-      <div class="footer-bottom reveal-s">
+      <div class="footer-bottom">
         <span>&copy; 2026 J JEWELLERS. All rights reserved. Crafted with heritage.</span>
         <div class="footer-payments">
           <svg viewBox="0 0 38 24" width="38" height="24" aria-label="Visa"><rect width="38" height="24" rx="3" fill="#1A1F71"/><path d="M15.5 7.5H13l-2.5 6h2.5l.5-1.2h2.5l.5 1.2h2.7l-2.7-6zm-1.8 3.6l.8-2.1.8 2.1h-1.6zm6.3-1.7c0-.9.7-1.2 1.3-1.2.6 0 1.2.2 1.7.5l.5-2c-.5-.2-1.1-.4-1.8-.4-1.9 0-3.2 1-3.2 2.5 0 1.1.9 1.7 1.7 2 .6.3.9.5.9.8 0 .4-.5.6-1.1.6-.7 0-1.4-.2-2-.6l-.5 2c.6.3 1.4.5 2.2.5 2.1 0 3.4-1 3.4-2.6 0-1.4-1.4-1.9-2.2-2.2-.5-.2-.8-.4-.8-.7zm5.4-.1l.5-1.3h-2.1l-1.5 6h2.5l.4-1.7h1.2l.5-1.3h-1.2l.3-1.2h2.1l.5-1.3h-3.2zm-14 4.2l-.8 2h-2.3l2.8-6.5h2.7l.5 1.2L14 14h-2.4l.8-2h2.5z" fill="white"/></svg>
@@ -1014,14 +996,12 @@
           <svg viewBox="0 0 38 24" width="38" height="24" aria-label="Apple Pay"><rect width="38" height="24" rx="3" fill="#000"/><path d="M12 7.5c.5-.7 1.2-1.2 2-1.2.2-.8.5-1.5 1-2 .5-.5 1.2-.8 2-.8.5 0 1 .2 1.5.5.3.2.5.5.7.8-.5.3-.8.8-1 1.3-.2.5-.2 1 0 1.5.2.5.5 1 1 1.3-.2.5-.5 1-.8 1.3-.5.5-1 .8-1.5 1-.5.2-1 .3-1.5.3-.5 0-1-.1-1.5-.3-.5-.2-1-.5-1.5-1 .2-.3.3-.5.3-.8 0-.3-.1-.5-.3-.8-.2-.2-.3-.5-.3-.8 0-.3.1-.5.3-.8z" fill="#fff"/></svg>
         </div>
         <div class="footer-socials">
-          <a aria-label="Instagram" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
-          <a aria-label="Facebook" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
-          <a aria-label="Pinterest" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/></svg></a>
-          <a aria-label="YouTube" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/><path d="M19.6 5.4A2 2 0 0022 7.4v9.2a2 2 0 01-2.4 2l-16-1.6A2 2 0 012 15V9a2 2 0 011.6-2l16-1.6a2 2 0 012 1.6z"/></svg></a>
+          <a aria-label="Instagram" href="https://www.instagram.com/jjewellers._/" target="_blank" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a aria-label="TikTok" href="https://www.tiktok.com/@j.jewellers13" target="_blank" onclick="playClick()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
         </div>
       </div>
       <div class="footer-watermark reveal-s">
-        <span>DESIGNED BY ZANEDEV&lt;/&gt;</span>
+        <span>DESIGNED BY ZANE DEV&lt;/&gt;</span>
         <img src="WATER MARK.png" alt="ZANEDEV" />
       </div>
     </div>
@@ -1073,42 +1053,9 @@
     <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;margin-top:12px;" onclick="playClick();checkout()" aria-pressed="false">Checkout</button>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
-    // ─── PARTICLES ───
-    (function(){
-      var c = document.getElementById('particleCanvas');
-      if (!c) return;
-      var ctx = c.getContext('2d');
-      var particles = [], w, h;
-      function resize(){ w = c.width = window.innerWidth; h = c.height = window.innerHeight; }
-      window.addEventListener('resize', resize); resize();
-      var count = Math.min(80, Math.floor(w * h / 15000));
-      for (var i = 0; i < count; i++){
-        particles.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5,r:Math.random()*1.5+0.5});
-      }
-      function animate(){
-        ctx.clearRect(0,0,w,h);
-        for (var i=0;i<particles.length;i++){
-          var p=particles[i];p.x+=p.vx;p.y+=p.vy;
-          if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
-          ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-          ctx.fillStyle='rgba(212,175,55,0.3)';ctx.fill();
-          for(var j=i+1;j<particles.length;j++){
-            var p2=particles[j],dx=p.x-p2.x,dy=p.y-p2.y,dist=Math.sqrt(dx*dx+dy*dy);
-            if(dist<150){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p2.x,p2.y);ctx.strokeStyle='rgba(212,175,55,'+(0.06*(1-dist/150))+')';ctx.lineWidth=0.5;ctx.stroke();}
-          }
-        }
-        requestAnimationFrame(animate);
-      }
-      animate();
-    })();
-
-    // ─── MOUSE GLOW ───
-    (function(){
-      var g=document.getElementById('mouseGlow');if(!g)return;
-      document.addEventListener('mousemove',function(e){g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';});
-    })();
-
     // ─── TOAST ───
     function showToast(msg){
       var c=document.getElementById('toastContainer');
@@ -1171,7 +1118,7 @@
     ];
 
     var cart = [];
-    var clickSound = null;
+    var clickSound = new Audio('CLICK SOUND.mp3'); clickSound.volume = 0.5;
     var bgSound = null;
     var soundEnabled = true;
     var audioActivated = false;
@@ -1182,17 +1129,13 @@
       if (audioActivated) return;
       audioActivated = true;
       if (!bgSound) { bgSound = new Audio('BACKGROUND SOUND.mp3'); bgSound.loop = true; bgSound.volume = 0.3; }
-      if (soundEnabled) {
-        if (bgSound) bgSound.play().catch(function(){});
-      }
+      if (soundEnabled && bgSound) bgSound.play().catch(function(){});
     }
+    var ctx = null;
     function playClick(e) {
       if (!e) e = window.event;
       if (!audioActivated) activateAudio();
-      if (!soundEnabled) return;
-      if (!clickSound) { clickSound = new Audio('CLICK SOUND.mp3'); clickSound.volume = 0.5; }
-      clickSound.currentTime = 0;
-      clickSound.play().catch(function(){});
+      clickSound.currentTime = 0; clickSound.play().catch(function(){});
       var t = e && e.target;
       if (t && t.getAttribute) { var p = t.getAttribute('aria-pressed'); if (p === 'false') t.setAttribute('aria-pressed', 'true'); }
     }
@@ -1205,7 +1148,6 @@
       btn.setAttribute('aria-pressed', soundEnabled ? 'false' : 'true');
       if (soundEnabled) {
         if (!audioActivated) activateAudio();
-        if (!clickSound) { clickSound = new Audio('CLICK SOUND.mp3'); clickSound.volume = 0.5; }
         clickSound.currentTime = 0; clickSound.play().catch(function(){});
         if (bgSound) bgSound.play().catch(function(){});
       } else {
@@ -1293,7 +1235,7 @@
       var p = products.find(function(x){ return x.id === id; });
       if (!p) { navigateTo('shop'); return; }
       var desc = p.desc || 'A stunning ' + p.name.toLowerCase() + ' from J JEWELLERS. Expertly crafted with premium materials, this ' + p.cat.toLowerCase() + ' piece combines traditional elegance with contemporary design — perfect for adding a touch of luxury to any outfit.';
-      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" /></div><div class="product-detail-info"><div class="p-category">' + p.cat + '</div><h2>' + p.name + '</h2><div class="p-price">£' + p.price.toFixed(2) + '</div><div class="p-description">' + desc + '</div><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">✦ Add to Bag</button><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
+      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" /></div><div class="product-detail-info"><div class="p-category">' + p.cat + '</div><h2>' + p.name + '</h2><div class="p-price">£' + p.price.toFixed(2) + '</div><div class="p-description">' + desc + '</div><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
       document.getElementById('productDetailContent').innerHTML = html;
     }
 
@@ -1426,7 +1368,7 @@
     function openCart() { playClick(); document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartPanel').classList.add('open'); }
     function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartPanel').classList.remove('open'); }
     function checkout() {
-      if (!cart.length) { showToast('✦ Your bag is empty!'); return; }
+      if (!cart.length) { showToast('Your bag is empty!'); return; }
       var total = 0; cart.forEach(function(i){ total += i.price * i.qty; });
       openModal('Order Confirmed!', 'Thank you for your order of £' + total.toFixed(2) + '. You will receive a confirmation email shortly.');
       cart = []; updateCart(); closeCart();
@@ -1434,14 +1376,23 @@
 
     // ─── GSAP ANIMATIONS ───
     function initGSAP() {
-      gsap.utils.toArray('.reveal-l').forEach(function(el){ gsap.fromTo(el, {x:-50, opacity:0}, {x:0, opacity:1, duration:1, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
-      gsap.utils.toArray('.reveal-r').forEach(function(el){ gsap.fromTo(el, {x:50, opacity:0}, {x:0, opacity:1, duration:1, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
-      gsap.utils.toArray('.reveal-s').forEach(function(el){ gsap.fromTo(el, {scale:0.9, opacity:0}, {scale:1, opacity:1, duration:1, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
-      gsap.utils.toArray('.reveal').forEach(function(el){ gsap.fromTo(el, {y:40, opacity:0}, {y:0, opacity:1, duration:1, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
+      gsap.utils.toArray('.reveal-l').forEach(function(el,i){ gsap.fromTo(el, {x:-60, opacity:0}, {x:0, opacity:1, duration:0.9, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 85%', toggleActions:'play none none none'}}); });
+      gsap.utils.toArray('.reveal-r').forEach(function(el,i){ gsap.fromTo(el, {x:60, opacity:0}, {x:0, opacity:1, duration:0.9, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 85%', toggleActions:'play none none none'}}); });
+      gsap.utils.toArray('.reveal-s').forEach(function(el,i){ gsap.fromTo(el, {scale:0.85, opacity:0, y:20}, {scale:1, opacity:1, y:0, duration:0.8, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
+      gsap.utils.toArray('.reveal').forEach(function(el,i){ gsap.fromTo(el, {y:50, opacity:0}, {y:0, opacity:1, duration:0.8, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
+      // Product cards staggered slide-in
+      gsap.utils.toArray('.product-card').forEach(function(el,i){
+        var dir = i % 2 === 0 ? -30 : 30;
+        gsap.fromTo(el, {x:dir, opacity:0}, {x:0, opacity:1, duration:0.6, ease:'power2.out', scrollTrigger:{trigger:el, start:'top 92%', toggleActions:'play none none none'}});
+      });
       // Hero parallax
       gsap.to('.hero-bg-container', { yPercent:12, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true} });
       // Section title stagger
-      gsap.utils.toArray('.section-title').forEach(function(el){ gsap.fromTo(el, {y:30, opacity:0}, {y:0, opacity:1, duration:0.8, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 85%', toggleActions:'play none none none'}}); });
+      gsap.utils.toArray('.section-title').forEach(function(el){ gsap.fromTo(el, {y:30, opacity:0}, {y:0, opacity:1, duration:0.8, ease:'power2.out', scrollTrigger:{trigger:el, start:'top 90%', toggleActions:'play none none none'}}); });
+      // Lapping section overlap
+      gsap.utils.toArray('.lap').forEach(function(el,i){
+        gsap.fromTo(el, {y:60, opacity:0.98}, {y:0, opacity:1, duration:0.6, ease:'power2.out', scrollTrigger:{trigger:el, start:'top 92%', toggleActions:'play none none none'}});
+      });
     }
 
     // ─── TYPEWRITER ───
@@ -1475,7 +1426,7 @@
     // ─── SCROLL ───
     function scrollToSection(id) { var el = document.getElementById(id); if (el) el.scrollIntoView({behavior:'smooth'}); }
 
-    document.getElementById('newsletterForm').addEventListener('submit', function(e){ e.preventDefault(); playClick(); showToast('✦ Welcome to the Boujee Circle!'); this.querySelector('input').value = ''; });
+    document.getElementById('newsletterForm').addEventListener('submit', function(e){ e.preventDefault(); playClick(); showToast('Welcome to the Boujee Circle!'); this.querySelector('input').value = ''; });
 
     function closeMobileMenu() {
       var l = document.getElementById('navLinks');
