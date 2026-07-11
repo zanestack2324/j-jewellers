@@ -230,8 +230,19 @@
     .btn-outline:active{transform:translateY(0) scale(0.98);}
     .btn-sm{padding:12px 28px;font-size:0.55rem;letter-spacing:2px;}
 
+    /* ─── SHIPPING BANNER ─── */
+    .shipping-banner{padding:0;position:relative;z-index:2;overflow:hidden;}
+    .shipping-banner-inner{max-width:var(--container);margin:0 auto;padding:28px 40px;display:flex;align-items:center;gap:20px;background:linear-gradient(135deg,rgba(10,32,32,0.8) 0%,rgba(8,28,28,0.9) 50%,rgba(10,32,32,0.8) 100%);border-top:1px solid rgba(13,139,139,0.1);border-bottom:1px solid rgba(13,139,139,0.1);opacity:0;transform:translateY(30px);transition:all 0.8s var(--ease-out);}
+    .shipping-banner-inner.visible{opacity:1;transform:translateY(0);}
+    .shipping-icon{flex-shrink:0;width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:rgba(13,139,139,0.1);border:1px solid rgba(13,139,139,0.15);border-radius:50%;}
+    .shipping-text{flex:1;}
+    .shipping-text h3{font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--teal-light);margin-bottom:2px;}
+    .shipping-text p{font-size:0.8rem;font-weight:300;color:var(--text-muted);margin:0;}
+    .shipping-badge{flex-shrink:0;padding:8px 20px;background:var(--teal);color:#0A0A0B;font-family:var(--font-future);font-size:0.6rem;font-weight:800;letter-spacing:3px;border-radius:4px;}
+    @media(max-width:768px){.shipping-banner-inner{padding:20px 16px;gap:14px;}.shipping-icon{width:44px;height:44px;}.shipping-icon svg{width:24px;height:24px;}.shipping-text h3{font-size:0.95rem;}.shipping-text p{font-size:0.7rem;}.shipping-badge{padding:6px 14px;font-size:0.5rem;}}
+
     /* ─── MARQUEE ─── */
-    .marquee{padding:16px 0;background:rgba(17,17,20,0.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;white-space:nowrap;position:relative;z-index:2;}
+    .marquee{padding:16px 0;background:rgba(10,32,32,0.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(13,139,139,0.08);border-bottom:1px solid rgba(13,139,139,0.08);overflow:hidden;white-space:nowrap;position:relative;z-index:2;}
     .marquee-track{display:inline-flex;animation:marquee 50s linear infinite;}
     .marquee-track span{display:flex;align-items:center;gap:14px;margin-right:56px;font-family:var(--font-future);font-size:0.7rem;font-weight:400;color:var(--text-muted);letter-spacing:3px;}
     .marquee-track span .sep{color:var(--teal);font-size:0.4rem;}
@@ -563,6 +574,20 @@
         </div>
       </div>
     </section>
+
+    <!-- FREE WORLDWIDE SHIPPING BANNER -->
+    <div class="shipping-banner" id="shippingBanner">
+      <div class="shipping-banner-inner">
+        <div class="shipping-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal-light)" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <div class="shipping-text">
+          <h3>Free Worldwide Shipping</h3>
+          <p>On every order — no minimum spend, no hidden fees</p>
+        </div>
+        <div class="shipping-badge">FREE</div>
+      </div>
+    </div>
 
     <!-- MARQUEE -->
     <div class="marquee reveal">
@@ -1525,6 +1550,18 @@
 
     // ─── INIT ───
     initGSAP();
+
+    // ─── SHIPPING BANNER SCROLL ───
+    (function(){
+      var banner = document.getElementById('shippingBanner');
+      if (!banner) return;
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) { entry.target.querySelector('.shipping-banner-inner').classList.add('visible'); }
+        });
+      }, { threshold: 0.3 });
+      observer.observe(banner);
+    })();
 
     window.addEventListener('load', function(){ setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }, 500); });
 
