@@ -3,11 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>J JEWELLERS – Look Boujee On A Budget</title>
+  <title>J JEWELLERS – Look Boujee On A Budget | Handcrafted Luxury Jewellery UK</title>
+  <meta name="description" content="Discover handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles, tikka sets & more. Free worldwide shipping from the UK." />
+  <meta name="keywords" content="gold jewellery, bridal jewellery, choker set, bangles, earrings, tikka set, hand pieces, rings, anklets, South Asian jewellery, UK jewellery shop, affordable luxury" />
+  <meta name="author" content="J Jewellers" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://j-jewellers.vercel.app/" />
   <link rel="icon" type="image/webp" href="imgi_2_head-logo.webp" />
+  <link rel="apple-touch-icon" href="imgi_2_head-logo.webp" />
+  <meta name="theme-color" content="#0D8B8B" />
+  <noscript><meta http-equiv="refresh" content="0;url=/" /><style>.reveal,.reveal-l,.reveal-r,.reveal-s{opacity:1!important;transform:none!important;}</style></noscript>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="J JEWELLERS – Look Boujee On A Budget" />
+  <meta property="og:description" content="Handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles & more. Free worldwide shipping." />
+  <meta property="og:image" content="https://j-jewellers.vercel.app/HERO.png" />
+  <meta property="og:url" content="https://j-jewellers.vercel.app/" />
+  <meta property="og:site_name" content="J Jewellers" />
+  <meta property="og:locale" content="en_GB" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="J JEWELLERS – Look Boujee On A Budget" />
+  <meta name="twitter:description" content="Handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles & more." />
+  <meta name="twitter:image" content="https://j-jewellers.vercel.app/HERO.png" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "J Jewellers",
+    "url": "https://j-jewellers.vercel.app",
+    "logo": "https://j-jewellers.vercel.app/imgi_2_head-logo.webp",
+    "description": "Handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles & more.",
+    "sameAs": [],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "availableLanguage": "English"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "J Jewellers",
+    "url": "https://j-jewellers.vercel.app",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://j-jewellers.vercel.app/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Preconnect & Resource Hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="preconnect" href="https://js.stripe.com" />
+  <link rel="dns-prefetch" href="https://js.stripe.com" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+
+  <!-- Preload Critical Assets -->
+  <link rel="preload" as="image" href="imgi_2_head-logo.webp" />
+  <link rel="preload" as="image" href="HERO.png" />
+
+  <!-- Fonts (display=swap for performance) -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Stripe (deferred - not blocking render) -->
+  <script src="https://js.stripe.com/v3/" defer></script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
     :root{
@@ -39,6 +108,7 @@
       --section-pad-mobile:70px;
     }
     html{scroll-behavior:smooth;}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;}}
     body{
       font-family:var(--font-body);
       background:var(--dark);
@@ -49,12 +119,12 @@
       position:relative;
     }
     body::before{
-      content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+      content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
       border:3px solid rgba(10,40,40,0.15);
       box-shadow:inset 0 0 80px rgba(10,40,40,0.08),inset 0 0 200px rgba(8,30,30,0.05);
     }
     body::after{
-      content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+      content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
       background:repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(10,40,40,0.03) 30px,rgba(10,40,40,0.03) 31px),
                  repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(10,40,40,0.03) 30px,rgba(10,40,40,0.03) 31px);
     }
@@ -75,7 +145,7 @@
 
     .container{max-width:var(--container);margin:0 auto;padding:0 40px;position:relative;z-index:2;}
     @media(max-width:768px){.container{padding:0 16px;}}
-    section{padding:var(--section-pad) 0;position:relative;z-index:2;}
+    section{padding:var(--section-pad) 0;position:relative;z-index:2;content-visibility:auto;contain-intrinsic-size:0 800px;}
     @media(max-width:768px){section{padding:var(--section-pad-mobile) 0;}}
 
     /* ─── SECTION DIVIDERS ─── */
@@ -205,7 +275,7 @@
     .hero-bg-container>*{position:absolute;inset:0;}
     .hero-video{width:100%;height:100%;object-fit:cover;}
     .hero-overlay{background:linear-gradient(to bottom,rgba(10,10,11,0) 0%,rgba(10,10,11,0.45) 30%,rgba(10,10,11,0.65) 60%,var(--dark) 100%);}
-    .hero{position:relative;z-index:2;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden;background:transparent;}
+    .hero{position:relative;z-index:2;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden;background:transparent;contain:layout style;}
     .hero-content{position:relative;z-index:3;width:100%;padding:0 40px;pointer-events:none;}
     .hero-content *{pointer-events:auto;}
     .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;margin-bottom:36px;border:1px solid rgba(13,139,139,0.12);font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--teal);background:rgba(10,10,11,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
@@ -305,7 +375,7 @@
     @media(max-width:768px){.cat-tabs{gap:4px;}.cat-tab{font-size:0.5rem;padding:8px 14px;}}
 
     .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:2px;}
-    .product-card{background:var(--surface-glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all 0.6s var(--ease-out);will-change:transform;}
+    .product-card{background:var(--surface-glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all 0.6s var(--ease-out);will-change:transform;contain:layout style paint;}
     .product-card:hover{background:rgba(22,22,27,0.7);border-color:var(--border-light);transform:translateY(-6px) scale(1.02);box-shadow:0 20px 60px rgba(0,0,0,0.3),0 0 40px rgba(13,139,139,0.1);}
     .product-img{position:relative;overflow:hidden;aspect-ratio:1;}
     .product-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out);}
@@ -421,7 +491,7 @@
     /* ─── CART ─── */
     .cart-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:all 0.5s var(--ease-out);}
     .cart-overlay.open{opacity:1;visibility:visible;}
-    .cart-panel{position:fixed;top:0;right:0;bottom:0;width:400px;max-width:90vw;z-index:2001;background:rgba(8,22,22,0.97);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-left:1px solid var(--border);padding:28px;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.6s var(--ease-out);}
+    .cart-panel{position:fixed;top:0;right:0;bottom:0;width:400px;max-width:90vw;z-index:2001;background:rgba(8,22,22,0.97);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-left:1px solid var(--border);padding:28px;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.6s var(--ease-out);will-change:transform;contain:layout style;}
     .cart-panel.open{transform:translateX(0);}
     .cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
     .cart-header h2{font-family:var(--font-heading);font-size:1.3rem;}
@@ -558,7 +628,7 @@
 
     <!-- HERO -->
     <div class="hero-bg-container">
-      <video class="hero-video" id="heroVideo" muted loop playsinline preload="auto" poster="HERO.png">
+      <video class="hero-video" id="heroVideo" muted loop playsinline preload="metadata" poster="HERO.png" fetchpriority="high">
         <source src="Commercial J Jwellers.mp4" type="video/mp4" />
       </video>
       <div class="hero-overlay"></div>
@@ -1150,6 +1220,7 @@
     ];
 
     var cart = [];
+    var STRIPE_PK = 'pk_live_51Syo8SPOkHltFicB1AC6cBgx2NmPaRFZzNcmBJ41gjzk0s1eP7CK4PeEkyKsW94TrtsvIQnVbs6RFD4ltQacpawk00W8ugpnID';
     var clickSound = new Audio('CLICK SOUND.mp3'); clickSound.volume = 0.5;
     var bgSound = null;
     var soundEnabled = true;
@@ -1222,8 +1293,9 @@
     else { window.addEventListener('load', function(){ setTimeout(dismissPreloader, 100); }); }
     document.addEventListener('DOMContentLoaded', function(){ setTimeout(dismissPreloader, 300); });
 
-    // ─── NAVBAR HIDE/SHOW ───
+    // ─── NAVBAR HIDE/SHOW (rAF throttled) ───
     var lastScrollY = 0;
+    var scrollTicking = false;
     function onScrollNav(sy) {
       var n = document.getElementById('navbar');
       n.classList.toggle('scrolled', sy > 80);
@@ -1237,6 +1309,7 @@
         gsap.to(n, { y: '0%', duration: 0.3, ease: 'power2.out' });
       }
       lastScrollY = sy;
+      scrollTicking = false;
     }
 
     document.getElementById('logoHome').addEventListener('click', function() { playClick(); goHome(); });
@@ -1268,7 +1341,7 @@
       var p = products.find(function(x){ return x.id === id; });
       if (!p) { navigateTo('shop'); return; }
       var desc = p.desc || 'A stunning ' + p.name.toLowerCase() + ' from J JEWELLERS. Expertly crafted with premium materials, this ' + p.cat.toLowerCase() + ' piece combines traditional elegance with contemporary design — perfect for adding a touch of luxury to any outfit.';
-      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" /></div><div class="product-detail-info"><div class="p-category">' + p.cat + '</div><h2>' + p.name + '</h2><div class="p-price">£' + p.price.toFixed(2) + '</div><div class="p-description">' + desc + '</div><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
+      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" decoding="async" /></div><div class="product-detail-info"><div class="p-category">' + p.cat + '</div><h2>' + p.name + '</h2><div class="p-price">£' + p.price.toFixed(2) + '</div><div class="p-description">' + desc + '</div><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
       document.getElementById('productDetailContent').innerHTML = html;
     }
 
@@ -1301,7 +1374,7 @@
         var html = '';
         list.forEach(function(p){
           var badge = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
-          html += '<div class="product-card reveal-s" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" />' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button></div></div>';
+          html += '<div class="product-card reveal-s" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" decoding="async" />' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button></div></div>';
         });
         el.innerHTML = html;
         setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh(); }, 100);
@@ -1364,7 +1437,7 @@
     function renderFeatured() {
       var el = document.getElementById('hScroll');
       var html = '';
-      featured.forEach(function(f){ html += '<div class="h-card"><div class="h-img"><img src="' + f.img + '" alt="' + f.name + '" loading="lazy" /></div><div class="h-info"><h3>' + f.name + '</h3><div class="h-price">' + f.price + '</div></div></div>'; });
+      featured.forEach(function(f){ html += '<div class="h-card"><div class="h-img"><img src="' + f.img + '" alt="' + f.name + '" loading="lazy" decoding="async" /></div><div class="h-info"><h3>' + f.name + '</h3><div class="h-price">' + f.price + '</div></div></div>'; });
       el.innerHTML = html;
     }
     renderFeatured();
@@ -1404,9 +1477,24 @@
     function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartPanel').classList.remove('open'); }
     function checkout() {
       if (!cart.length) { showToast('Your bag is empty!'); return; }
-      var total = 0; cart.forEach(function(i){ total += i.price * i.qty; });
-      openModal('Order Confirmed!', 'Thank you for your order of £' + total.toFixed(2) + '. You will receive a confirmation email shortly.');
-      cart = []; updateCart(); closeCart();
+      var items = cart.map(function(i){ return { name: i.name, price: i.price, qty: i.qty, img: i.img }; });
+      var checkoutBtn = document.querySelector('.cart-panel .btn-primary');
+      if (checkoutBtn) { checkoutBtn.textContent = 'Redirecting...'; checkoutBtn.disabled = true; }
+      fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items })
+      }).then(function(r){ return r.json(); }).then(function(data){
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          showToast('Payment error: ' + (data.error || 'Unknown error'));
+          if (checkoutBtn) { checkoutBtn.textContent = 'Checkout'; checkoutBtn.disabled = false; }
+        }
+      }).catch(function(err){
+        showToast('Payment error. Please try again.');
+        if (checkoutBtn) { checkoutBtn.textContent = 'Checkout'; checkoutBtn.disabled = false; }
+      });
     }
 
     // ─── GSAP ANIMATIONS ───
@@ -1537,8 +1625,17 @@
       resetTimer();
     })();
 
-    // ─── SCROLL LISTENER ───
-    window.addEventListener('scroll', function(){ onScrollNav(window.scrollY); if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update(); });
+    // ─── SCROLL LISTENER (rAF throttled) ───
+    window.addEventListener('scroll', function(){
+      if (!scrollTicking) {
+        requestAnimationFrame(function(){
+          onScrollNav(window.scrollY);
+          if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }, { passive: true });
 
     // ─── LAZY LOAD ───
     (function(){
@@ -1550,6 +1647,19 @@
 
     // ─── INIT ───
     initGSAP();
+
+    // ─── STRIPE CHECKOUT RESULT ───
+    (function(){
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('session_id')) {
+        cart = []; updateCart();
+        openModal('Order Confirmed!', 'Thank you for your order! A confirmation email will be sent to you shortly.');
+        window.history.replaceState({}, '', window.location.pathname);
+      } else if (params.get('canceled') === '1') {
+        showToast('Payment was canceled.');
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+    })();
 
     // ─── SHIPPING BANNER SCROLL ───
     (function(){
