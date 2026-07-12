@@ -4,5 +4,11 @@
   "private": true,
   "dependencies": {
     "stripe": "^17.5.0"
-  }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.1",
+    "puppeteer-core": "^25.3.0"
+  },
+  "scripts": {}
 }
