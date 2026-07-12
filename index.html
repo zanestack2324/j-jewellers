@@ -162,14 +162,14 @@
       background:linear-gradient(to bottom,var(--dark) 0%,transparent 20%,transparent 80%,var(--dark) 100%);
     }
 
-    #essence .section-bg::after{background:linear-gradient(to bottom,rgba(255,255,255,0.95) 0%,rgba(255,255,255,0.6) 50%,rgba(255,255,255,0.95) 100%);}
-    #essence .section-bg img{opacity:0.25;}
-    #essence .section-title{color:#111;}
-    #essence .essence-text p{color:#222 !important;font-weight:400;}
-    #shop-cat .section-bg::after,#page-shop .section-bg::after{background:linear-gradient(to bottom,rgba(10,10,11,0.35) 0%,transparent 20%,transparent 85%,rgba(10,10,11,0.5) 100%) !important;}
-    #shop-cat .section-bg img,#page-shop .section-bg img{opacity:0.85 !important;filter:grayscale(0.1) brightness(0.9) !important;object-position:center 30% !important;}
-    #footer .section-bg::after{background:linear-gradient(to bottom,rgba(10,10,11,0.6) 0%,transparent 15%,transparent 80%,rgba(10,10,11,0.85) 100%);}
-    #footer .section-bg img{opacity:0.4;filter:grayscale(0.2) brightness(0.7);object-position:center 40%;}
+    #essence{background:#0D8B8B;}
+    #essence .section-title{color:#fff;}
+    #essence .section-label{color:#fff;text-shadow:none;}
+    #essence .section-label::before{background:linear-gradient(90deg,#fff,transparent);}
+    #essence .section-label::after{background:linear-gradient(90deg,transparent,#fff);}
+    #essence .essence-text p{color:#fff !important;font-weight:400;}
+    #essence .teal-text{background:none;-webkit-text-fill-color:#fff;background-clip:unset;color:#fff;}
+
 
     .section-label{
       display:inline-flex;align-items:center;gap:10px;
@@ -301,24 +301,17 @@
     .btn-sm{padding:12px 28px;font-size:0.55rem;letter-spacing:2px;}
 
     /* ─── SHIPPING BANNER ─── */
-    .shipping-banner{padding:0;position:relative;z-index:2;overflow:hidden;}
-    .shipping-banner-inner{max-width:var(--container);margin:0 auto;padding:28px 40px;display:flex;align-items:center;gap:20px;background:linear-gradient(135deg,rgba(10,32,32,0.8) 0%,rgba(8,28,28,0.9) 50%,rgba(10,32,32,0.8) 100%);border-top:1px solid rgba(13,139,139,0.1);border-bottom:1px solid rgba(13,139,139,0.1);opacity:0;transform:translateY(30px);transition:all 0.8s var(--ease-out);}
-    .shipping-banner-inner.visible{opacity:1;transform:translateY(0);}
-    .shipping-icon{flex-shrink:0;width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:rgba(13,139,139,0.1);border:1px solid rgba(13,139,139,0.15);border-radius:50%;}
-    .shipping-text{flex:1;}
-    .shipping-text h3{font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--teal-light);margin-bottom:2px;}
-    .shipping-text p{font-size:0.8rem;font-weight:300;color:var(--text-muted);margin:0;}
-    .shipping-badge{flex-shrink:0;padding:8px 20px;background:var(--teal);color:#0A0A0B;font-family:var(--font-future);font-size:0.6rem;font-weight:800;letter-spacing:3px;border-radius:4px;}
-    @media(max-width:768px){.shipping-banner-inner{padding:20px 16px;gap:14px;}.shipping-icon{width:44px;height:44px;}.shipping-icon svg{width:24px;height:24px;}.shipping-text h3{font-size:0.95rem;}.shipping-text p{font-size:0.7rem;}.shipping-badge{padding:6px 14px;font-size:0.5rem;}}
+    .shipping-banner{padding:0;position:relative;z-index:5;overflow:hidden;margin-top:-60px;background:linear-gradient(135deg,rgba(10,32,32,0.85) 0%,rgba(8,28,28,0.95) 50%,rgba(10,32,32,0.85) 100%);border-top:1px solid rgba(13,139,139,0.15);border-bottom:1px solid rgba(13,139,139,0.15);}
+    .shipping-scroll{display:flex;white-space:nowrap;padding:20px 0;animation:shippingScroll 30s linear infinite;}
+    .shipping-scroll:hover{animation-play-state:paused;}
+    .shipping-scroll-item{display:inline-flex;align-items:center;gap:16px;margin-right:60px;font-family:var(--font-future);font-size:0.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--teal-light);}
+    .shipping-scroll-item svg{flex-shrink:0;width:22px;height:22px;}
+    .shipping-scroll-item .ship-badge{display:inline-block;padding:4px 14px;background:var(--teal);color:#0A0A0B;font-size:0.55rem;font-weight:800;letter-spacing:2px;border-radius:3px;margin-left:4px;}
+    .shipping-scroll-item .sep{color:rgba(13,139,139,0.3);font-size:1rem;}
+    @keyframes shippingScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    @media(max-width:768px){.shipping-banner{margin-top:-40px;}.shipping-scroll{padding:14px 0;}.shipping-scroll-item{font-size:0.55rem;gap:10px;margin-right:36px;}.shipping-scroll-item svg{width:18px;height:18px;}.shipping-scroll-item .ship-badge{font-size:0.45rem;padding:3px 10px;}}
 
     /* ─── MARQUEE ─── */
-    .marquee{padding:16px 0;background:rgba(10,32,32,0.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(13,139,139,0.08);border-bottom:1px solid rgba(13,139,139,0.08);overflow:hidden;white-space:nowrap;position:relative;z-index:2;}
-    .marquee-track{display:inline-flex;animation:marquee 50s linear infinite;}
-    .marquee-track span{display:flex;align-items:center;gap:14px;margin-right:56px;font-family:var(--font-future);font-size:0.7rem;font-weight:400;color:var(--text-muted);letter-spacing:3px;}
-    .marquee-track span .sep{color:var(--teal);font-size:0.4rem;}
-    @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-    @media(max-width:768px){.marquee{padding:12px 0;}.marquee-track span{font-size:0.55rem;margin-right:36px;letter-spacing:2px;}}
-
     /* ─── COUNTER STATS ─── */
     .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:0;}
     .stat-item{padding:40px 24px;text-align:center;border:1px solid var(--border);background:var(--surface-glass);backdrop-filter:blur(10px);transition:all 0.6s var(--ease-out);position:relative;overflow:hidden;}
@@ -452,7 +445,7 @@
     .lap{margin-top:-1px;position:relative;z-index:1;}
 
     /* ─── FOOTER ─── */
-    footer{padding:80px 0 30px;border-top:1px solid var(--border);position:relative;z-index:2;}
+    footer{padding:80px 0 30px;border-top:1px solid var(--border);position:relative;z-index:2;background:rgba(13,139,139,0.12);}
     .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
     .footer-brand .logo{font-family:var(--font-heading);font-size:1.5rem;font-weight:700;margin-bottom:14px;display:block;cursor:pointer;}
     .footer-brand .logo span{background:linear-gradient(135deg,var(--teal-light),var(--teal-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
@@ -647,35 +640,47 @@
 
     <!-- FREE WORLDWIDE SHIPPING BANNER -->
     <div class="shipping-banner" id="shippingBanner">
-      <div class="shipping-banner-inner">
-        <div class="shipping-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal-light)" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-        </div>
-        <div class="shipping-text">
-          <h3>Free Worldwide Shipping</h3>
-          <p>On every order — no minimum spend, no hidden fees</p>
-        </div>
-        <div class="shipping-badge">FREE</div>
-      </div>
-    </div>
-
-    <!-- MARQUEE -->
-    <div class="marquee reveal">
-      <div class="marquee-track">
-        <span>Handcrafted Excellence <span class="sep">·</span></span>
-        <span>24K Gold Collection <span class="sep">·</span></span>
-        <span>Diamond Certified <span class="sep">·</span></span>
-        <span>Free Shipping Worldwide <span class="sep">·</span></span>
-        <span>30-Day Returns <span class="sep">·</span></span>
-        <span>Lifetime Warranty <span class="sep">·</span></span>
-        <span>South Asian Heritage <span class="sep">·</span></span>
-        <span>Handcrafted Excellence <span class="sep">·</span></span>
-        <span>24K Gold Collection <span class="sep">·</span></span>
-        <span>Diamond Certified <span class="sep">·</span></span>
-        <span>Free Shipping Worldwide <span class="sep">·</span></span>
-        <span>30-Day Returns <span class="sep">·</span></span>
-        <span>Lifetime Warranty <span class="sep">·</span></span>
-        <span>South Asian Heritage <span class="sep">·</span></span>
+      <div class="shipping-scroll">
+        <span class="shipping-scroll-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          <span class="sep">·</span>
+        </span>
+        <span class="shipping-scroll-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          <span class="sep">·</span>
+        </span>
+        <span class="shipping-scroll-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          <span class="sep">·</span>
+        </span>
+        <span class="shipping-scroll-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          <span class="sep">·</span>
+        </span>
+        <span class="shipping-scroll-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          <span class="sep">·</span>
+        </span>
+        <span class="shipping-scroll-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          <span class="sep">·</span>
+        </span>
+        <span class="shipping-scroll-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          <span class="sep">·</span>
+        </span>
+        <span class="shipping-scroll-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          <span class="sep">·</span>
+        </span>
       </div>
     </div>
 
@@ -728,32 +733,13 @@
         <div class="reveal-l"><p class="section-label">Curated Collections</p></div>
         <div class="reveal-r"><h2 class="section-title">Discover Our <span class="teal-text">Signature</span> Lines</h2></div>
         <div class="reveal-l"><p class="section-desc">From timeless classics to contemporary statements, each collection is thoughtfully designed to celebrate your unique brilliance.</p></div>
-        <div class="categories">
-          <div class="category-card tall reveal-l" onclick="playClick();filterCategoryAndScroll('Long Mala Sets')">
-            <img src="products/Long Mala Sets/Aaira-Collection.png" alt="Long Mala Sets" loading="lazy" />
-            <div class="overlay"></div>
-            <div class="info"><h3>Long Mala Sets</h3><p>Regal heritage necklaces</p></div>
-          </div>
-          <div class="category-card reveal-r" onclick="playClick();filterCategoryAndScroll('Choker Sets')">
-            <img src="products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png" alt="Choker Sets" loading="lazy" />
-            <div class="overlay"></div>
-            <div class="info"><h3>Choker Sets</h3><p>Bold & contemporary</p></div>
-          </div>
-          <div class="category-card reveal-l" onclick="playClick();filterCategoryAndScroll('Earrings')">
-            <img src="products/Earrings/Gold Jhumka Earrings – Traditional Bell With coloured stones.png" alt="Earrings" loading="lazy" />
-            <div class="overlay"></div>
-            <div class="info"><h3>Earrings</h3><p>Statement drops & jhumkas</p></div>
-          </div>
-        </div>
+        <div class="categories" id="collectionsGrid"></div>
       </div>
       <div class="section-divider"></div>
     </section>
 
     <!-- SHOP BY CATEGORY -->
     <section id="shop-cat">
-      <div class="section-bg">
-        <img src="Bridal Jhumki Pearl Bangles.png" alt="" loading="lazy" />
-      </div>
       <div class="container">
         <div class="reveal-l"><p class="section-label">Browse Our Range</p></div>
         <div class="reveal-r"><h2 class="section-title">Shop Our <span class="teal-text">Collection</span></h2></div>
@@ -830,9 +816,6 @@
 
     <!-- GALLERY -->
     <section class="lap" id="gallery">
-      <div class="section-bg">
-        <img src="https://images.unsplash.com/photo-1742891603547-950f510710d7?w=1920&q=80" alt="" loading="lazy" />
-      </div>
       <div class="container">
         <div class="reveal-l"><p class="section-label">Inspiration</p></div>
         <div class="reveal-r"><h2 class="section-title">As Seen On <span class="teal-text">You</span></h2></div>
@@ -860,12 +843,9 @@
 
     <!-- ESSENCE -->
     <section class="lap" id="essence">
-      <div class="section-bg">
-        <img src="https://images.unsplash.com/photo-1741071520904-37ef3c0fea09?w=1920&q=80" alt="" loading="lazy" />
-      </div>
       <div class="container">
         <div class="reveal-r" style="text-align:center"><p class="section-label">Our Essence</p></div>
-        <div class="reveal-l" style="text-align:center"><h2 class="section-title" style="color:#111;">Statement Jewellery That <span class="teal-text">Captures Your Essence</span></h2></div>
+        <div class="reveal-l" style="text-align:center"><h2 class="section-title">Statement Jewellery That <span class="teal-text">Captures Your Essence</span></h2></div>
         <div class="text-block essence-text">
           <p class="reveal-r">Jewellery becomes powerful when it feels personal. Every design is created to reflect confidence, individuality, and cultural pride. Influences drawn from South Asian jewellery traditions — including intricate meenakari, kundan, and temple jewellery techniques — blend seamlessly with modern styling, allowing each piece to feel expressive without feeling overwhelming.</p>
           <p class="reveal-l">Statement jewellery here is designed for women who value meaning as much as beauty. Pieces are bold yet wearable, elegant yet rooted in tradition. Jewellery moves with you through everyday moments and special occasions, becoming part of how you present yourself to the world.</p>
@@ -876,9 +856,6 @@
 
     <!-- NEWSLETTER -->
     <section class="lap newsletter" id="contact">
-      <div class="section-bg">
-        <img src="https://images.unsplash.com/photo-1611598935678-c88dca238fce?w=1920&q=80" alt="" loading="lazy" />
-      </div>
       <div class="container">
         <div class="reveal-l" style="text-align:center"><p class="section-label">Let's Get In Touch!</p></div>
         <div class="reveal-r" style="text-align:center"><h2 class="section-title">What's Inside? <span class="teal-text">Exclusive Sales</span>, New Arrivals &amp; Much More</h2></div>
@@ -896,9 +873,6 @@
   <!-- ====== SHOP PAGE ====== -->
   <div id="page-shop" class="page-content">
     <section style="padding-top:140px;">
-      <div class="section-bg">
-        <img src="Rajwadi Necklace Set.png" alt="" loading="lazy" />
-      </div>
       <div class="container">
         <div class="reveal-l"><p class="section-label">Browse All</p></div>
         <div class="reveal-r"><h2 class="section-title">Shop Our <span class="teal-text">Collection</span></h2></div>
@@ -1023,9 +997,6 @@
 
   <!-- ====== FOOTER ====== -->
   <footer id="footer">
-    <div class="section-bg">
-      <img src="Rajwadi Necklace Set.png" alt="" loading="lazy" />
-    </div>
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
@@ -1157,54 +1128,60 @@
 
     // ─── ALL PRODUCTS ───
     var products = [
-      { id:1, name:'Aaira Collection', cat:'Long Mala Sets', price:28.99, img:'products/Long Mala Sets/Aaira-Collection.png', badge:'new', desc:'Contemporary aaira-style gold choker set with geometric patterns and adjustable back chain. Includes matching drop earrings.' },
-      { id:2, name:'Gold Choker Necklace Set', cat:'Long Mala Sets', price:18.00, img:'products/Long Mala Sets/Gold-choker-necklace-set.png', desc:'Timeless classic gold choker necklace set with engraved scrollwork and secure lobster clasp.' },
-      { id:3, name:'Hand Ring Pieces', cat:'Long Mala Sets', price:20.00, img:'products/Long Mala Sets/Hand-Ring-Pieces.png', badge:'new', desc:'Set of 3 adjustable hand ring pieces in mixed gold finishes — floral, twisted band, and stone-accented.' },
-      { id:4, name:'Kiara Collection', cat:'Long Mala Sets', price:22.99, img:'products/Long Mala Sets/Kiara-Collection.png', desc:'Modern kiara-style gold choker with linear bar design and cubic zirconia accents.' },
-      { id:5, name:'Kundan Rani Haar Long Mala', cat:'Long Mala Sets', price:35.00, img:'products/Long Mala Sets/Kundan Rani Haar Long Mala.png', badge:'new', desc:'Traditional kundan rani haar long mala with intricate stone work and gold-toned finish. Statement bridal piece.' },
-      { id:6, name:'Meenwari Copper Choker Necklace Set', cat:'Long Mala Sets', price:23.00, img:'products/Long Mala Sets/Meenwari-Copper-Choker-Necklace-Set.png', desc:'Hand-painted meenwari copper choker set with enamel work and golden highlights. Unique artisan piece.' },
-      { id:7, name:'Rajwadi Necklace Set', cat:'Long Mala Sets', price:24.00, img:'products/Long Mala Sets/Rajwadi-Necklace-Set.png', desc:'Rajwadi-inspired gold necklace set with traditional coin drops and oxidized detailing.' },
-      { id:8, name:'Maharani Bridal Collection', cat:'Choker Sets', price:85.00, img:'products/Choker Sets/Maharani-Bridal-Collection.png', badge:'new', desc:'Opulent maharani-style bridal choker set with gold-plated finish, uncut diamond accents, and matching earrings.' },
-      { id:9, name:'The Maharani Heirloom Bridal Set', cat:'Choker Sets', price:80.00, img:'products/Choker Sets/The-Maharani-Heirloom-Bridal-Set.png', desc:'Heirloom-quality bridal necklace set featuring layered gold strands, kundan work, and ruby-toned stone inlays.' },
-      { id:10, name:'The Noor-e-Zar Bridal Ensemble', cat:'Choker Sets', price:95.00, img:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png', desc:'Exclusive bridal ensemble with heavy gold-plated craftsmanship, pearl drops, and intricate meenakari detailing.' },
-      { id:11, name:'Kundan Choker Necklace Set with Earring', cat:'Choker Sets', price:30.00, img:'products/Choker Sets/Kundan Choker Necklace Set with Earring 2.png', desc:'Kundan choker necklace set with matching earrings. Traditional stone-studded design with gold finish.' },
-      { id:12, name:'Kundan Maang Tikka with Earrings', cat:'Choker Sets', price:28.00, img:'products/Choker Sets/Kundan Maang Tikka with Earrings.png', desc:'Kundan maang tikka paired with matching earrings. Complete bridal headpiece set with adjustable chain.' },
-      { id:13, name:'Gold Jhumka Earrings – Coloured Stones', cat:'Earrings', price:16.00, img:'products/Earrings/Gold Jhumka Earrings – Traditional Bell With coloured stones.png', badge:'new', desc:'Traditional gold jhumka bell earrings with vibrant coloured stone accents. Lightweight daily wear.' },
-      { id:14, name:'Gold Jhumka Earrings – Classic', cat:'Earrings', price:14.00, img:'products/Earrings/Gold Jhumka Earrings – Traditional Bell.png', desc:'Classic gold jhumka bell earrings with polished finish. Timeless design for everyday elegance.' },
-      { id:15, name:'Square Sahara Earring Set', cat:'Earrings', price:20.00, img:'products/Square-Sahara-Earring-Set.png', desc:'Statement square sahara gold earrings with open-work design and post-back closure.' },
-      { id:16, name:'Tikka Set – Traditional', cat:'Tikka Sets', price:22.00, img:'products/Tikka Sets/PhotoshopExtension_Image (59).png', desc:'Traditional gold tikka set with intricate detailing and matching earrings. Perfect for festive occasions.' },
-      { id:17, name:'Tikka Set – Bridal', cat:'Tikka Sets', price:28.00, img:'products/Tikka Sets/PhotoshopExtension_Image (60).png', badge:'new', desc:'Bridal tikka set with heavy kundan work and pearl drops. Complete headpiece with earrings.' },
-      { id:18, name:'Kundan Hath Phool – Bracelet with Ring Chain', cat:'Hand Pieces', price:25.00, img:'products/Hand Pieces/Kundan Hath Phool – Bracelet with Ring Chain.png', badge:'new', desc:'Kundan hath phool hand piece with bracelet-to-ring chain design. Traditional South Asian hand jewellery.' },
-      { id:19, name:'Hand Ring Pieces Set', cat:'Hand Pieces', price:20.00, img:'products/Hand Pieces/Hand-Ring-Pieces.png', desc:'Set of adjustable hand ring pieces in mixed gold finishes. Stackable haathphool style.' },
-      { id:20, name:'Adjustable Kundan Statement Ring', cat:'Rings', price:12.00, img:'products/Rings/Adjustable Kundan Statement Ring.png', badge:'new', desc:'Adjustable kundan statement ring with gold-toned finish and intricate stone setting.' },
-      { id:21, name:'Kundan Ring – Classic', cat:'Rings', price:10.00, img:'products/Rings/PhotoshopExtension_Image (63).png', desc:'Classic kundan ring with traditional design. Elegant everyday piece.' },
-      { id:22, name:'Kundan Ring – Bridal', cat:'Rings', price:14.00, img:'products/Rings/PhotoshopExtension_Image (64).png', desc:'Bridal kundan ring with heavy stone work and gold finish. Statement piece for special occasions.' },
-      { id:23, name:'Bangles', cat:'Bangles', price:15.00, img:'products/Bangles/Bangles.png', desc:'Classic gold-toned bangles with polished finish. Everyday essential — comfortable and durable.' },
-      { id:24, name:'Bridal Jhumki Pearl Bangles', cat:'Bangles', price:25.99, img:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.png', badge:'new', desc:'Traditional bridal jhumki-style bangles with pearl accents and intricate embossed floral motifs.' },
-      { id:25, name:'Gold Kundan Jhumki Bangles', cat:'Bangles', price:22.99, img:'products/Bangles/Gold-Kundan-Jhumki-bangles.png', desc:'Handcrafted kundan jhumki-style bangles with gold-toned finish and delicate drop accents.' },
-      { id:26, name:'Golden Bangles (Pack of 2)', cat:'Bangles', price:12.00, img:'products/Bangles/Golden-bangle-Pack-of-2.png', desc:'Classic golden bangle pair with polished finish. Everyday essential.' },
-      { id:27, name:'Golden Bangles (Pack of 4)', cat:'Bangles', price:12.00, img:'products/Bangles/Golden-bangle-Pack-of-4.png', desc:'Set of 4 assorted golden bangles with mixed textures. Stackable party wear.' },
-      { id:28, name:'Silver Bangles (Pack of 2)', cat:'Bangles', price:12.00, img:'products/Bangles/Silver-bangles-Pack-of-2.png', desc:'Sterling silver-toned bangle pair with minimalist design. Hypoallergenic.' },
-      { id:29, name:'Single Jhumki Gold Bangles', cat:'Bangles', price:18.00, img:'products/Bangles/Single-Jhumki-gold-bangles.png', desc:'Single premium jhumki-style gold bangle with bell-shaped drops and filigree detailing.' },
-      { id:30, name:'Bangles – Design 1', cat:'Bangles', price:15.00, img:'products/Bangles/PhotoshopExtension_Image (66).png', desc:'Gold-toned bangles with intricate design work. Lightweight daily wear.' },
-      { id:31, name:'Bangles – Design 2', cat:'Bangles', price:15.00, img:'products/Bangles/PhotoshopExtension_Image (67).png', desc:'Traditional gold bangles with detailed embossing. Comfortable and durable.' },
-      { id:32, name:'Bangles – Design 3', cat:'Bangles', price:15.00, img:'products/Bangles/PhotoshopExtension_Image (68).png', desc:'Elegant gold bangles with polished finish. Versatile for any occasion.' },
-      { id:33, name:'Golden Anklets (Payal)', cat:'Anklets', price:18.00, img:'products/Anklets/Golden Anklets (payal).png', badge:'new', desc:'Traditional golden payal anklets with delicate chain design and bell accents.' },
-      { id:34, name:'Silver Anklets', cat:'Anklets', price:16.00, img:'products/Anklets/Silver Anklets.png', desc:'Sterling silver-toned anklets with minimalist chain design. Hypoallergenic, daily wear.' },
-      { id:35, name:'Silver Anklets – Design 2', cat:'Anklets', price:16.00, img:'products/Anklets/Silver Anklets 2.png', desc:'Silver anklets with charm accents. Elegant and comfortable for all-day wear.' },
+      // ── Long Mala Sets ──
+      { id:1, name:'Aaira Collection', cat:'Long Mala Sets', price:28.99, img:'products/Long Mala Sets/Aaira-Collection.png', badge:'new' },
+      { id:2, name:'Gold Choker Necklace Set', cat:'Long Mala Sets', price:18.00, img:'products/Long Mala Sets/Gold-choker-necklace-set.png' },
+      { id:3, name:'Hand Ring Pieces', cat:'Long Mala Sets', price:20.00, img:'products/Long Mala Sets/Hand-Ring-Pieces.png', badge:'new' },
+      { id:4, name:'Kiara Collection', cat:'Long Mala Sets', price:22.99, img:'products/Long Mala Sets/Kiara-Collection.png' },
+      { id:5, name:'Kundan Rani Haar Long Mala', cat:'Long Mala Sets', price:35.00, img:'products/Long Mala Sets/Kundan_Rani_Haar_Long_Mala.png', badge:'new' },
+      { id:6, name:'Meenwari Copper Choker Necklace Set', cat:'Long Mala Sets', price:23.00, img:'products/Long Mala Sets/Meenwari-Copper-Choker-Necklace-Set.png' },
+      { id:7, name:'Rajwadi Necklace Set', cat:'Long Mala Sets', price:24.00, img:'products/Long Mala Sets/Rajwadi-Necklace-Set.png' },
+      // ── Choker Sets ──
+      { id:8, name:'Maharani Bridal Collection', cat:'Choker Sets', price:85.00, img:'products/Choker Sets/Maharani-Bridal-Collection.png', badge:'new' },
+      { id:9, name:'The Maharani Heirloom Bridal Set', cat:'Choker Sets', price:80.00, img:'products/Choker Sets/The-Maharani-Heirloom-Bridal-Set.png' },
+      { id:10, name:'The Noor-e-Zar Bridal Ensemble', cat:'Choker Sets', price:95.00, img:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png' },
+      { id:11, name:'Kundan Choker Necklace Set with Earring', cat:'Choker Sets', price:30.00, img:'products/Choker Sets/Kundan_Choker_Necklace_Set_with_Earring_2.png' },
+      { id:12, name:'Kundan Maang Tikka with Earrings', cat:'Choker Sets', price:28.00, img:'products/Choker Sets/Kundan_Maang_Tikka_with_Earrings.png' },
+      // ── Earrings ──
+      { id:13, name:'Gold Jhumka Earrings - Coloured Stones', cat:'Earrings', price:16.00, img:'products/Earrings/Gold_Jhumka_Earrings_-_Traditional_Bell_With_coloured_stones.png', badge:'new' },
+      { id:14, name:'Gold Jhumka Earrings - Classic', cat:'Earrings', price:14.00, img:'products/Earrings/Gold_Jhumka_Earrings_-_Traditional_Bell.png' },
+      { id:15, name:'Square Sahara Earring Set', cat:'Earrings', price:20.00, img:'products/Earrings/PhotoshopExtension_Image_(61).png' },
+      // ── Hand Pieces ──
+      { id:16, name:'Kundan Hath Phool - Bracelet with Ring Chain', cat:'Hand Pieces', price:25.00, img:'products/Hand Pieces/Kundan_Hath_Phool_-_Bracelet_with_Ring_Chain.png', badge:'new' },
+      // ── Tikka Sets ──
+      { id:17, name:'Tikka Set - Traditional', cat:'Tikka Sets', price:22.00, img:'products/Tikka Sets/PhotoshopExtension_Image_(59).png' },
+      { id:18, name:'Tikka Set - Bridal', cat:'Tikka Sets', price:28.00, img:'products/Tikka Sets/PhotoshopExtension_Image_(60).png', badge:'new' },
+      // ── Rings ──
+      { id:19, name:'Adjustable Kundan Statement Ring', cat:'Rings', price:12.00, img:'products/Rings/Adjustable_Kundan_Statement_Ring.png', badge:'new' },
+      { id:20, name:'Kundan Ring - Classic', cat:'Rings', price:10.00, img:'products/Rings/PhotoshopExtension_Image_(63).png' },
+      { id:21, name:'Kundan Ring - Bridal', cat:'Rings', price:14.00, img:'products/Rings/PhotoshopExtension_Image_(64).png' },
+      // ── Bangles ──
+      { id:22, name:'Bangles', cat:'Bangles', price:15.00, img:'products/Bangles/Bangles.png' },
+      { id:23, name:'Bridal Jhumki Pearl Bangles', cat:'Bangles', price:25.99, img:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.png', badge:'new' },
+      { id:24, name:'Gold Kundan Jhumki Bangles', cat:'Bangles', price:22.99, img:'products/Bangles/Gold-Kundan-Jhumki-bangles.png' },
+      { id:25, name:'Golden Bangles (Pack of 2)', cat:'Bangles', price:12.00, img:'products/Bangles/Golden-bangle-Pack-of-2.png' },
+      { id:26, name:'Golden Bangles (Pack of 4)', cat:'Bangles', price:12.00, img:'products/Bangles/Golden-bangle-Pack-of-4.png' },
+      { id:27, name:'Silver Bangles (Pack of 2)', cat:'Bangles', price:12.00, img:'products/Bangles/Silver-bangles-Pack-of-2.png' },
+      { id:28, name:'Single Jhumki Gold Bangles', cat:'Bangles', price:18.00, img:'products/Bangles/Single-Jhumki-gold-bangles.png' },
+      { id:29, name:'Bangles - Design 1', cat:'Bangles', price:15.00, img:'products/Bangles/PhotoshopExtension_Image_(66).png' },
+      { id:30, name:'Bangles - Design 2', cat:'Bangles', price:15.00, img:'products/Bangles/PhotoshopExtension_Image_(67).png' },
+      { id:31, name:'Bangles - Design 3', cat:'Bangles', price:15.00, img:'products/Bangles/PhotoshopExtension_Image_(68).png' },
+      // ── Anklets ──
+      { id:32, name:'Golden Anklets (Payal)', cat:'Anklets', price:18.00, img:'products/Anklets/Golden_Anklets_(payal).png', badge:'new' },
+      { id:33, name:'Silver Anklets', cat:'Anklets', price:16.00, img:'products/Anklets/Silver_Anklets.png' },
+      { id:34, name:'Silver Anklets - Design 2', cat:'Anklets', price:16.00, img:'products/Anklets/Silver_Anklets_2.png' },
     ];
 
     var featured = [
-      { name:'Kundan Rani Haar Long Mala', price:'£35.00', img:'products/Long Mala Sets/Kundan Rani Haar Long Mala.png' },
-      { name:'The Noor-e-Zar Bridal Ensemble', price:'£95.00', img:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png' },
-      { name:'Gold Jhumka Earrings – Coloured', price:'£16.00', img:'products/Earrings/Gold Jhumka Earrings – Traditional Bell With coloured stones.png' },
-      { name:'Maharani Bridal Collection', price:'£85.00', img:'products/Choker Sets/Maharani-Bridal-Collection.png' },
-      { name:'Kundan Hath Phool', price:'£25.00', img:'products/Hand Pieces/Kundan Hath Phool – Bracelet with Ring Chain.png' },
-      { name:'Adjustable Kundan Statement Ring', price:'£12.00', img:'products/Rings/Adjustable Kundan Statement Ring.png' },
-      { name:'Bridal Jhumki Pearl Bangles', price:'£25.99', img:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.png' },
-      { name:'Golden Anklets (Payal)', price:'£18.00', img:'products/Anklets/Golden Anklets (payal).png' },
-      { name:'Tikka Set – Bridal', price:'£28.00', img:'products/Tikka Sets/PhotoshopExtension_Image (60).png' },
-      { name:'Aaira Collection', price:'£28.99', img:'products/Long Mala Sets/Aaira-Collection.png' },
+      { name:'Kundan Rani Haar Long Mala', price:'\u00a335.00', img:'products/Long Mala Sets/Kundan_Rani_Haar_Long_Mala.png' },
+      { name:'The Noor-e-Zar Bridal Ensemble', price:'\u00a395.00', img:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png' },
+      { name:'Maharani Bridal Collection', price:'\u00a385.00', img:'products/Choker Sets/Maharani-Bridal-Collection.png' },
+      { name:'Kundan Hath Phool', price:'\u00a325.00', img:'products/Hand Pieces/Kundan_Hath_Phool_-_Bracelet_with_Ring_Chain.png' },
+      { name:'Adjustable Kundan Statement Ring', price:'\u00a312.00', img:'products/Rings/Adjustable_Kundan_Statement_Ring.png' },
+      { name:'Bridal Jhumki Pearl Bangles', price:'\u00a325.99', img:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.png' },
+      { name:'Golden Anklets (Payal)', price:'\u00a318.00', img:'products/Anklets/Golden_Anklets_(payal).png' },
+      { name:'Tikka Set - Bridal', price:'\u00a328.00', img:'products/Tikka Sets/PhotoshopExtension_Image_(60).png' },
+      { name:'Aaira Collection', price:'\u00a328.99', img:'products/Long Mala Sets/Aaira-Collection.png' },
     ];
 
     var categories = [
@@ -1217,6 +1194,17 @@
       { id:'Rings', label:'Rings' },
       { id:'Bangles', label:'Bangles' },
       { id:'Anklets', label:'Anklets' },
+    ];
+
+    var categoryCards = [
+      { id:'Long Mala Sets', label:'Long Mala Sets', desc:'Regal heritage necklaces', img:'products/Long Mala Sets/Aaira-Collection.png', tall:true },
+      { id:'Choker Sets', label:'Choker Sets', desc:'Bold & contemporary', img:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png' },
+      { id:'Earrings', label:'Earrings', desc:'Statement drops & jhumkas', img:'products/Earrings/Gold_Jhumka_Earrings_-_Traditional_Bell_With_coloured_stones.png' },
+      { id:'Bangles', label:'Bangles', desc:'Traditional & modern bangles', img:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.png' },
+      { id:'Rings', label:'Rings', desc:'Kundan & statement rings', img:'products/Rings/Adjustable_Kundan_Statement_Ring.png' },
+      { id:'Hand Pieces', label:'Hand Pieces', desc:'Elegant hath phool designs', img:'products/Hand Pieces/Kundan_Hath_Phool_-_Bracelet_with_Ring_Chain.png' },
+      { id:'Tikka Sets', label:'Tikka Sets', desc:'Maang tikka & forehead jewellery', img:'products/Tikka Sets/PhotoshopExtension_Image_(60).png' },
+      { id:'Anklets', label:'Anklets', desc:'Payal & ankle chains', img:'products/Anklets/Golden_Anklets_(payal).png' },
     ];
 
     var cart = [];
@@ -1236,11 +1224,13 @@
     }
     var ctx = null;
     function playClick(e) {
-      if (!e) e = window.event;
-      if (!audioActivated) activateAudio();
-      clickSound.currentTime = 0; clickSound.play().catch(function(){});
-      var t = e && e.target;
-      if (t && t.getAttribute) { var p = t.getAttribute('aria-pressed'); if (p === 'false') t.setAttribute('aria-pressed', 'true'); }
+      try {
+        if (!e) e = window.event;
+        if (!audioActivated) activateAudio();
+        clickSound.currentTime = 0; clickSound.play().catch(function(){});
+        var t = e && e.target;
+        if (t && t.getAttribute) { var p = t.getAttribute('aria-pressed'); if (p === 'false') t.setAttribute('aria-pressed', 'true'); }
+      } catch(_) {}
     }
     document.addEventListener('click', function() { if (!audioActivated) activateAudio(); }, { once: true });
 
@@ -1341,7 +1331,7 @@
       var p = products.find(function(x){ return x.id === id; });
       if (!p) { navigateTo('shop'); return; }
       var desc = p.desc || 'A stunning ' + p.name.toLowerCase() + ' from J JEWELLERS. Expertly crafted with premium materials, this ' + p.cat.toLowerCase() + ' piece combines traditional elegance with contemporary design — perfect for adding a touch of luxury to any outfit.';
-      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" decoding="async" /></div><div class="product-detail-info"><div class="p-category">' + p.cat + '</div><h2>' + p.name + '</h2><div class="p-price">£' + p.price.toFixed(2) + '</div><div class="p-description">' + desc + '</div><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
+      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><img src="' + p.img + '" alt="' + p.name + '" /></div><div class="product-detail-info"><div class="p-category">' + p.cat + '</div><h2>' + p.name + '</h2><div class="p-price">£' + p.price.toFixed(2) + '</div><div class="p-description">' + desc + '</div><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
       document.getElementById('productDetailContent').innerHTML = html;
     }
 
@@ -1352,7 +1342,7 @@
         var el = document.getElementById(id);
         if (!el) return;
         var html = '';
-        categories.forEach(function(c, i) { html += '<button class="cat-tab' + (i===0?' active':'') + '" data-cat="' + c.id + '" onclick="playClick();filterCategory(\'' + c.id + '\');">' + c.label + '</button>'; });
+        categories.forEach(function(c, i) { html += '<button class="cat-tab' + (i===0?' active':'') + '" data-cat="' + c.id + '">' + c.label + '</button>'; });
         el.innerHTML = html;
       });
     }
@@ -1374,7 +1364,7 @@
         var html = '';
         list.forEach(function(p){
           var badge = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
-          html += '<div class="product-card reveal-s" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" decoding="async" />' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button></div></div>';
+          html += '<div class="product-card reveal-s" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><img src="' + p.img + '" alt="' + p.name + '" />' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button></div></div>';
         });
         el.innerHTML = html;
         setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh(); }, 100);
@@ -1383,6 +1373,10 @@
 
     renderCategoryTabs();
     filterCategory('all');
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.cat-tab');
+      if (btn) { playClick(e); filterCategory(btn.getAttribute('data-cat')); }
+    });
 
     function renderSidebarCategories() {
       var ids = ['filterCategories','filterCategoriesShop'];
@@ -1414,6 +1408,20 @@
     }
     renderSidebarCategories();
 
+    // ─── RENDER COLLECTIONS GRID ───
+    function renderCollections() {
+      var el = document.getElementById('collectionsGrid');
+      if (!el) return;
+      var html = '';
+      categoryCards.forEach(function(c, i) {
+        var tallClass = c.tall ? ' tall' : '';
+        var animClass = i % 2 === 0 ? ' reveal-l' : ' reveal-r';
+        html += '<div class="category-card' + tallClass + animClass + '" onclick="playClick();filterCategoryAndScroll(\'' + c.id + '\')"><img src="' + c.img + '" alt="' + c.label + '" loading="lazy" /><div class="overlay"></div><div class="info"><h3>' + c.label + '</h3><p>' + c.desc + '</p></div></div>';
+      });
+      el.innerHTML = html;
+    }
+    renderCollections();
+
     function resetFilters() {
       document.querySelectorAll('.filter-check input').forEach(function(i){ i.checked = false; });
       document.querySelectorAll('.stone-colors span').forEach(function(s){ s.style.borderColor = 'transparent'; });
@@ -1437,7 +1445,7 @@
     function renderFeatured() {
       var el = document.getElementById('hScroll');
       var html = '';
-      featured.forEach(function(f){ html += '<div class="h-card"><div class="h-img"><img src="' + f.img + '" alt="' + f.name + '" loading="lazy" decoding="async" /></div><div class="h-info"><h3>' + f.name + '</h3><div class="h-price">' + f.price + '</div></div></div>'; });
+      featured.forEach(function(f){ html += '<div class="h-card"><div class="h-img"><img src="' + f.img + '" alt="' + f.name + '" /></div><div class="h-info"><h3>' + f.name + '</h3><div class="h-price">' + f.price + '</div></div></div>'; });
       el.innerHTML = html;
     }
     renderFeatured();
@@ -1659,18 +1667,6 @@
         showToast('Payment was canceled.');
         window.history.replaceState({}, '', window.location.pathname);
       }
-    })();
-
-    // ─── SHIPPING BANNER SCROLL ───
-    (function(){
-      var banner = document.getElementById('shippingBanner');
-      if (!banner) return;
-      var observer = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if (entry.isIntersecting) { entry.target.querySelector('.shipping-banner-inner').classList.add('visible'); }
-        });
-      }, { threshold: 0.3 });
-      observer.observe(banner);
     })();
 
     window.addEventListener('load', function(){ setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }, 500); });
