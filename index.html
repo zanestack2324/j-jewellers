@@ -203,7 +203,7 @@
     .reveal{opacity:0;transform:translateY(40px);}
     .reveal-l{opacity:0;transform:translateX(-60px);}
     .reveal-r{opacity:0;transform:translateX(60px);}
-    .reveal-s{opacity:0;transform:scale(0.92);}
+    .reveal-s{}
 
     .glass{background:var(--surface-glass);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border:1px solid var(--border);}
 
@@ -1364,7 +1364,7 @@
         var html = '';
         list.forEach(function(p){
           var badge = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
-          html += '<div class="product-card reveal-s" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><img src="' + p.img + '" alt="' + p.name + '" />' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button></div></div>';
+          html += '<div class="product-card" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><img src="' + p.img + '" alt="' + p.name + '" />' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button></div></div>';
         });
         el.innerHTML = html;
         setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh(); }, 100);
@@ -1511,11 +1511,6 @@
       gsap.utils.toArray('.reveal-r').forEach(function(el,i){ gsap.fromTo(el, {x:60, opacity:0}, {x:0, opacity:1, duration:0.9, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 85%', toggleActions:'play none none none'}}); });
       gsap.utils.toArray('.reveal-s').forEach(function(el,i){ gsap.fromTo(el, {scale:0.85, opacity:0, y:20}, {scale:1, opacity:1, y:0, duration:0.8, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
       gsap.utils.toArray('.reveal').forEach(function(el,i){ gsap.fromTo(el, {y:50, opacity:0}, {y:0, opacity:1, duration:0.8, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}}); });
-      // Product cards staggered slide-in
-      gsap.utils.toArray('.product-card').forEach(function(el,i){
-        var dir = i % 2 === 0 ? -30 : 30;
-        gsap.fromTo(el, {x:dir, opacity:0}, {x:0, opacity:1, duration:0.6, ease:'power2.out', scrollTrigger:{trigger:el, start:'top 92%', toggleActions:'play none none none'}});
-      });
       // Hero parallax
       gsap.to('.hero-bg-container', { yPercent:12, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true} });
       // Section title stagger
