@@ -576,8 +576,8 @@ function renderProducts(el) {
         var stock = p.stock !== undefined ? p.stock : 'N/A';
         var status = (stock > 0 || stock === 'N/A') ? 'active' : 'out_of_stock';
         var imgSrc = p.image ? (p.image.startsWith('data:') || p.image.startsWith('/uploads') || p.image.startsWith('http') ? p.image : '../' + p.image) : '';
-        var thumbStyle = imgSrc ? 'background:url(' + imgSrc + ') center/cover no-repeat;width:40px;height:40px;border-radius:4px;display:inline-block;flex-shrink:0;' : 'width:40px;height:40px;display:inline-block;flex-shrink:0;';
-        html += '<tr><td><span style="' + thumbStyle + (imgSrc ? '' : 'background:var(--admin-surface-2);border-radius:4px;') + '"></span></td><td>' + (p.name || 'Unnamed') + '</td><td>\u00A3' + (p.price || 0).toFixed(2) + '</td><td>' + stock + '</td><td><span class="status-badge ' + status + '">' + (status === 'active' ? 'Active' : 'Out of Stock') + '</span></td><td><div class="flex gap-8"><button class="btn-admin btn-xs-admin btn-secondary-admin" onclick="editProduct(' + p.id + ')">Edit</button><button class="btn-admin btn-xs-admin btn-danger-admin" onclick="deleteProduct(' + p.id + ')">Delete</button></div></td></tr>';
+        var thumbHtml = imgSrc ? '<img src="' + imgSrc + '" style="width:40px;height:40px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display=\'none\'" />' : '<span style="width:40px;height:40px;display:inline-block;flex-shrink:0;background:var(--admin-surface-2);border-radius:4px;"></span>';
+        html += '<tr><td>' + thumbHtml + '</td><td>' + (p.name || 'Unnamed') + '</td><td>\u00A3' + (p.price || 0).toFixed(2) + '</td><td>' + stock + '</td><td><span class="status-badge ' + status + '">' + (status === 'active' ? 'Active' : 'Out of Stock') + '</span></td><td><div class="flex gap-8"><button class="btn-admin btn-xs-admin btn-secondary-admin" onclick="editProduct(' + p.id + ')">Edit</button><button class="btn-admin btn-xs-admin btn-danger-admin" onclick="deleteProduct(' + p.id + ')">Delete</button></div></td></tr>';
       });
 
       html += '</tbody></table></div></div></div>';
