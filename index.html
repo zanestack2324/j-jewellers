@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>J JEWELLERS – Look Boujee On A Budget | Handcrafted Luxury Jewellery UK</title>
-  <meta name="description" content="Discover handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles, tikka sets & more. Free worldwide shipping from the UK." />
+  <meta name="description" content="Discover handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles, tikka sets & more. Royal Mail tracked shipping worldwide." />
   <meta name="keywords" content="gold jewellery, bridal jewellery, choker set, bangles, earrings, tikka set, hand pieces, rings, anklets, South Asian jewellery, UK jewellery shop, affordable luxury" />
   <meta name="author" content="J Jewellers" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -17,8 +17,8 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="J JEWELLERS – Look Boujee On A Budget" />
-  <meta property="og:description" content="Handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles & more. Free worldwide shipping." />
-  <meta property="og:image" content="https://j-jewellers.vercel.app/HERO.png" />
+  <meta property="og:description" content="Handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles & more. Royal Mail tracked shipping worldwide." />
+  <meta property="og:image" content="https://j-jewellers.vercel.app/hero-poster.jpg" />
   <meta property="og:url" content="https://j-jewellers.vercel.app/" />
   <meta property="og:site_name" content="J Jewellers" />
   <meta property="og:locale" content="en_GB" />
@@ -27,7 +27,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="J JEWELLERS – Look Boujee On A Budget" />
   <meta name="twitter:description" content="Handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles & more." />
-  <meta name="twitter:image" content="https://j-jewellers.vercel.app/HERO.png" />
+  <meta name="twitter:image" content="https://j-jewellers.vercel.app/hero-poster.jpg" />
 
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
@@ -70,7 +70,8 @@
 
   <!-- Preload Critical Assets -->
   <link rel="preload" as="image" href="imgi_2_head-logo.webp" />
-  <link rel="preload" as="image" href="HERO.png" />
+  <link rel="preload" as="image" href="hero-poster.jpg" />
+  <link rel="preload" as="video" href="hero-720.mp4" type="video/mp4" />
 
   <!-- Fonts (display=swap for performance) -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
@@ -208,9 +209,10 @@
     .glass{background:var(--surface-glass);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border:1px solid var(--border);}
 
     /* ─── PRELOADER ─── */
-    #preloader{position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#041515 0%,#0A2E2E 30%,#081E1E 60%,#051818 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:40px;transition:opacity 0.8s var(--ease-out),visibility 0.8s var(--ease-out);}
-    #preloader::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(13,139,139,0.12) 0%,transparent 60%),radial-gradient(ellipse at 30% 70%,rgba(48,197,197,0.06) 0%,transparent 50%);pointer-events:none;}
-    #preloader::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(13,139,139,0.03) 60px,rgba(13,139,139,0.03) 61px),repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(13,139,139,0.03) 60px,rgba(13,139,139,0.03) 61px);pointer-events:none;}
+#preloader{position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#041515 0%,#0A2E2E 30%,#081E1E 60%,#051818 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:40px;transition:opacity 0.8s var(--ease-out),visibility 0.8s var(--ease-out);}
+#preloader::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(13,139,139,0.12) 0%,transparent 60%),radial-gradient(ellipse at 30% 70%,rgba(48,197,197,0.06) 0%,transparent 50%);pointer-events:none;}
+#preloader::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(13,139,139,0.03) 60px,rgba(13,139,139,0.03) 61px),repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(13,139,139,0.03) 60px,rgba(13,139,139,0.03) 61px);pointer-events:none;}
+    #preloader-video-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;transition:opacity 0.5s;}
     #preloader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
     .preloader-ring{width:120px;height:120px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;z-index:1;}
     .preloader-ring::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid transparent;border-top-color:var(--teal);animation:spin 1.5s linear infinite;}
@@ -268,13 +270,14 @@
     .hamburger.open span:nth-child(1){transform:translateY(5px) rotate(45deg);background:var(--teal);}
     .hamburger.open span:nth-child(2){opacity:0;}
     .hamburger.open span:nth-child(3){transform:translateY(-5px) rotate(-45deg);background:var(--teal);}
-    .sound-toggle svg{width:16px;height:16px;}.sound-toggle.muted{opacity:0.3;}
+
 
     /* ─── HERO ─── */
     .hero-bg-container{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;border:none;outline:none;background:linear-gradient(180deg,#041212 0%,#0A0A0B 100%);}
     .hero-bg-container>*{position:absolute;inset:0;}
-    .hero-video{width:100%;height:100%;object-fit:cover;}
-    .hero-overlay{background:linear-gradient(to bottom,rgba(10,10,11,0) 0%,rgba(10,10,11,0.45) 30%,rgba(10,10,11,0.65) 60%,var(--dark) 100%);}
+    .hero-video{width:100%;height:100%;object-fit:cover;opacity:0;animation:heroVideoIn 1.2s ease-out 0.3s forwards;}
+    @keyframes heroVideoIn{0%{opacity:0;transform:scale(1.05);}100%{opacity:1;transform:scale(1);}}
+    .hero-overlay{background:linear-gradient(to bottom,rgba(10,10,11,0) 0%,rgba(10,10,11,0.35) 25%,rgba(10,10,11,0.55) 55%,var(--dark) 100%);}
     .hero{position:relative;z-index:2;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden;background:transparent;contain:layout style;}
     .hero-content{position:relative;z-index:3;width:100%;padding:0 40px;pointer-events:none;}
     .hero-content *{pointer-events:auto;}
@@ -330,7 +333,10 @@
     .categories{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
     .category-card{position:relative;overflow:hidden;aspect-ratio:1;cursor:pointer;transition:all 0.7s var(--ease-out);background:var(--dark-2);border:1px solid transparent;}
     .category-card:hover{transform:scale(0.97);z-index:2;border-color:var(--border-light);box-shadow:0 0 40px rgba(13,139,139,0.05);}
-    .category-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out);}
+    .category-card picture{display:block;width:100%;height:100%;}
+    .category-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease;opacity:1;}
+    .category-card img.lazy{opacity:0;}
+    .category-card img.loaded{opacity:1;}
     .category-card:hover img{transform:scale(1.08);}
     .category-card .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,11,0.85) 0%,rgba(10,10,11,0.15) 50%,transparent 80%);}
     .category-card .info{position:absolute;bottom:0;left:0;right:0;padding:28px;}
@@ -370,8 +376,11 @@
     .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:2px;}
     .product-card{background:var(--surface-glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all 0.6s var(--ease-out);will-change:transform;contain:layout style paint;}
     .product-card:hover{background:rgba(22,22,27,0.7);border-color:var(--border-light);transform:translateY(-6px) scale(1.02);box-shadow:0 20px 60px rgba(0,0,0,0.3),0 0 40px rgba(13,139,139,0.1);}
-    .product-img{position:relative;overflow:hidden;aspect-ratio:1;}
-    .product-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out);}
+    .product-img{position:relative;overflow:hidden;aspect-ratio:1;background:rgba(13,139,139,0.05);}
+    .product-img picture{display:block;width:100%;height:100%;}
+    .product-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease;opacity:1;}
+    .product-img img.lazy{opacity:0;filter:blur(20px);transform:scale(1.1);}
+    .product-img img.loaded{opacity:1;filter:blur(0);transform:scale(1);}
     .product-card:hover .product-img img{transform:scale(1.08) rotate(1deg);}
     .product-img .badge{position:absolute;top:12px;left:12px;padding:4px 12px;font-family:var(--font-future);font-size:0.45rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
     .badge-new{background:var(--teal);color:var(--dark);}
@@ -382,8 +391,15 @@
     .product-info .p-desc{font-size:0.7rem;color:var(--text-muted);font-weight:300;line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
     .product-info .price{font-size:1.1rem;font-weight:700;color:var(--teal);}
     .product-info .price .old{font-size:0.7rem;color:var(--text-dim);text-decoration:line-through;margin-right:8px;font-weight:400;}
-    .add-to-cart{width:100%;margin-top:12px;padding:11px;background:transparent;border:1px solid var(--border);color:var(--text-muted);font-family:var(--font-future);font-size:0.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.4s var(--ease-out);}
+    .add-to-cart{width:100%;padding:11px;background:transparent;border:1px solid var(--border);color:var(--text-muted);font-family:var(--font-future);font-size:0.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.4s var(--ease-out);}
     .add-to-cart:hover{background:rgba(22,22,27,0.5);border-color:var(--border-light);color:var(--teal);}
+    .product-actions{display:flex;gap:8px;margin-top:12px;}
+    .product-actions .add-to-cart{flex:1;margin-top:0;}
+    .buy-now-btn{flex:1;padding:11px;background:linear-gradient(135deg,var(--teal-light),var(--teal));border:none;color:var(--dark);font-family:var(--font-future);font-size:0.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.3s var(--ease-out);border-radius:var(--radius-sm);}
+    .buy-now-btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(13,139,139,0.3);}
+    .detail-actions{display:flex;gap:12px;margin-top:0;}
+    .detail-actions .btn{flex:1;text-align:center;justify-content:center;}
+    .cart-checkout-options .btn-sm{padding:12px 28px;font-size:0.55rem;letter-spacing:2px;}
     @media(max-width:768px){.products-grid{grid-template-columns:repeat(2,1fr);gap:2px;}.product-info{padding:12px;}.product-info h3{font-size:0.85rem;}}
     @media(max-width:480px){.products-grid{grid-template-columns:1fr 1fr;}.product-info{padding:10px;}}
 
@@ -399,7 +415,10 @@
     .h-card{flex:0 0 300px;scroll-snap-align:start;background:var(--surface-glass);backdrop-filter:blur(10px);border:1px solid var(--border);overflow:hidden;transition:all 0.6s var(--ease-out);}
     .h-card:hover{background:rgba(22,22,27,0.6);border-color:var(--border-light);transform:translateY(-4px);}
     .h-card .h-img{position:relative;overflow:hidden;aspect-ratio:1;}
-    .h-card .h-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out);}
+    .h-card .h-img picture{display:block;width:100%;height:100%;}
+    .h-card .h-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease;opacity:1;}
+    .h-card .h-img img.lazy{opacity:0;}
+    .h-card .h-img img.loaded{opacity:1;}
     .h-card:hover .h-img img{transform:scale(1.06);}
     .h-card .h-info{padding:16px;}
     .h-card .h-info h3{font-family:var(--font-heading);font-size:0.95rem;font-weight:600;margin-bottom:4px;}
@@ -407,16 +426,16 @@
     @media(max-width:768px){.h-card{flex:0 0 240px;}}
 
     /* ─── GALLERY ─── */
-    .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:280px 280px;gap:2px;}
+    .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;align-items:start;}
     .gallery-grid .g-item{overflow:hidden;transition:all 0.6s var(--ease-out);border:1px solid transparent;}
     .gallery-grid .g-item:hover{transform:scale(0.97);border-color:var(--border-light);z-index:2;}
-    .gallery-grid .g-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out);}
+    .gallery-grid .g-item img{width:100%;height:auto;display:block;transition:transform 0.8s var(--ease-out);}
     .gallery-grid .g-item:hover img{transform:scale(1.06);}
     .gallery-grid .g-item:nth-child(1){grid-column:span 2;grid-row:span 2;}
     .gallery-grid .g-item:nth-child(2){grid-column:span 1;grid-row:span 1;}
     .gallery-grid .g-item:nth-child(3){grid-column:span 1;grid-row:span 1;}
     .gallery-grid .g-item:nth-child(4){grid-column:span 2;}
-    @media(max-width:768px){.gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:2px;}.gallery-grid .g-item:nth-child(1){grid-column:span 2;grid-row:span 1;}.gallery-grid .g-item:nth-child(4){grid-column:span 2;}}
+    @media(max-width:768px){.gallery-grid{grid-template-columns:1fr 1fr;gap:2px;}.gallery-grid .g-item:nth-child(1){grid-column:span 2;grid-row:span 1;}.gallery-grid .g-item:nth-child(4){grid-column:span 2;}}
 
     /* ─── TESTIMONIALS ─── */
     .testimonial-carousel{position:relative;max-width:600px;margin:0 auto;overflow:hidden;min-height:260px;}
@@ -552,11 +571,86 @@
     .modal-overlay.open .modal-content{transform:scale(1);}
     .modal-content h3{font-family:var(--font-heading);font-size:1.5rem;margin-bottom:12px;}
     .modal-content p{color:var(--text-muted);font-size:0.9rem;margin-bottom:24px;}
+
+    /* ─── CHAT WIDGET ─── */
+    .chat-widget{position:fixed;bottom:90px;right:24px;z-index:4999;}
+    .chat-toggle{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--teal-light),var(--teal));border:none;color:var(--dark);cursor:pointer;box-shadow:0 4px 20px rgba(13,139,139,0.4);display:flex;align-items:center;justify-content:center;transition:all 0.4s var(--ease-out);}
+    .chat-toggle:hover{transform:scale(1.1);box-shadow:0 6px 30px rgba(13,139,139,0.6);}
+    .chat-toggle svg{width:24px;height:24px;}
+    .chat-panel{position:fixed;bottom:160px;right:24px;width:380px;max-width:calc(100vw - 48px);max-height:500px;background:rgba(8,22,22,0.97);backdrop-filter:blur(30px);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:none;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.5);z-index:5000;}
+    .chat-panel.open{display:flex;}
+    .chat-header{padding:18px 20px;background:linear-gradient(135deg,rgba(13,139,139,0.15),rgba(13,139,139,0.05));border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+    .chat-header h3{font-family:var(--font-heading);font-size:1rem;font-weight:600;}
+    .chat-header .chat-status{font-family:var(--font-future);font-size:0.5rem;letter-spacing:1px;color:var(--teal);display:flex;align-items:center;gap:6px;}
+    .chat-header .chat-status::before{content:'';width:6px;height:6px;background:var(--teal);border-radius:50%;animation:chatPulse 2s ease-in-out infinite;}
+    @keyframes chatPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+    .chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;min-height:200px;max-height:300px;}
+    .chat-msg{max-width:85%;padding:12px 16px;border-radius:12px;font-size:0.85rem;line-height:1.6;font-weight:300;animation:chatFadeIn 0.3s var(--ease-out);}
+    @keyframes chatFadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+    .chat-msg.bot{background:rgba(13,139,139,0.1);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:4px;color:var(--text);}
+    .chat-msg.user{background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:var(--dark);align-self:flex-end;border-bottom-right-radius:4px;font-weight:400;}
+    .chat-msg.bot .msg-time{display:block;font-size:0.6rem;color:var(--text-dim);margin-top:6px;font-family:var(--font-future);letter-spacing:0.5px;}
+    .chat-quick-replies{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 12px;}
+    .chat-quick-btn{padding:8px 14px;background:transparent;border:1px solid var(--border);color:var(--teal);font-family:var(--font-future);font-size:0.5rem;letter-spacing:0.5px;text-transform:uppercase;cursor:pointer;transition:all 0.3s var(--ease-out);border-radius:20px;}
+    .chat-quick-btn:hover{background:rgba(13,139,139,0.1);border-color:var(--teal);}
+    .chat-input-wrap{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;}
+    .chat-input{flex:1;padding:10px 14px;background:rgba(17,17,20,0.6);border:1px solid var(--border);color:var(--text);font-size:0.85rem;font-family:var(--font-body);outline:none;transition:border-color 0.3s var(--ease-out);border-radius:8px;}
+    .chat-input:focus{border-color:var(--teal);}
+    .chat-input::placeholder{color:var(--text-dim);}
+    .chat-send{padding:10px 16px;background:var(--teal);border:none;color:var(--dark);font-family:var(--font-future);font-size:0.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:8px;transition:all 0.3s var(--ease-out);}
+    .chat-send:hover{background:var(--teal-light);}
+
+    /* ─── FAQ ACCORDION ─── */
+    .faq-list{max-width:760px;margin:0 auto;}
+    .faq-item{border:1px solid var(--border);margin-bottom:8px;overflow:hidden;transition:all 0.4s var(--ease-out);}
+    .faq-item:hover{border-color:var(--border-light);}
+    .faq-question{width:100%;padding:20px 24px;background:transparent;border:none;color:var(--text);font-family:var(--font-heading);font-size:1rem;font-weight:600;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color 0.3s var(--ease-out);}
+    .faq-question:hover{color:var(--teal);}
+    .faq-question .faq-icon{font-size:1.2rem;color:var(--teal);transition:transform 0.4s var(--ease-out);flex-shrink:0;margin-left:16px;}
+    .faq-item.open .faq-question .faq-icon{transform:rotate(45deg);}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.5s var(--ease-out),padding 0.4s var(--ease-out);padding:0 24px;}
+    .faq-item.open .faq-answer{max-height:400px;padding:0 24px 20px;}
+    .faq-answer p{color:var(--text-muted);font-size:0.9rem;font-weight:300;line-height:1.8;}
+    .faq-answer a{color:var(--teal);}
+
+    /* ─── ORDER TRACKING ─── */
+    .tracking-form{max-width:500px;margin:0 auto;text-align:center;}
+    .tracking-input-group{display:flex;gap:10px;margin-bottom:20px;}
+    .tracking-input-group input{flex:1;padding:14px 20px;background:var(--surface-glass);backdrop-filter:blur(10px);border:1px solid var(--border);color:var(--text);font-size:0.9rem;font-family:var(--font-body);outline:none;transition:border-color 0.3s var(--ease-out);}
+    .tracking-input-group input:focus{border-color:var(--teal);}
+    .tracking-input-group input::placeholder{color:var(--text-dim);}
+    .tracking-result{margin-top:30px;padding:30px;border:1px solid var(--border);background:var(--surface-glass);display:none;text-align:left;}
+    .tracking-result.show{display:block;}
+    .tracking-timeline{position:relative;padding-left:30px;margin-top:20px;}
+    .tracking-timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border);}
+    .tracking-step{position:relative;padding:12px 0 12px 20px;opacity:0.5;}
+    .tracking-step.active{opacity:1;}
+    .tracking-step::before{content:'';position:absolute;left:-24px;top:18px;width:12px;height:12px;border-radius:50%;border:2px solid var(--border);background:var(--dark);}
+    .tracking-step.active::before{border-color:var(--teal);background:var(--teal);box-shadow:0 0 10px rgba(13,139,139,0.4);}
+    .tracking-step.completed::before{border-color:var(--teal);background:var(--teal);}
+    .tracking-step h4{font-family:var(--font-heading);font-size:0.9rem;margin-bottom:2px;}
+    .tracking-step p{color:var(--text-muted);font-size:0.8rem;font-weight:300;}
+
+    /* ─── SUPPORT FORM ─── */
+    .support-form{max-width:600px;margin:0 auto;}
+    .form-group{margin-bottom:20px;}
+    .form-group label{display:block;font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;}
+    .form-group input,.form-group textarea,.form-group select{width:100%;padding:14px 18px;background:var(--surface-glass);backdrop-filter:blur(10px);border:1px solid var(--border);color:var(--text);font-size:0.9rem;font-family:var(--font-body);outline:none;transition:border-color 0.3s var(--ease-out);box-sizing:border-box;}
+    .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--teal);}
+    .form-group input::placeholder,.form-group textarea::placeholder{color:var(--text-dim);}
+    .form-group textarea{min-height:120px;resize:vertical;}
+    .form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888892' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+    .form-group select option{background:var(--dark-2);color:var(--text);}
+
+    @media(max-width:768px){
+      .chat-widget{bottom:80px;right:16px;}
+      .chat-panel{bottom:150px;right:8px;width:calc(100vw - 16px);max-height:60vh;}
+      .tracking-input-group{flex-direction:column;}
+    }
   </style>
-    <link rel="preload" href="HERO.png" as="image" />
-    <link rel="preload" href="Rajwadi Necklace Set.png" as="image" />
-    <link rel="preload" href="imgi_2_head-logo.webp" as="image" />
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="preload" href="imgi_2_head-logo.webp" as="image" />
+  <link rel="preload" href="hero-poster.jpg" as="image" />
+  <link rel="preload" href="hero-720.mp4" as="video" type="video/mp4" />
 </head>
 <body>
 
@@ -565,6 +659,7 @@
 
   <!-- PRELOADER -->
   <div id="preloader">
+    <canvas id="preloader-video-bg"></canvas>
     <div class="preloader-ring">
       <img class="preloader-logo" src="imgi_2_head-logo.webp" alt="J JEWELLERS" />
     </div>
@@ -588,20 +683,17 @@
   <!-- NAVIGATION -->
   <nav id="navbar">
     <a class="logo" id="logoHome" tabindex="0">
-      <img src="imgi_2_head-logo.webp" alt="J JEWELLERS" loading="lazy" />
+      <img src="imgi_2_head-logo.webp" alt="J JEWELLERS" fetchpriority="high" />
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a role="button" aria-pressed="false" onclick="playClick();goHome()">Home</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();navigateToSection('collections')">Collections</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Categories</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();navigateTo('shop')">Shop</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();navigateToSection('gallery')">Gallery</a></li>
-      <li><a role="button" aria-pressed="false" onclick="playClick();scrollToSection('footer')">Contact</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();closeMobileMenu();goHome()">Home</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();closeMobileMenu();navigateToSection('collections')">Collections</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();closeMobileMenu();navigateTo('shop')">Categories</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();closeMobileMenu();navigateTo('shop')">Shop</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();closeMobileMenu();navigateToSection('gallery')">Gallery</a></li>
+      <li><a role="button" aria-pressed="false" onclick="playClick();closeMobileMenu();navigateTo('support')">Support</a></li>
     </ul>
     <div class="nav-icons">
-      <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound" aria-pressed="false">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
-      </button>
       <button onclick="playClick();openCart()" aria-label="Cart" aria-pressed="false">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="cart-count" id="cartCountNav">0</span>
@@ -621,8 +713,11 @@
 
     <!-- HERO -->
     <div class="hero-bg-container">
-      <video class="hero-video" id="heroVideo" muted loop playsinline preload="metadata" poster="HERO.png" fetchpriority="high">
-        <source src="Commercial J Jwellers.mp4" type="video/mp4" />
+      <video class="hero-video" id="heroVideo" muted loop playsinline preload="none" poster="hero-poster.jpg">
+        <source src="hero-720.webm" type="video/webm" media="(max-width: 768px)" />
+        <source src="hero-720.mp4" type="video/mp4" media="(max-width: 768px)" />
+        <source src="hero-1080.webm" type="video/webm" />
+        <source src="hero-1080.mp4" type="video/mp4" />
       </video>
       <div class="hero-overlay"></div>
     </div>
@@ -643,42 +738,42 @@
       <div class="shipping-scroll">
         <span class="shipping-scroll-item">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          Royal Mail Tracked Shipping Worldwide <span class="ship-badge">TRACKED</span>
           <span class="sep">·</span>
         </span>
         <span class="shipping-scroll-item">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          Royal Mail Tracked Shipping Worldwide <span class="ship-badge">TRACKED</span>
           <span class="sep">·</span>
         </span>
         <span class="shipping-scroll-item">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          Royal Mail Tracked Shipping Worldwide <span class="ship-badge">TRACKED</span>
           <span class="sep">·</span>
         </span>
         <span class="shipping-scroll-item">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          Royal Mail Tracked Shipping Worldwide <span class="ship-badge">TRACKED</span>
           <span class="sep">·</span>
         </span>
         <span class="shipping-scroll-item">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          Royal Mail Tracked Shipping Worldwide <span class="ship-badge">TRACKED</span>
           <span class="sep">·</span>
         </span>
         <span class="shipping-scroll-item">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          Royal Mail Tracked Shipping Worldwide <span class="ship-badge">TRACKED</span>
           <span class="sep">·</span>
         </span>
         <span class="shipping-scroll-item">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          Royal Mail Tracked Shipping Worldwide <span class="ship-badge">TRACKED</span>
           <span class="sep">·</span>
         </span>
         <span class="shipping-scroll-item">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Free Worldwide Shipping <span class="ship-badge">FREE</span>
+          Royal Mail Tracked Shipping Worldwide <span class="ship-badge">TRACKED</span>
           <span class="sep">·</span>
         </span>
       </div>
@@ -995,6 +1090,148 @@
     </section>
   </div>
 
+  <!-- ====== SUPPORT PAGE ====== -->
+  <div id="page-support" class="page-content">
+    <section style="padding-top:140px;padding-bottom:60px;">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Help Centre</p></div>
+        <div class="reveal-r"><h2 class="section-title">Customer <span class="teal-text">Support</span></h2></div>
+        <p class="section-desc" style="margin-bottom:36px;">We're here to help. Choose an option below or fill out the form and our team will respond within 24 hours.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:48px;">
+          <div class="reveal-s" style="padding:28px;border:1px solid var(--border);background:var(--surface-glass);text-align:center;cursor:pointer;" onclick="playClick();navigateTo('faq')">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" style="margin-bottom:12px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <h3 style="font-family:var(--font-heading);font-size:1.1rem;margin-bottom:6px;">FAQ</h3>
+            <p style="color:var(--text-muted);font-size:0.8rem;font-weight:300;">Find quick answers to common questions</p>
+          </div>
+          <div class="reveal-s" style="padding:28px;border:1px solid var(--border);background:var(--surface-glass);text-align:center;cursor:pointer;" onclick="playClick();navigateTo('track')">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" style="margin-bottom:12px;"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <h3 style="font-family:var(--font-heading);font-size:1.1rem;margin-bottom:6px;">Track Order</h3>
+            <p style="color:var(--text-muted);font-size:0.8rem;font-weight:300;">Check the status of your order</p>
+          </div>
+          <div class="reveal-s" style="padding:28px;border:1px solid var(--border);background:var(--surface-glass);text-align:center;cursor:pointer;" onclick="playClick();document.getElementById('contactFormSection').scrollIntoView({behavior:'smooth'})">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" style="margin-bottom:12px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <h3 style="font-family:var(--font-heading);font-size:1.1rem;margin-bottom:6px;">Contact Us</h3>
+            <p style="color:var(--text-muted);font-size:0.8rem;font-weight:300;">Send us a message directly</p>
+          </div>
+          <div class="reveal-s" style="padding:28px;border:1px solid var(--border);background:var(--surface-glass);text-align:center;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" style="margin-bottom:12px;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <h3 style="font-family:var(--font-heading);font-size:1.1rem;margin-bottom:6px;">Call Us</h3>
+            <p style="color:var(--text-muted);font-size:0.8rem;font-weight:300;"><a href="mailto:info@jjewellers.co.uk" style="color:var(--teal);">info@jjewellers.co.uk</a></p>
+          </div>
+        </div>
+
+        <div id="contactFormSection" class="reveal-s">
+          <div style="border:1px solid var(--border);padding:36px;background:var(--surface-glass);">
+            <h3 style="font-family:var(--font-heading);font-size:1.3rem;margin-bottom:24px;">Send Us a Message</h3>
+            <form class="support-form" id="supportForm">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div class="form-group">
+                  <label>Your Name</label>
+                  <input type="text" name="name" placeholder="Full name" required />
+                </div>
+                <div class="form-group">
+                  <label>Email Address</label>
+                  <input type="email" name="email" placeholder="you@example.com" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Subject</label>
+                <select name="subject" required>
+                  <option value="">Select a topic...</option>
+                  <option value="order">Order enquiry</option>
+                  <option value="return">Returns & refunds</option>
+                  <option value="product">Product information</option>
+                  <option value="shipping">Shipping question</option>
+                  <option value="complaint">Complaint</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Order Number (if applicable)</label>
+                <input type="text" name="orderNumber" placeholder="e.g. JJ-12345" />
+              </div>
+              <div class="form-group">
+                <label>Message</label>
+                <textarea name="message" placeholder="How can we help?" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-cta" style="width:100%;justify-content:center;">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ====== FAQ PAGE ====== -->
+  <div id="page-faq" class="page-content">
+    <section style="padding-top:140px;padding-bottom:60px;">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Help Centre</p></div>
+        <div class="reveal-r"><h2 class="section-title">Frequently Asked <span class="teal-text">Questions</span></h2></div>
+        <div class="faq-list" id="faqList">
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">How long does shipping take?<span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>We offer Royal Mail tracked shipping on all orders. UK delivery is £3.65 (1-2 working days). International shipping starts from £6.60 depending on your location (3-7 working days). You will receive a confirmation email with tracking details once your order has been dispatched.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">Can I return or exchange an item?<span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>We accept returns within 30 days of delivery for a full refund, provided items are unworn and in original packaging. For hygiene reasons, earrings cannot be returned unless faulty. To initiate a return, email us at <a href="mailto:info@jjewellers.co.uk">info@jjewellers.co.uk</a> with your order number.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">What payment methods do you accept?<span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>We accept all major credit and debit cards (Visa, Mastercard, American Express) through our secure Stripe payment gateway. All transactions are encrypted and processed securely. We never store your card details on our servers.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">Are the jewellery pieces real gold?<span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>Our pieces are crafted with premium gold-plated materials and high-quality kundan stones. They are designed to look and feel luxurious while remaining affordable. With proper care, the gold finish maintains its lustre for a long time.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">How do I care for my jewellery?<span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>Store your pieces in a dry place away from direct sunlight. Avoid contact with perfumes, lotions, and water. Gently wipe with a soft cloth after wearing. Remove jewellery before showering or swimming to preserve the finish.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">Do you offer wholesale or bulk orders?<span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>Yes! We offer competitive pricing for bulk and wholesale orders. Please contact us at <a href="mailto:info@jjewellers.co.uk">info@jjewellers.co.uk</a> with your requirements and we'll provide a custom quote within 24 hours.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">How can I track my order?<span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>Once your order is dispatched, you'll receive an email with a tracking number. You can use this to track your parcel on our <a onclick="navigateTo('track')" style="cursor:pointer;color:var(--teal);">Order Tracking</a> page, or directly on the courier's website.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">Is my payment information secure?<span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>Absolutely. We use Stripe, a PCI Level 1 certified payment processor, to handle all transactions. Your payment details are encrypted using industry-standard SSL/TLS technology. We never have access to your full card number.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ====== ORDER TRACKING PAGE ====== -->
+  <div id="page-track" class="page-content">
+    <section style="padding-top:140px;padding-bottom:60px;">
+      <div class="container">
+        <div class="reveal-l"><p class="section-label">Order Tracking</p></div>
+        <div class="reveal-r"><h2 class="section-title">Track Your <span class="teal-text">Order</span></h2></div>
+        <p class="section-desc" style="margin:0 auto 36px;text-align:center;">Enter your order number or the email address used at checkout to see your order status.</p>
+        <div class="tracking-form">
+          <div class="tracking-input-group">
+            <input type="text" id="trackingInput" placeholder="Order number (e.g. JJ-12345) or email" />
+            <button class="btn btn-cta btn-sm" onclick="trackOrder()">Track</button>
+          </div>
+          <div class="tracking-result" id="trackingResult">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+              <h3 style="font-family:var(--font-heading);font-size:1.2rem;">Order Status</h3>
+              <span id="trackingStatusBadge" style="padding:4px 14px;font-family:var(--font-future);font-size:0.5rem;letter-spacing:1px;text-transform:uppercase;background:rgba(13,139,139,0.1);border:1px solid var(--teal);color:var(--teal);"></span>
+            </div>
+            <div class="tracking-timeline" id="trackingTimeline"></div>
+            <p style="color:var(--text-dim);font-size:0.75rem;margin-top:16px;font-style:italic;">For real-time tracking, check your email for the courier tracking link.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <!-- ====== FOOTER ====== -->
   <footer id="footer">
     <div class="container">
@@ -1029,6 +1266,10 @@
           <a onclick="playClick();scrollToSection('footer')">Contact Us</a>
           <a onclick="playClick();navigateTo('privacy')">Privacy Policy</a>
           <a onclick="playClick();navigateTo('returns')">Returns &amp; Refunds</a>
+          <a onclick="playClick();navigateTo('support')">Customer Support</a>
+          <a onclick="playClick();navigateTo('faq')">FAQ</a>
+          <a onclick="playClick();navigateTo('track')">Track Order</a>
+          <a href="admin/" target="_blank" onclick="playClick()" style="color:rgba(13,139,139,0.4);font-size:0.7rem;">Admin Portal</a>
         </div>
         <div class="footer-col">
           <h4>Social Networks</h4>
@@ -1038,7 +1279,7 @@
         <div class="footer-col">
           <h4>Contact Us</h4>
           <a href="mailto:info@jjewellers.co.uk" onclick="playClick()">info@jjewellers.co.uk</a>
-          <span class="footer-phone"><a href="tel:+441234567890" onclick="playClick()">+44 1234 567 890</a></span>
+          <a onclick="playClick();navigateTo('support')">Customer Support</a>
           <a onclick="playClick();scrollToSection('contact')">Newsletter Signup</a>
         </div>
       </div>
@@ -1102,13 +1343,43 @@
         <p style="margin-top:8px;">Your bag is empty</p>
       </div>
     </div>
+    <div class="cart-shipping" style="padding:8px 0;font-size:0.8rem;color:var(--text-muted);display:flex;justify-content:space-between;"><span>Shipping</span><span id="cartShipping">Calculated at checkout</span></div>
     <div class="cart-total"><span>Total</span><span id="cartTotal">£0</span></div>
-    <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;margin-top:12px;" onclick="playClick();checkout()" aria-pressed="false">Checkout</button>
+    <div class="cart-checkout-options">
+      <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;margin-top:12px;" onclick="playClick();checkout()" aria-pressed="false">Checkout</button>
+      <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:8px;" onclick="playClick();checkoutEmbedded()" aria-pressed="false">Pay on Site</button>
+      <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:8px;" onclick="playClick();checkoutCard()" aria-pressed="false">Pay with Card</button>
+    </div>
+  </div>
+
+  <!-- CHAT WIDGET -->
+  <div class="chat-widget">
+    <button class="chat-toggle" onclick="toggleChat()" aria-label="Open customer support chat">
+      <svg id="chatIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    </button>
+  </div>
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-header">
+      <div>
+        <h3>J Jewellers Support</h3>
+        <div class="chat-status">Online</div>
+      </div>
+      <button style="background:transparent;border:none;color:var(--text-muted);font-size:1.2rem;cursor:pointer;" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-quick-replies" id="chatQuickReplies"></div>
+    <div class="chat-input-wrap">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendChatMessage()" />
+      <button class="chat-send" onclick="sendChatMessage()">Send</button>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    window.addEventListener('load', function(){ window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); });
     // ─── TOAST ───
     function showToast(msg){
       var c=document.getElementById('toastContainer');
@@ -1126,63 +1397,9 @@
     function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
     document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
-    // ─── ALL PRODUCTS ───
-    var products = [
-      // ── Long Mala Sets ──
-      { id:1, name:'Aaira Collection', cat:'Long Mala Sets', price:28.99, img:'products/Long Mala Sets/Aaira-Collection.png', badge:'new' },
-      { id:2, name:'Gold Choker Necklace Set', cat:'Long Mala Sets', price:18.00, img:'products/Long Mala Sets/Gold-choker-necklace-set.png' },
-      { id:3, name:'Hand Ring Pieces', cat:'Long Mala Sets', price:20.00, img:'products/Long Mala Sets/Hand-Ring-Pieces.png', badge:'new' },
-      { id:4, name:'Kiara Collection', cat:'Long Mala Sets', price:22.99, img:'products/Long Mala Sets/Kiara-Collection.png' },
-      { id:5, name:'Kundan Rani Haar Long Mala', cat:'Long Mala Sets', price:35.00, img:'products/Long Mala Sets/Kundan_Rani_Haar_Long_Mala.png', badge:'new' },
-      { id:6, name:'Meenwari Copper Choker Necklace Set', cat:'Long Mala Sets', price:23.00, img:'products/Long Mala Sets/Meenwari-Copper-Choker-Necklace-Set.png' },
-      { id:7, name:'Rajwadi Necklace Set', cat:'Long Mala Sets', price:24.00, img:'products/Long Mala Sets/Rajwadi-Necklace-Set.png' },
-      // ── Choker Sets ──
-      { id:8, name:'Maharani Bridal Collection', cat:'Choker Sets', price:85.00, img:'products/Choker Sets/Maharani-Bridal-Collection.png', badge:'new' },
-      { id:9, name:'The Maharani Heirloom Bridal Set', cat:'Choker Sets', price:80.00, img:'products/Choker Sets/The-Maharani-Heirloom-Bridal-Set.png' },
-      { id:10, name:'The Noor-e-Zar Bridal Ensemble', cat:'Choker Sets', price:95.00, img:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png' },
-      { id:11, name:'Kundan Choker Necklace Set with Earring', cat:'Choker Sets', price:30.00, img:'products/Choker Sets/Kundan_Choker_Necklace_Set_with_Earring_2.png' },
-      { id:12, name:'Kundan Maang Tikka with Earrings', cat:'Choker Sets', price:28.00, img:'products/Choker Sets/Kundan_Maang_Tikka_with_Earrings.png' },
-      // ── Earrings ──
-      { id:13, name:'Gold Jhumka Earrings - Coloured Stones', cat:'Earrings', price:16.00, img:'products/Earrings/Gold_Jhumka_Earrings_-_Traditional_Bell_With_coloured_stones.png', badge:'new' },
-      { id:14, name:'Gold Jhumka Earrings - Classic', cat:'Earrings', price:14.00, img:'products/Earrings/Gold_Jhumka_Earrings_-_Traditional_Bell.png' },
-      { id:15, name:'Square Sahara Earring Set', cat:'Earrings', price:20.00, img:'products/Earrings/PhotoshopExtension_Image_(61).png' },
-      // ── Hand Pieces ──
-      { id:16, name:'Kundan Hath Phool - Bracelet with Ring Chain', cat:'Hand Pieces', price:25.00, img:'products/Hand Pieces/Kundan_Hath_Phool_-_Bracelet_with_Ring_Chain.png', badge:'new' },
-      // ── Tikka Sets ──
-      { id:17, name:'Tikka Set - Traditional', cat:'Tikka Sets', price:22.00, img:'products/Tikka Sets/PhotoshopExtension_Image_(59).png' },
-      { id:18, name:'Tikka Set - Bridal', cat:'Tikka Sets', price:28.00, img:'products/Tikka Sets/PhotoshopExtension_Image_(60).png', badge:'new' },
-      // ── Rings ──
-      { id:19, name:'Adjustable Kundan Statement Ring', cat:'Rings', price:12.00, img:'products/Rings/Adjustable_Kundan_Statement_Ring.png', badge:'new' },
-      { id:20, name:'Kundan Ring - Classic', cat:'Rings', price:10.00, img:'products/Rings/PhotoshopExtension_Image_(63).png' },
-      { id:21, name:'Kundan Ring - Bridal', cat:'Rings', price:14.00, img:'products/Rings/PhotoshopExtension_Image_(64).png' },
-      // ── Bangles ──
-      { id:22, name:'Bangles', cat:'Bangles', price:15.00, img:'products/Bangles/Bangles.png' },
-      { id:23, name:'Bridal Jhumki Pearl Bangles', cat:'Bangles', price:25.99, img:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.png', badge:'new' },
-      { id:24, name:'Gold Kundan Jhumki Bangles', cat:'Bangles', price:22.99, img:'products/Bangles/Gold-Kundan-Jhumki-bangles.png' },
-      { id:25, name:'Golden Bangles (Pack of 2)', cat:'Bangles', price:12.00, img:'products/Bangles/Golden-bangle-Pack-of-2.png' },
-      { id:26, name:'Golden Bangles (Pack of 4)', cat:'Bangles', price:12.00, img:'products/Bangles/Golden-bangle-Pack-of-4.png' },
-      { id:27, name:'Silver Bangles (Pack of 2)', cat:'Bangles', price:12.00, img:'products/Bangles/Silver-bangles-Pack-of-2.png' },
-      { id:28, name:'Single Jhumki Gold Bangles', cat:'Bangles', price:18.00, img:'products/Bangles/Single-Jhumki-gold-bangles.png' },
-      { id:29, name:'Bangles - Design 1', cat:'Bangles', price:15.00, img:'products/Bangles/PhotoshopExtension_Image_(66).png' },
-      { id:30, name:'Bangles - Design 2', cat:'Bangles', price:15.00, img:'products/Bangles/PhotoshopExtension_Image_(67).png' },
-      { id:31, name:'Bangles - Design 3', cat:'Bangles', price:15.00, img:'products/Bangles/PhotoshopExtension_Image_(68).png' },
-      // ── Anklets ──
-      { id:32, name:'Golden Anklets (Payal)', cat:'Anklets', price:18.00, img:'products/Anklets/Golden_Anklets_(payal).png', badge:'new' },
-      { id:33, name:'Silver Anklets', cat:'Anklets', price:16.00, img:'products/Anklets/Silver_Anklets.png' },
-      { id:34, name:'Silver Anklets - Design 2', cat:'Anklets', price:16.00, img:'products/Anklets/Silver_Anklets_2.png' },
-    ];
-
-    var featured = [
-      { name:'Kundan Rani Haar Long Mala', price:'\u00a335.00', img:'products/Long Mala Sets/Kundan_Rani_Haar_Long_Mala.png' },
-      { name:'The Noor-e-Zar Bridal Ensemble', price:'\u00a395.00', img:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png' },
-      { name:'Maharani Bridal Collection', price:'\u00a385.00', img:'products/Choker Sets/Maharani-Bridal-Collection.png' },
-      { name:'Kundan Hath Phool', price:'\u00a325.00', img:'products/Hand Pieces/Kundan_Hath_Phool_-_Bracelet_with_Ring_Chain.png' },
-      { name:'Adjustable Kundan Statement Ring', price:'\u00a312.00', img:'products/Rings/Adjustable_Kundan_Statement_Ring.png' },
-      { name:'Bridal Jhumki Pearl Bangles', price:'\u00a325.99', img:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.png' },
-      { name:'Golden Anklets (Payal)', price:'\u00a318.00', img:'products/Anklets/Golden_Anklets_(payal).png' },
-      { name:'Tikka Set - Bridal', price:'\u00a328.00', img:'products/Tikka Sets/PhotoshopExtension_Image_(60).png' },
-      { name:'Aaira Collection', price:'\u00a328.99', img:'products/Long Mala Sets/Aaira-Collection.png' },
-    ];
+    // ─── ALL PRODUCTS (loaded from API) ───
+    var products = [];
+    var featured = [];
 
     var categories = [
       { id:'all', label:'All Products' },
@@ -1197,57 +1414,29 @@
     ];
 
     var categoryCards = [
-      { id:'Long Mala Sets', label:'Long Mala Sets', desc:'Regal heritage necklaces', img:'products/Long Mala Sets/Aaira-Collection.png', tall:true },
-      { id:'Choker Sets', label:'Choker Sets', desc:'Bold & contemporary', img:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png' },
-      { id:'Earrings', label:'Earrings', desc:'Statement drops & jhumkas', img:'products/Earrings/Gold_Jhumka_Earrings_-_Traditional_Bell_With_coloured_stones.png' },
-      { id:'Bangles', label:'Bangles', desc:'Traditional & modern bangles', img:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.png' },
-      { id:'Rings', label:'Rings', desc:'Kundan & statement rings', img:'products/Rings/Adjustable_Kundan_Statement_Ring.png' },
-      { id:'Hand Pieces', label:'Hand Pieces', desc:'Elegant hath phool designs', img:'products/Hand Pieces/Kundan_Hath_Phool_-_Bracelet_with_Ring_Chain.png' },
-      { id:'Tikka Sets', label:'Tikka Sets', desc:'Maang tikka & forehead jewellery', img:'products/Tikka Sets/PhotoshopExtension_Image_(60).png' },
-      { id:'Anklets', label:'Anklets', desc:'Payal & ankle chains', img:'products/Anklets/Golden_Anklets_(payal).png' },
+      { id:'Long Mala Sets', label:'Long Mala Sets', desc:'Regal heritage necklaces', img:'products/Long Mala Sets/Aaira-Collection.png', webp:'products/Long Mala Sets/Aaira-Collection.webp', tall:true },
+      { id:'Choker Sets', label:'Choker Sets', desc:'Bold & contemporary', img:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png', webp:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.webp' },
+      { id:'Earrings', label:'Earrings', desc:'Statement drops & jhumkas', img:'products/Earrings/Gold_Jhumka_Earrings_-_Traditional_Bell_With_coloured_stones.png', webp:'products/Earrings/Gold_Jhumka_Earrings_-_Traditional_Bell_With_coloured_stones.webp' },
+      { id:'Bangles', label:'Bangles', desc:'Traditional & modern bangles', img:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.png', webp:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.webp' },
+      { id:'Rings', label:'Rings', desc:'Kundan & statement rings', img:'products/Rings/Adjustable_Kundan_Statement_Ring.png', webp:'products/Rings/Adjustable_Kundan_Statement_Ring.webp' },
+      { id:'Hand Pieces', label:'Hand Pieces', desc:'Elegant hath phool designs', img:'products/Hand Pieces/Kundan_Hath_Phool_-_Bracelet_with_Ring_Chain.png', webp:'products/Hand Pieces/Kundan_Hath_Phool_-_Bracelet_with_Ring_Chain.webp' },
+      { id:'Tikka Sets', label:'Tikka Sets', desc:'Maang tikka & forehead jewellery', img:'products/Tikka Sets/PhotoshopExtension_Image_(60).png', webp:'products/Tikka Sets/PhotoshopExtension_Image_(60).webp' },
+      { id:'Anklets', label:'Anklets', desc:'Payal & ankle chains', img:'products/Anklets/Golden_Anklets_(payal).png', webp:'products/Anklets/Golden_Anklets_(payal).webp' },
     ];
 
-    var cart = [];
-    var STRIPE_PK = 'pk_live_51Syo8SPOkHltFicB1AC6cBgx2NmPaRFZzNcmBJ41gjzk0s1eP7CK4PeEkyKsW94TrtsvIQnVbs6RFD4ltQacpawk00W8ugpnID';
+    var cart = JSON.parse(localStorage.getItem('jj_cart') || '[]');
     var clickSound = new Audio('CLICK SOUND.mp3'); clickSound.volume = 0.5;
-    var bgSound = null;
-    var soundEnabled = true;
-    var audioActivated = false;
     var countersStarted = false;
 
     // ─── AUDIO ───
-    function activateAudio() {
-      if (audioActivated) return;
-      audioActivated = true;
-      if (!bgSound) { bgSound = new Audio('BACKGROUND SOUND.mp3'); bgSound.loop = true; bgSound.volume = 0.3; }
-      if (soundEnabled && bgSound) bgSound.play().catch(function(){});
-    }
-    var ctx = null;
     function playClick(e) {
       try {
         if (!e) e = window.event;
-        if (!audioActivated) activateAudio();
         clickSound.currentTime = 0; clickSound.play().catch(function(){});
         var t = e && e.target;
         if (t && t.getAttribute) { var p = t.getAttribute('aria-pressed'); if (p === 'false') t.setAttribute('aria-pressed', 'true'); }
       } catch(_) {}
     }
-    document.addEventListener('click', function() { if (!audioActivated) activateAudio(); }, { once: true });
-
-    function toggleSound() {
-      var btn = document.getElementById('soundToggle');
-      soundEnabled = !soundEnabled;
-      btn.classList.toggle('muted', !soundEnabled);
-      btn.setAttribute('aria-pressed', soundEnabled ? 'false' : 'true');
-      if (soundEnabled) {
-        if (!audioActivated) activateAudio();
-        clickSound.currentTime = 0; clickSound.play().catch(function(){});
-        if (bgSound) bgSound.play().catch(function(){});
-      } else {
-        if (bgSound) bgSound.pause();
-      }
-    }
-    document.getElementById('soundToggle').addEventListener('click', toggleSound);
 
     var preloaderProgress = 0;
     var preloaderInterval = setInterval(function(){
@@ -1256,6 +1445,18 @@
       var bar = document.getElementById('preloaderBar');
       if (bar) bar.style.width = preloaderProgress + '%';
     }, 200);
+
+    var preloaderCanvas = document.getElementById('preloader-video-bg');
+    var preloaderImg = new Image();
+    preloaderImg.src = 'hero-poster.jpg';
+    preloaderImg.onload = function() {
+      var ctx = preloaderCanvas.getContext('2d');
+      preloaderCanvas.width = preloaderCanvas.offsetWidth || window.innerWidth;
+      preloaderCanvas.height = preloaderCanvas.offsetHeight || window.innerHeight;
+      ctx.globalAlpha = 0.2;
+      ctx.drawImage(preloaderImg, 0, 0, preloaderCanvas.width, preloaderCanvas.height);
+      preloaderCanvas.style.opacity = '1';
+    };
 
     function dismissPreloader() {
       var p = document.getElementById('preloader');
@@ -1278,6 +1479,23 @@
         v.play().then(function(){ console.log('hero video started'); }).catch(function(e){ console.warn('hero video play failed:', e); });
       }
     }
+
+    // IntersectionObserver: pause video when off-screen, play when visible
+    (function() {
+      var hv = document.getElementById('heroVideo');
+      if (!hv) return;
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            hv.play().catch(function(){});
+          } else {
+            hv.pause();
+          }
+        });
+      }, { threshold: 0.15 });
+      observer.observe(hv);
+    })();
+
     // Auto-dismiss preloader as fast as possible
     if (document.readyState === 'complete') { dismissPreloader(); }
     else { window.addEventListener('load', function(){ setTimeout(dismissPreloader, 100); }); }
@@ -1321,17 +1539,44 @@
         var isActive = targets[i] === page;
         b.classList.toggle('active', isActive);
       });
+      var chatPanel = document.getElementById('chatPanel');
+      if (chatPanel) chatPanel.classList.remove('open');
+      chatOpen = false;
       window.scrollTo(0, 0);
     }
     window.addEventListener('hashchange', function(){ var page = window.location.hash.slice(1) || 'home'; if (page.indexOf('/') > 0) { var parts = page.split('/'); if (parts[0] === 'product') { showPage('product'); showProductDetail(parseInt(parts[1])); return; } } showPage(page); });
-    (function(){ var page = window.location.hash.slice(1) || 'home'; if (page.indexOf('/') > 0) { var parts = page.split('/'); if (parts[0] === 'product') { showPage('product'); showProductDetail(parseInt(parts[1])); return; } } showPage(page); })();
+    // On refresh/load, always return to hero — clear any hash and force top
+    (function(){
+      if (window.location.hash && window.location.hash !== '#home') {
+        history.replaceState(null, '', window.location.pathname);
+      }
+      showPage('home');
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    })();
 
     // ─── PRODUCT DETAIL ───
     function showProductDetail(id) {
       var p = products.find(function(x){ return x.id === id; });
-      if (!p) { navigateTo('shop'); return; }
-      var desc = p.desc || 'A stunning ' + p.name.toLowerCase() + ' from J JEWELLERS. Expertly crafted with premium materials, this ' + p.cat.toLowerCase() + ' piece combines traditional elegance with contemporary design — perfect for adding a touch of luxury to any outfit.';
-      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><img src="' + p.img + '" alt="' + p.name + '" /></div><div class="product-detail-info"><div class="p-category">' + p.cat + '</div><h2>' + p.name + '</h2><div class="p-price">£' + p.price.toFixed(2) + '</div><div class="p-description">' + desc + '</div><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
+      if (!p) {
+        // Try fetching from API if not loaded yet
+        fetch('/api/products?id=' + id).then(function(r){ return r.json(); }).then(function(apiP){
+          if (apiP && apiP.id) {
+            renderProductDetailHTML(apiP);
+          } else {
+            navigateTo('shop');
+          }
+        }).catch(function(){ navigateTo('shop'); });
+        return;
+      }
+      renderProductDetailHTML(p);
+    }
+    function renderProductDetailHTML(p) {
+      var desc = p.desc || p.description || 'A stunning ' + p.name.toLowerCase() + ' from J JEWELLERS. Expertly crafted with premium materials, this ' + (p.cat || p.category || '').toLowerCase() + ' piece combines traditional elegance with contemporary design.';
+      var imgSrc = p.img || p.image || '';
+      var webpSrc = p.webp || imgSrc.replace(/\.png$/i, '.webp');
+      var catName = p.cat || p.category || '';
+      var price = (p.price || 0).toFixed(2);
+      var html = '<div class="product-detail-inner product-detail-anim"><div class="product-detail-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img src="' + imgSrc + '" alt="' + p.name + '" loading="eager" /></picture></div><div class="product-detail-info"><div class="p-category">' + catName + '</div><h2>' + p.name + '</h2><div class="p-price">£' + price + '</div><div class="p-description">' + desc + '</div><div class="detail-actions"><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><button class="btn btn-primary" onclick="buyNow(' + p.id + ')" aria-pressed="false">Buy Now</button></div><div style="margin-top:16px;"><a class="back-link" onclick="navigateTo(\'shop\')" style="cursor:pointer;">← Continue Shopping</a></div></div></div>';
       document.getElementById('productDetailContent').innerHTML = html;
     }
 
@@ -1364,15 +1609,89 @@
         var html = '';
         list.forEach(function(p){
           var badge = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
-          html += '<div class="product-card" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><img src="' + p.img + '" alt="' + p.name + '" />' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button></div></div>';
+          var webpSrc = p.webp || p.img.replace(/\.png$/i, '.webp');
+          html += '<div class="product-card" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img class="lazy" data-src="' + p.img + '" alt="' + p.name + '" /></picture>' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><div class="product-actions"><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><button class="buy-now-btn" onclick="event.stopPropagation();buyNow(' + p.id + ')" aria-pressed="false">Buy Now</button></div></div></div>';
         });
         el.innerHTML = html;
+        lazyLoadImages(el);
         setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh(); }, 100);
       });
     }
 
-    renderCategoryTabs();
-    filterCategory('all');
+    function lazyLoadImages(container) {
+      var imgs = (container || document).querySelectorAll('img.lazy');
+      if ('loading' in HTMLImageElement.prototype) {
+        imgs.forEach(function(img) {
+          var src = img.getAttribute('data-src');
+          if (src) {
+            img.src = src;
+            img.removeAttribute('data-src');
+            img.onload = function() { img.classList.add('loaded'); img.classList.remove('lazy'); };
+            img.onerror = function() { img.classList.add('loaded'); };
+          }
+        });
+      } else {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (!entry.isIntersecting) return;
+            var img = entry.target;
+            var src = img.getAttribute('data-src');
+            if (src) {
+              img.src = src;
+              img.removeAttribute('data-src');
+              img.onload = function() { img.classList.add('loaded'); img.classList.remove('lazy'); };
+              img.onerror = function() { img.classList.add('loaded'); };
+            }
+            observer.unobserve(img);
+          });
+        }, { rootMargin: '200px' });
+        imgs.forEach(function(img) { observer.observe(img); });
+      }
+    }
+
+    function loadProductsAndRender() {
+      // Try to load from API first
+      fetch('/api/products').then(function(r){ return r.json(); }).then(function(apiProducts){
+        if (apiProducts && apiProducts.length) {
+          // Transform API format {name,category,price,image,badge,description} -> {name,cat,price,img,badge,desc}
+          products = apiProducts.map(function(p){
+            var imgUrl = p.image || '';
+            var webpUrl = imgUrl.replace(/\.png$/i, '.webp');
+            return {
+              id: p.id,
+              name: p.name,
+              cat: p.category,
+              price: p.price,
+              img: imgUrl,
+              webp: webpUrl,
+              badge: p.badge,
+              desc: p.description || ''
+            };
+          });
+          // Build categories from data
+          var cats = {};
+          products.forEach(function(p){ if(p.cat && !cats[p.cat]){cats[p.cat]=true;} });
+          var catKeys = Object.keys(cats);
+          categories = [{ id:'all', label:'All Products' }];
+          catKeys.forEach(function(k){ categories.push({ id:k, label:k }); });
+          // Build featured from non-empty images
+          featured = products.filter(function(p){ return p.img && p.price; }).slice(0, 9).map(function(p){
+            return { name:p.name, price:'\u00a3' + p.price.toFixed(2), img:p.img, webp:p.webp };
+          });
+          renderFeatured();
+        }
+      }).catch(function(){
+        // API failed — products remain empty
+        console.log('Could not load products from API');
+      }).finally(function(){
+        // Always render with whatever data we have
+        renderCategoryTabs();
+        filterCategory('all');
+        renderSidebarCategories();
+      });
+    }
+    loadProductsAndRender();
+
     document.addEventListener('click', function(e) {
       var btn = e.target.closest('.cat-tab');
       if (btn) { playClick(e); filterCategory(btn.getAttribute('data-cat')); }
@@ -1416,9 +1735,10 @@
       categoryCards.forEach(function(c, i) {
         var tallClass = c.tall ? ' tall' : '';
         var animClass = i % 2 === 0 ? ' reveal-l' : ' reveal-r';
-        html += '<div class="category-card' + tallClass + animClass + '" onclick="playClick();filterCategoryAndScroll(\'' + c.id + '\')"><img src="' + c.img + '" alt="' + c.label + '" loading="lazy" /><div class="overlay"></div><div class="info"><h3>' + c.label + '</h3><p>' + c.desc + '</p></div></div>';
+        html += '<div class="category-card' + tallClass + animClass + '" onclick="playClick();filterCategoryAndScroll(\'' + c.id + '\')"><picture><source srcset="' + (c.webp || c.img.replace(/\.png$/i, '.webp')) + '" type="image/webp" /><img class="lazy" data-src="' + c.img + '" alt="' + c.label + '" /></picture><div class="overlay"></div><div class="info"><h3>' + c.label + '</h3><p>' + c.desc + '</p></div></div>';
       });
       el.innerHTML = html;
+      lazyLoadImages(el);
     }
     renderCollections();
 
@@ -1445,8 +1765,9 @@
     function renderFeatured() {
       var el = document.getElementById('hScroll');
       var html = '';
-      featured.forEach(function(f){ html += '<div class="h-card"><div class="h-img"><img src="' + f.img + '" alt="' + f.name + '" /></div><div class="h-info"><h3>' + f.name + '</h3><div class="h-price">' + f.price + '</div></div></div>'; });
+      featured.forEach(function(f){ html += '<div class="h-card"><div class="h-img"><picture><source srcset="' + (f.webp || f.img.replace(/\.png$/i, '.webp')) + '" type="image/webp" /><img class="lazy" data-src="' + f.img + '" alt="' + f.name + '" /></picture></div><div class="h-info"><h3>' + f.name + '</h3><div class="h-price">' + f.price + '</div></div></div>'; });
       el.innerHTML = html;
+      lazyLoadImages(el);
     }
     renderFeatured();
 
@@ -1468,6 +1789,7 @@
       updateCart();
     }
     function updateCart() {
+      localStorage.setItem('jj_cart', JSON.stringify(cart));
       var el = document.getElementById('cartItems'), t = document.getElementById('cartTotal'), n = document.getElementById('cartCountNav'), b = document.getElementById('cartCountBottom');
       var total = 0, cnt = 0;
       cart.forEach(function(i){ total += i.price * i.qty; cnt += i.qty; });
@@ -1481,6 +1803,14 @@
       el.innerHTML = html;
       t.textContent = '£' + total.toFixed(2);
     }
+    function buyNow(id) {
+      playClick();
+      var p = products.find(function(x){ return x.id === id; });
+      if (!p) return;
+      cart = [{id:p.id, name:p.name, price:p.price, img:p.img, qty:1}];
+      localStorage.setItem('jj_cart', JSON.stringify(cart));
+      window.location.href = '/checkout';
+    }
     function openCart() { playClick(); document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartPanel').classList.add('open'); }
     function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartPanel').classList.remove('open'); }
     function checkout() {
@@ -1492,17 +1822,29 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items: items })
-      }).then(function(r){ return r.json(); }).then(function(data){
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          showToast('Payment error: ' + (data.error || 'Unknown error'));
-          if (checkoutBtn) { checkoutBtn.textContent = 'Checkout'; checkoutBtn.disabled = false; }
-        }
-      }).catch(function(err){
-        showToast('Payment error. Please try again.');
+      }).then(function(r){
+        return r.json().then(function(data){
+          if (!r.ok || data.error) {
+            showToast('Payment error: ' + (data.error || 'Server error (' + r.status + ')'));
+            if (checkoutBtn) { checkoutBtn.textContent = 'Checkout'; checkoutBtn.disabled = false; }
+            return;
+          }
+          if (data.url) {
+            window.location.href = data.url;
+          }
+        });
+      }).catch(function(){
+        showToast('Payment error. Please check your connection and try again.');
         if (checkoutBtn) { checkoutBtn.textContent = 'Checkout'; checkoutBtn.disabled = false; }
       });
+    }
+    function checkoutEmbedded() {
+      if (!cart.length) { showToast('Your bag is empty!'); return; }
+      window.location.href = '/checkout';
+    }
+    function checkoutCard() {
+      if (!cart.length) { showToast('Your bag is empty!'); return; }
+      window.location.href = '/pay';
     }
 
     // ─── GSAP ANIMATIONS ───
@@ -1552,7 +1894,20 @@
     // ─── SCROLL ───
     function scrollToSection(id) { var el = document.getElementById(id); if (el) el.scrollIntoView({behavior:'smooth'}); }
 
-    document.getElementById('newsletterForm').addEventListener('submit', function(e){ e.preventDefault(); playClick(); showToast('Welcome to the Boujee Circle!'); this.querySelector('input').value = ''; });
+    document.getElementById('newsletterForm').addEventListener('submit', function(e){
+      e.preventDefault(); playClick();
+      var email = this.querySelector('input').value;
+      if (!email) return;
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'newsletter', email: email, subject: 'Newsletter Signup' })
+      }).then(function(r){ return r.json(); }).then(function(data){
+        if (data.success) { showToast('Welcome to the Boujee Circle!'); }
+        else { showToast('Something went wrong. Please try again.'); }
+      }).catch(function(){ showToast('Welcome to the Boujee Circle!'); });
+      this.querySelector('input').value = '';
+    });
 
     function closeMobileMenu() {
       var l = document.getElementById('navLinks');
@@ -1580,6 +1935,185 @@
       el.addEventListener('mouseup',function(){ isDown=false; });
       el.addEventListener('mousemove',function(e){ if(!isDown)return; e.preventDefault(); var x=e.pageX-el.offsetLeft; el.scrollLeft=scrollLeft-(x-startX)*1.5; });
     })();
+
+    // ─── CHAT WIDGET ───
+    var chatOpen = false;
+    var chatInitialized = false;
+    var chatResponses = {
+      'shipping': 'We offer Royal Mail tracked shipping on all orders! UK delivery is £3.65 (1-2 working days). International shipping starts from £6.60 (3-7 working days). You\'ll receive tracking details by email once dispatched.',
+      'returns': 'We accept returns within 30 days for a full refund. Items must be unworn and in original packaging. Earrings cannot be returned for hygiene reasons unless faulty. Email us at info@jjewellers.co.uk to start a return.',
+      'track': 'To track your order, visit our Order Tracking page or check the tracking link in your dispatch email. You can also navigate to Support > Track Order.',
+      'payment': 'We accept all major credit/debit cards (Visa, Mastercard, Amex) through Stripe — a PCI Level 1 certified payment processor. All transactions are encrypted and secure.',
+      'care': 'Store jewellery in a dry place, avoid contact with perfumes and water, and gently wipe with a soft cloth after wearing. Remove before showering or swimming.',
+      'contact': 'You can reach us at info@jjewellers.co.uk or use the contact form on our Support page. We respond within 24 hours!',
+      'refund': 'Refunds are processed within 5-10 business days after we receive and inspect your return. The refund is applied to your original payment method.',
+      'bulk': 'Yes, we offer competitive pricing for bulk and wholesale orders! Email us at info@jjewellers.co.uk with your requirements for a custom quote.',
+      'hello': 'Hello! Welcome to J Jewellers support. How can I help you today?',
+      'hi': 'Hi there! How can I assist you with your jewellery shopping experience?'
+    };
+
+    function toggleChat() {
+      chatOpen = !chatOpen;
+      document.getElementById('chatPanel').classList.toggle('open', chatOpen);
+      if (chatOpen && !chatInitialized) {
+        initChat();
+        chatInitialized = true;
+      }
+    }
+
+    function initChat() {
+      var welcomeTime = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      addChatMessage('bot', 'Welcome to J Jewellers! I\'m here to help you. What can I assist you with?', welcomeTime);
+      showQuickReplies(['Shipping', 'Returns', 'Track Order', 'Payment', 'Contact Us']);
+    }
+
+    function addChatMessage(type, text, time) {
+      var container = document.getElementById('chatMessages');
+      var msg = document.createElement('div');
+      msg.className = 'chat-msg ' + type;
+      if (type === 'user') {
+        msg.textContent = text;
+      } else {
+        msg.innerHTML = text + (time && type === 'bot' ? '<span class="msg-time">' + time + '</span>' : '');
+      }
+      container.appendChild(msg);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function showQuickReplies(replies) {
+      var container = document.getElementById('chatQuickReplies');
+      container.innerHTML = '';
+      replies.forEach(function(r) {
+        var btn = document.createElement('button');
+        btn.className = 'chat-quick-btn';
+        btn.textContent = r;
+        btn.onclick = function() {
+          handleChatInput(r);
+          container.innerHTML = '';
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function sendChatMessage() {
+      var input = document.getElementById('chatInput');
+      var msg = input.value.trim();
+      if (!msg) return;
+      input.value = '';
+      handleChatInput(msg);
+    }
+
+    function handleChatInput(msg) {
+      var now = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      addChatMessage('user', msg, null);
+      var lower = msg.toLowerCase();
+      var response = 'Thanks for your message! For detailed assistance, please email us at info@jjewellers.co.uk or visit our <a onclick="navigateTo(\'support\')" style="color:var(--teal);cursor:pointer;">Support page</a>. Our team responds within 24 hours.';
+      var followUp = null;
+
+      if (lower.match(/shipping|deliver|dispatch|postage/)) {
+        response = chatResponses.shipping;
+        followUp = ['Returns', 'Track Order', 'Contact Us'];
+      } else if (lower.match(/return|exchange|refund|money back/)) {
+        response = chatResponses.returns;
+        followUp = ['Shipping', 'Track Order', 'Contact Us'];
+      } else if (lower.match(/track|order status|where.*order/)) {
+        response = chatResponses.track;
+        followUp = ['Shipping', 'Returns', 'Contact Us'];
+      } else if (lower.match(/pay|card|visa|mastercard|amex|stripe/)) {
+        response = chatResponses.payment;
+        followUp = ['Shipping', 'Returns', 'Contact Us'];
+      } else if (lower.match(/care|clean|maintain|tarnish/)) {
+        response = chatResponses.care;
+        followUp = ['Shipping', 'Payment', 'Contact Us'];
+      } else if (lower.match(/contact|email|phone|reach|talk.*human/)) {
+        response = chatResponses.contact;
+        followUp = ['Shipping', 'Returns', 'Track Order'];
+      } else if (lower.match(/refund|money.*back/)) {
+        response = chatResponses.refund;
+        followUp = ['Returns', 'Shipping', 'Contact Us'];
+      } else if (lower.match(/bulk|wholesale|large.*order/)) {
+        response = chatResponses.bulk;
+        followUp = ['Shipping', 'Payment', 'Contact Us'];
+      } else if (lower.match(/^(hi|hello|hey|good morning|good afternoon|good evening)/)) {
+        response = chatResponses.hello;
+        followUp = ['Shipping', 'Returns', 'Track Order', 'Payment'];
+      } else if (lower.match(/thank|thanks/)) {
+        response = 'You\'re welcome! Is there anything else I can help you with?';
+        followUp = ['Shipping', 'Returns', 'Track Order'];
+      } else if (lower.match(/jhumka|earring|bangle|choker|ring|tikka|anklet|mala/)) {
+        response = 'Great choice! Browse our collection in the <a onclick="navigateTo(\'shop\')" style="color:var(--teal);cursor:pointer;">Shop</a> section. All pieces ship via Royal Mail tracked delivery. Need help with sizing or materials?';
+        followUp = ['Shipping', 'Payment', 'Contact Us'];
+      }
+
+      setTimeout(function() {
+        addChatMessage('bot', response, now);
+        if (followUp) showQuickReplies(followUp);
+      }, 600);
+    }
+
+    // ─── SUPPORT FORM ───
+    var supportForm = document.getElementById('supportForm');
+    if (supportForm) {
+      supportForm.addEventListener('submit', function(e) {
+        e.preventDefault(); playClick();
+        var fd = new FormData(this);
+        var data = {
+          type: 'contact',
+          name: fd.get('name'),
+          email: fd.get('email'),
+          subject: fd.get('subject'),
+          orderNumber: fd.get('orderNumber'),
+          message: fd.get('message')
+        };
+        var submitBtn = this.querySelector('button[type="submit"]');
+        var origText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...'; submitBtn.disabled = true;
+        fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }).then(function(r){ return r.json(); }).then(function(res){
+          if (res.success) {
+            openModal('Message Sent!', 'Thank you for contacting us. We\'ll respond within 24 hours. Reference ID: ' + (res.referenceId || 'N/A'));
+            supportForm.reset();
+          } else {
+            showToast('Failed to send. Please try again or email us directly.');
+          }
+          submitBtn.textContent = origText; submitBtn.disabled = false;
+        }).catch(function(){
+          showToast('Network error. Please try again.');
+          submitBtn.textContent = origText; submitBtn.disabled = false;
+        });
+      });
+    }
+
+    // ─── ORDER TRACKING ───
+    function trackOrder() {
+      var input = document.getElementById('trackingInput');
+      var val = input.value.trim();
+      if (!val) { showToast('Please enter an order number or email.'); return; }
+      var result = document.getElementById('trackingResult');
+      var badge = document.getElementById('trackingStatusBadge');
+      var timeline = document.getElementById('trackingTimeline');
+      result.classList.add('show');
+      badge.textContent = 'SIMULATED';
+      badge.style.borderColor = 'var(--teal)';
+      badge.style.color = 'var(--teal)';
+      var steps = [
+        { title: 'Order Placed', desc: 'Your order has been confirmed', completed: true },
+        { title: 'Processing', desc: 'We\'re preparing your items', completed: true },
+        { title: 'Dispatched', desc: 'Your order has been shipped', active: true, completed: false },
+        { title: 'In Transit', desc: 'On the way to you', completed: false },
+        { title: 'Delivered', desc: 'Enjoy your jewellery!', completed: false }
+      ];
+      var html = '';
+      steps.forEach(function(s) {
+        var cls = s.completed ? 'completed' : (s.active ? 'active' : '');
+        html += '<div class="tracking-step ' + cls + '"><h4>' + s.title + '</h4><p>' + s.desc + '</p></div>';
+      });
+      timeline.innerHTML = html;
+      showToast('Tracking info is simulated. Check your email for real tracking details.');
+    }
 
     // ─── TESTIMONIAL CAROUSEL ───
     (function(){
@@ -1615,11 +2149,12 @@
         if (idx === current) return;
         var slides = carousel.querySelectorAll('.testimonial-slide');
         var dots = dotsEl ? dotsEl.querySelectorAll('.testimonial-dot') : [];
-        slides[current].classList.remove('active');
-        slides[current].classList.add('exit');
-        setTimeout(function(){ slides[current].classList.remove('exit'); }, 600);
+        var prev = current;
+        slides[prev].classList.remove('active');
+        slides[prev].classList.add('exit');
+        setTimeout(function(){ slides[prev].classList.remove('exit'); }, 600);
         slides[idx].classList.add('active');
-        if (dots.length){ dots[current].classList.remove('active'); dots[idx].classList.add('active'); }
+        if (dots.length){ dots[prev].classList.remove('active'); dots[idx].classList.add('active'); }
         current = idx;
         resetTimer();
       }
@@ -1651,13 +2186,43 @@
     // ─── INIT ───
     initGSAP();
 
+    // ─── IMAGE ERROR FALLBACK ───
+    document.addEventListener('error', function(e) {
+      if (e.target.tagName === 'IMG') {
+        e.target.style.background = 'linear-gradient(135deg, rgba(13,139,139,0.1), rgba(13,139,139,0.05))';
+        e.target.style.display = 'flex';
+        e.target.alt = e.target.alt || 'J J Jewellers';
+      }
+    }, true);
+
+    // ─── INITIAL CART RENDER ───
+    updateCart();
+
     // ─── STRIPE CHECKOUT RESULT ───
     (function(){
       var params = new URLSearchParams(window.location.search);
       if (params.get('session_id')) {
-        cart = []; updateCart();
-        openModal('Order Confirmed!', 'Thank you for your order! A confirmation email will be sent to you shortly.');
+        var sessionId = params.get('session_id');
         window.history.replaceState({}, '', window.location.pathname);
+        openModal('Verifying Payment...', 'Please wait while we confirm your order.');
+        fetch('/api/verify-session?session_id=' + encodeURIComponent(sessionId))
+          .then(function(r){ return r.json(); })
+          .then(function(data){
+            if (data.valid && data.status === 'paid') {
+              cart = []; updateCart();
+              openModal('Order Confirmed!', 'Thank you for your order! A confirmation email has been sent to ' + (data.customerEmail || 'your email address') + '. Order total: ' + (data.currency === 'gbp' ? '£' : '$') + ((data.amount || 0) / 100).toFixed(2));
+            } else {
+              openModal('Payment Pending', 'Your payment is being processed. If you were charged, please contact support with your reference ID.');
+            }
+          })
+          .catch(function(){
+            cart = []; updateCart();
+            openModal('Order Received', 'Thank you for your order! If you have any questions, please contact support.');
+          });
+      } else if (params.get('payment') === 'success') {
+        window.history.replaceState({}, '', window.location.pathname);
+        cart = []; updateCart();
+        openModal('Payment Successful!', 'Your payment has been processed. A confirmation email will be sent shortly. Thank you for shopping with J Jewellers!');
       } else if (params.get('canceled') === '1') {
         showToast('Payment was canceled.');
         window.history.replaceState({}, '', window.location.pathname);
