@@ -1,16 +1,12 @@
-const { authenticate, setCors, ALLOWED_ORIGIN } = require('./_auth');
+const { authenticate, setCors } = require('./_auth');
+const db = require('../_db');
 
-const staffAccounts = [
-  { id: 1, name: 'Admin', email: 'admin@jjewellers.co.uk', role: 'superadmin', status: 'active', lastLogin: new Date().toISOString() }
-];
-
-let staffId = 1;
-
-const settings = {
+const DEFAULT_SETTINGS = {
   store: {
     name: 'J JEWELLERS',
     tagline: 'Look Boujee On A Budget',
     email: 'info@jjewellers.co.uk',
+    phone: '',
     currency: 'GBP',
     language: 'English',
     timezone: 'Europe/London'
@@ -41,6 +37,11 @@ const settings = {
   }
 };
 
+const staffAccounts = [
+  { id: 1, name: 'Admin', email: 'admin@jjewellers.co.uk', role: 'superadmin', status: 'active', lastLogin: new Date().toISOString() }
+];
+let staffId = 1;
+
 module.exports = async (req, res) => {
   setCors(res);
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -51,6 +52,8 @@ module.exports = async (req, res) => {
   if (req.method === 'GET') {
     const { section } = req.query;
     if (section === 'staff') return res.status(200).json(staffAccounts);
+    const saved = await db.getSettings();
+    const settings = saved || DEFAULT_SETTINGS;
     if (section) return res.status(200).json(settings[section] || settings);
     return res.status(200).json({
       storeName: settings.store.name,
@@ -66,14 +69,19 @@ module.exports = async (req, res) => {
 
   if (req.method === 'PUT') {
     const data = req.body || {};
+    const saved = await db.getSettings();
+    const settings = saved || JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+
     if (data.section && data.value) {
       settings[data.section] = { ...settings[data.section], ...data.value };
+      await db.saveSettings(settings);
       return res.status(200).json({ success: true, ...settings[data.section] });
     }
     if (data.storeName !== undefined || data.supportEmail !== undefined || data.phone !== undefined) {
       if (data.storeName !== undefined) settings.store.name = data.storeName;
       if (data.supportEmail !== undefined) settings.store.email = data.supportEmail;
       if (data.phone !== undefined) settings.store.phone = data.phone;
+      await db.saveSettings(settings);
       return res.status(200).json({ success: true, storeName: settings.store.name, supportEmail: settings.store.email, phone: settings.store.phone || '' });
     }
     return res.status(400).json({ error: 'Invalid settings data' });
