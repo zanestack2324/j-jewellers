@@ -23,7 +23,7 @@ function sanitizeObject(obj, maxDepth) {
   if (maxDepth <= 0) return {};
   const clean = Array.isArray(obj) ? [] : {};
   for (const key of Object.keys(obj)) {
-    if (['__proto__', 'constructor', 'prototype', 'constructor'].includes(key)) continue;
+    if (['__proto__', 'constructor', 'prototype'].includes(key)) continue;
     const val = obj[key];
     if (typeof val === 'string') clean[key] = sanitizeString(val, 2000);
     else if (typeof val === 'number' && isFinite(val)) clean[key] = val;

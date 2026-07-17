@@ -15,7 +15,7 @@ function isRateLimited(ip) {
 }
 
 module.exports = async (req, res) => {
-  setCors(res);
+  setCors(res, req.headers.origin);
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 

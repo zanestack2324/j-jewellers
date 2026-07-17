@@ -2,6 +2,11 @@ const { authenticate, setCors } = require('./_auth');
 const db = require('../_db');
 const github = require('../_github');
 
+function sanitize(str, max) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/[<>"'`;\\]/g, '').trim().substring(0, max || 500);
+}
+
 async function syncToGitHub(store) {
   if (!github.isConfigured()) return;
   try {
@@ -19,7 +24,7 @@ async function syncToGitHub(store) {
 }
 
 module.exports = async (req, res) => {
-  setCors(res);
+  setCors(res, req.headers.origin);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const session = authenticate(req);
@@ -49,15 +54,15 @@ module.exports = async (req, res) => {
     const data = req.body || {};
     const product = {
       id: nextId,
-      name: data.name || 'New Product',
-      category: data.category || 'Uncategorized',
+      name: sanitize(data.name) || 'New Product',
+      category: sanitize(data.category, 100) || 'Uncategorized',
       price: parseFloat(data.price) || 0,
       image: data.image || '',
-      badge: data.badge || '',
-      status: data.status || 'active',
+      badge: sanitize(data.badge, 50) || '',
+      status: ['active', 'draft', 'out-of-stock'].includes(data.status) ? data.status : 'active',
       stock: parseInt(data.stock) || 0,
       sales: 0,
-      description: data.description || ''
+      description: sanitize(data.description) || ''
     };
     products.push(product);
     store.nextId = nextId + 1;
@@ -74,13 +79,13 @@ module.exports = async (req, res) => {
     const data = req.body || {};
     const product = products.find(p => p.id === data.id);
     if (!product) return res.status(404).json({ error: 'Product not found' });
-    if (data.name !== undefined) product.name = data.name;
+    if (data.name !== undefined) product.name = sanitize(data.name);
     if (data.price !== undefined) { const p = parseFloat(data.price); product.price = isNaN(p) ? 0 : p; }
-    if (data.category !== undefined) product.category = data.category;
+    if (data.category !== undefined) product.category = sanitize(data.category, 100);
     if (data.stock !== undefined) { const s = parseInt(data.stock, 10); product.stock = isNaN(s) ? 0 : s; }
-    if (data.status !== undefined) product.status = data.status;
-    if (data.badge !== undefined) product.badge = data.badge;
-    if (data.description !== undefined) product.description = data.description;
+    if (data.status !== undefined && ['active', 'draft', 'out-of-stock'].includes(data.status)) product.status = data.status;
+    if (data.badge !== undefined) product.badge = sanitize(data.badge, 50);
+    if (data.description !== undefined) product.description = sanitize(data.description);
     if (data.image !== undefined) product.image = data.image;
     try {
       await db.saveProducts(store);

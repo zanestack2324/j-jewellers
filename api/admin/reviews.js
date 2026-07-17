@@ -2,7 +2,7 @@ const { authenticate, setCors } = require('./_auth');
 const db = require('../_db');
 
 module.exports = async (req, res) => {
-  setCors(res);
+  setCors(res, req.headers.origin);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const session = authenticate(req);
@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
     const data = req.body || {};
     const review = reviews.find(r => r.id === Number(data.id));
     if (!review) return res.status(404).json({ error: 'Review not found' });
-    if (data.status !== undefined) review.status = data.status;
+    if (data.status !== undefined && ['pending', 'approved', 'rejected'].includes(data.status)) review.status = data.status;
     await db.saveReviews(store);
     return res.status(200).json(review);
   }

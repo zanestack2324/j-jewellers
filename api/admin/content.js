@@ -53,7 +53,7 @@ function setNested(obj, path, value) {
 }
 
 module.exports = async (req, res) => {
-  setCors(res);
+  setCors(res, req.headers.origin);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const session = authenticate(req);
@@ -75,6 +75,10 @@ module.exports = async (req, res) => {
   if (req.method === 'PUT') {
     const data = req.body || {};
     const { section } = req.query;
+    const allowedSections = ['hero', 'collections', 'essence', 'testimonials', 'gallery', 'newsletter', 'footer', 'announcement'];
+    if (section && !allowedSections.includes(section)) {
+      return res.status(400).json({ error: 'Invalid section' });
+    }
     if (section && data.value !== undefined) {
       setNested(content, section, data.value);
       await db.saveContent(content);

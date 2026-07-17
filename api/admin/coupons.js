@@ -1,8 +1,13 @@
 const { authenticate, setCors } = require('./_auth');
 const db = require('../_db');
 
+function sanitize(str, max) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/[<>"'`;\\]/g, '').trim().substring(0, max || 200);
+}
+
 module.exports = async (req, res) => {
-  setCors(res);
+  setCors(res, req.headers.origin);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const session = authenticate(req);
@@ -20,15 +25,15 @@ module.exports = async (req, res) => {
     nextId++;
     const coupon = {
       id: nextId,
-      code: (data.code || 'NEWCOUPON').toUpperCase(),
-      type: data.type || 'percentage',
+      code: sanitize(data.code, 50).toUpperCase() || 'NEWCOUPON',
+      type: ['percentage', 'fixed'].includes(data.type) ? data.type : 'percentage',
       value: parseFloat(data.value) || 0,
       minOrder: parseFloat(data.minOrder) || 0,
       maxUses: parseInt(data.maxUses) || 100,
       used: 0,
       expiry: data.expiry || '2026-12-31',
-      status: data.status || 'active',
-      description: data.description || ''
+      status: ['active', 'inactive'].includes(data.status) ? data.status : 'active',
+      description: sanitize(data.description) || ''
     };
     coupons.push(coupon);
     store.nextId = nextId;
@@ -40,14 +45,14 @@ module.exports = async (req, res) => {
     const data = req.body || {};
     const coupon = coupons.find(c => c.id === Number(data.id));
     if (!coupon) return res.status(404).json({ error: 'Coupon not found' });
-    if (data.code !== undefined) coupon.code = data.code.toUpperCase();
-    if (data.type !== undefined) coupon.type = data.type;
+    if (data.code !== undefined) coupon.code = sanitize(data.code, 50).toUpperCase();
+    if (data.type !== undefined && ['percentage', 'fixed'].includes(data.type)) coupon.type = data.type;
     if (data.value !== undefined) coupon.value = parseFloat(data.value);
     if (data.minOrder !== undefined) coupon.minOrder = parseFloat(data.minOrder);
     if (data.maxUses !== undefined) coupon.maxUses = parseInt(data.maxUses);
     if (data.expiry !== undefined) coupon.expiry = data.expiry;
-    if (data.status !== undefined) coupon.status = data.status;
-    if (data.description !== undefined) coupon.description = data.description;
+    if (data.status !== undefined && ['active', 'inactive'].includes(data.status)) coupon.status = data.status;
+    if (data.description !== undefined) coupon.description = sanitize(data.description);
     await db.saveCoupons(store);
     return res.status(200).json(coupon);
   }

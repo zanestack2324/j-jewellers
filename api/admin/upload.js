@@ -21,7 +21,7 @@ function compressImage(base64Data, maxDimension) {
 }
 
 module.exports = async (req, res) => {
-  setCors(res);
+  setCors(res, req.headers.origin);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const session = authenticate(req);
