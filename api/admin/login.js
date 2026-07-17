@@ -1,13 +1,17 @@
 const { authenticate, login, setCors } = require('./_auth');
 
 const loginAttempts = {};
-function isRateLimited(ip) {
+function recordFailedAttempt(ip) {
   const now = Date.now();
   if (!loginAttempts[ip]) loginAttempts[ip] = [];
   loginAttempts[ip] = loginAttempts[ip].filter(t => now - t < 60000);
-  if (loginAttempts[ip].length >= 5) return true;
   loginAttempts[ip].push(now);
-  return false;
+}
+function isRateLimited(ip) {
+  const now = Date.now();
+  if (!loginAttempts[ip]) return false;
+  loginAttempts[ip] = loginAttempts[ip].filter(t => now - t < 60000);
+  return loginAttempts[ip].length >= 5;
 }
 
 module.exports = async (req, res) => {
@@ -31,6 +35,7 @@ module.exports = async (req, res) => {
 
   const token = login(username, password);
   if (token) return res.status(200).json({ success: true, token });
+  recordFailedAttempt(ip);
   return res.status(401).json({ error: 'Invalid credentials' });
 };
 

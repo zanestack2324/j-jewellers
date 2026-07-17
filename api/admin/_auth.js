@@ -4,7 +4,7 @@ const ALLOWED_ORIGINS = ['https://jjeweller.com', 'https://j-jewellers-six.verce
 function isAllowedOrigin(origin) {
   if (!origin) return false;
   for (var i = 0; i < ALLOWED_ORIGINS.length; i++) {
-    if (origin === ALLOWED_ORIGINS[i] || origin.startsWith(ALLOWED_ORIGINS[i])) return true;
+    if (origin === ALLOWED_ORIGINS[i]) return true;
   }
   return false;
 }
@@ -32,6 +32,7 @@ function authenticate(req) {
     const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf8'));
     if (Date.now() > payload.exp) return null;
     const check = crypto.createHmac('sha256', getPass()).update(parts[1]).digest('hex');
+    if (check.length !== parts[0].length) return null;
     if (!crypto.timingSafeEqual(Buffer.from(check), Buffer.from(parts[0]))) return null;
     return { username: payload.username, loginTime: payload.iat, expiresAt: payload.exp };
   } catch { return null; }
@@ -40,6 +41,7 @@ function authenticate(req) {
 function login(username, password) {
   if (username !== ADMIN_USER) { crypto.randomBytes(32); return null; }
   if (!password || !getPass()) return null;
+  if (Buffer.byteLength(password) !== Buffer.byteLength(getPass())) { crypto.randomBytes(32); return null; }
   if (!crypto.timingSafeEqual(Buffer.from(password), Buffer.from(getPass()))) return null;
   return generateToken(username);
 }

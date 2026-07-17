@@ -229,14 +229,14 @@
 
     /* ─── NAVIGATION ─── */
     nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:24px 48px;display:flex;align-items:center;justify-content:space-between;transition:all 0.6s var(--ease-out);border:none;outline:none;-webkit-transform:translateZ(0);transform:translateZ(0);background:transparent;}
-    nav.scrolled{padding:18px 48px;background:transparent;}
+    nav.scrolled{padding:18px 48px;background:rgba(10,10,11,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
     nav .logo{display:flex;align-items:center;cursor:pointer;transition:opacity 0.3s;position:relative;}
     nav .logo:hover{opacity:0.85;}
     nav .logo img{height:95px;width:auto;transition:height 0.6s var(--ease-out);}
     nav.scrolled .logo img{height:75px;}
     @media(max-width:768px){
       nav{padding:16px 16px;border:none;outline:none;box-shadow:none;background:transparent;flex-wrap:wrap;-webkit-transform:translateZ(0);transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;}
-      nav.scrolled{padding:14px 16px;background:transparent;}
+      nav.scrolled{padding:14px 16px;background:rgba(10,10,11,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
       .nav-links{display:none;position:fixed;top:80px;left:12px;right:12px;flex-direction:column;background:#0A2222;border:1px solid rgba(13,139,139,0.15);border-radius:16px;padding:8px;gap:2px;opacity:0;transform:translateY(-16px) scaleY(0.95);transform-origin:top center;pointer-events:none;transition:all 0.35s cubic-bezier(0.22,1,0.36,1);box-shadow:0 8px 40px rgba(0,0,0,0.5);}
       .nav-links.open{opacity:1;transform:translateY(0) scaleY(1);pointer-events:auto;}
       .nav-links a{border-radius:12px;padding:14px 20px;font-size:0.5rem;letter-spacing:3px;opacity:0;transform:translateY(-8px);transition:all 0.35s cubic-bezier(0.22,1,0.36,1);transition-delay:0s;}
@@ -337,9 +337,9 @@
     .category-card{position:relative;overflow:hidden;aspect-ratio:1;cursor:pointer;transition:all 0.7s var(--ease-out);background:var(--dark-2);border:1px solid transparent;}
     .category-card:hover{transform:scale(0.97);z-index:2;border-color:var(--border-light);box-shadow:0 0 40px rgba(13,139,139,0.05);}
     .category-card picture{display:block;width:100%;height:100%;}
-    .category-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease;opacity:1;}
-    .category-card img.lazy{opacity:0;}
-    .category-card img.loaded{opacity:1;}
+    .category-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease,filter 0.8s var(--ease-out);opacity:1;}
+    .category-card img.lazy{opacity:0;filter:blur(20px);transform:scale(1.1);}
+    .category-card img.loaded{opacity:1;filter:blur(0);transform:scale(1);}
     .category-card:hover img{transform:scale(1.08);}
     .category-card .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,11,0.85) 0%,rgba(10,10,11,0.15) 50%,transparent 80%);}
     .category-card .info{position:absolute;bottom:0;left:0;right:0;padding:28px;}
@@ -381,7 +381,7 @@
     .product-card:hover{background:rgba(22,22,27,0.7);border-color:var(--border-light);transform:translateY(-6px) scale(1.02);box-shadow:0 20px 60px rgba(0,0,0,0.3),0 0 40px rgba(13,139,139,0.1);}
     .product-img{position:relative;overflow:hidden;aspect-ratio:1;background:rgba(13,139,139,0.05);}
     .product-img picture{display:block;width:100%;height:100%;}
-    .product-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease;opacity:1;}
+    .product-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease,filter 0.8s var(--ease-out);opacity:1;}
     .product-img img.lazy{opacity:0;filter:blur(20px);transform:scale(1.1);}
     .product-img img.loaded{opacity:1;filter:blur(0);transform:scale(1);}
     .product-card:hover .product-img img{transform:scale(1.08) rotate(1deg);}
@@ -419,9 +419,9 @@
     .h-card:hover{background:rgba(22,22,27,0.6);border-color:var(--border-light);transform:translateY(-4px);}
     .h-card .h-img{position:relative;overflow:hidden;aspect-ratio:1;}
     .h-card .h-img picture{display:block;width:100%;height:100%;}
-    .h-card .h-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease;opacity:1;}
-    .h-card .h-img img.lazy{opacity:0;}
-    .h-card .h-img img.loaded{opacity:1;}
+    .h-card .h-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease,filter 0.8s var(--ease-out);opacity:1;}
+    .h-card .h-img img.lazy{opacity:0;filter:blur(20px);transform:scale(1.1);}
+    .h-card .h-img img.loaded{opacity:1;filter:blur(0);transform:scale(1);}
     .h-card:hover .h-img img{transform:scale(1.06);}
     .h-card .h-info{padding:16px;}
     .h-card .h-info h3{font-family:var(--font-heading);font-size:0.95rem;font-weight:600;margin-bottom:4px;}
@@ -504,7 +504,7 @@
     .bottom-nav-btn.active{color:var(--teal);background:rgba(13,139,139,0.12);}
     .bottom-nav-btn.active span{color:var(--teal);}
     .bottom-nav-btn .cart-count{top:-2px;right:4px;width:18px;height:18px;font-size:0.45rem;}
-    @media(max-width:768px){.bottom-nav{display:block;}body{padding-bottom:0;}}
+    @media(max-width:768px){.bottom-nav{display:block;}body{padding-bottom:70px;}}
     @media(min-width:769px){.bottom-nav{display:none!important;}body{padding-bottom:0!important;}}
 
     /* ─── CART ─── */
@@ -655,9 +655,6 @@
       .tracking-input-group{flex-direction:column;}
     }
   </style>
-  <link rel="preload" href="imgi_2_head-logo.webp" as="image" />
-  <link rel="preload" href="hero-poster.jpg" as="image" />
-  <link rel="preload" href="hero-720.mp4" as="video" type="video/mp4" />
 </head>
 <body>
 
@@ -1247,7 +1244,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="logo" onclick="playClick();scrollToSection('home')"><span>J JEWELLERS</span></div>
+          <div class="logo" onclick="playClick();goHome()"><span>J JEWELLERS</span></div>
           <p>Look Boujee On A Budget — luxury jewellery handcrafted for every occasion. Inspired by South Asian heritage, designed for the modern woman.</p>
           <div class="footer-features">
             <div class="f-item">
@@ -1272,7 +1269,7 @@
           <h4>Quick Links</h4>
           <a onclick="playClick();goHome()">Home</a>
           <a onclick="playClick();navigateTo('shop')">Products</a>
-          <a onclick="playClick();goHome()">Testimonials</a>
+          <a onclick="playClick();goHome();setTimeout(function(){scrollToSection('testimonials')},300)">Testimonials</a>
           <a onclick="playClick();scrollToSection('footer')">Contact Us</a>
           <a onclick="playClick();navigateTo('privacy')">Privacy Policy</a>
           <a onclick="playClick();navigateTo('returns')">Returns &amp; Refunds</a>
@@ -1438,7 +1435,7 @@
         if (!e) e = window.event;
         clickSound.currentTime = 0; clickSound.play().catch(function(){});
         var t = e && e.target;
-        if (t && t.getAttribute) { var p = t.getAttribute('aria-pressed'); if (p === 'false') t.setAttribute('aria-pressed', 'true'); }
+        if (t && t.getAttribute) { var p = t.getAttribute('aria-pressed'); if (p === 'false') { t.setAttribute('aria-pressed', 'true'); setTimeout(function(){ t.setAttribute('aria-pressed', 'false'); }, 300); } }
       } catch(_) {}
     }
 
@@ -1500,10 +1497,9 @@
       observer.observe(hv);
     })();
 
-    // Auto-dismiss preloader as fast as possible
+    // Auto-dismiss preloader after all resources load
     if (document.readyState === 'complete') { dismissPreloader(); }
     else { window.addEventListener('load', function(){ setTimeout(dismissPreloader, 100); }); }
-    document.addEventListener('DOMContentLoaded', function(){ setTimeout(dismissPreloader, 300); });
 
     // ─── NAVBAR HIDE/SHOW (rAF throttled) ───
     var lastScrollY = 0;
@@ -1539,7 +1535,7 @@
       if (el) { el.style.display = 'block'; setTimeout(function(){ el.classList.add('active'); if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh(); }, 50); }
       closeMobileMenu();
       document.querySelectorAll('.bottom-nav-btn').forEach(function(b,i){
-        var targets = ['home','shop','shop','home','cart'];
+        var targets = ['home','shop',null,'shop','shop'];
         var isActive = targets[i] === page;
         b.classList.toggle('active', isActive);
       });
@@ -1749,7 +1745,8 @@
     function resetFilters() {
       document.querySelectorAll('.filter-check input').forEach(function(i){ i.checked = false; });
       document.querySelectorAll('.stone-colors span').forEach(function(s){ s.style.borderColor = 'transparent'; });
-      document.querySelector('.filter-check.active-cat input').checked = true;
+      var activeCat = document.querySelector('.filter-check.active-cat input');
+      if (activeCat) activeCat.checked = true;
       filterCategory('all');
     }
 

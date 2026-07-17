@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
 
     const zoneId = shipping.countryToZone[country];
     if (!zoneId) {
-      return res.status(200).json({
+      return res.status(400).json({
         error: 'Unsupported country',
         country: country,
         zones: shipping.zones,
@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
 
     const zone = shipping.zones.find(function(z) { return z.id === zoneId; });
     if (!zone) {
-      return res.status(200).json({ error: 'Zone not found', country: country });
+      return res.status(404).json({ error: 'Zone not found', country: country });
     }
 
     return res.status(200).json({
@@ -44,6 +44,6 @@ module.exports = async (req, res) => {
       service: shipping.service
     });
   } catch (err) {
-    return res.status(200).json({ error: 'Failed to load shipping rates', rate: 0 });
+    return res.status(500).json({ error: 'Failed to load shipping rates', rate: 0 });
   }
 };

@@ -56,14 +56,14 @@ function setSecurityHeaders(res) {
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=()');
   res.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
-  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-  res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
 }
 
 // CORS with strict origin checking
 function setStrictCors(res, origin, allowedOrigins) {
-  const isAllowed = origin && allowedOrigins.some(o => origin === o || origin.startsWith(o));
+  const isAllowed = origin && allowedOrigins.some(o => origin === o);
   res.setHeader('Access-Control-Allow-Origin', isAllowed ? origin : 'https://jjeweller.com');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Token');

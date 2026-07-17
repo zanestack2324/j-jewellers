@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
     });
   } catch (err) {
     console.error('Payments API error:', err.message);
-    return res.status(200).json({
+    return res.status(500).json({
       balance: { available: 0, pending: 0, currency: 'gbp' },
       recentPayments: [],
       stripeConfigured: false,

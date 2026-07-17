@@ -72,7 +72,7 @@ module.exports = async (req, res) => {
 
   if (req.method === 'PUT') {
     const data = req.body || {};
-    const product = products.find(p => p.id == data.id);
+    const product = products.find(p => p.id === data.id);
     if (!product) return res.status(404).json({ error: 'Product not found' });
     if (data.name !== undefined) product.name = data.name;
     if (data.price !== undefined) { const p = parseFloat(data.price); product.price = isNaN(p) ? 0 : p; }

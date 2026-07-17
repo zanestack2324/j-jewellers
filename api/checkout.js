@@ -14,9 +14,11 @@ const RATE_LIMIT_WINDOW = 60 * 1000;
 const RATE_LIMIT_MAX = 10;
 
 let shippingData = null;
+let shippingDataTime = 0;
 async function loadShippingData() {
-  if (!shippingData) {
+  if (!shippingData || Date.now() - shippingDataTime > 300000) {
     shippingData = await db.getShipping();
+    shippingDataTime = Date.now();
   }
   return shippingData;
 }
@@ -46,7 +48,7 @@ function sanitize(str) {
 function isAllowedOrigin(origin) {
   if (!origin) return false;
   for (var i = 0; i < ALLOWED_ORIGINS.length; i++) {
-    if (origin.startsWith(ALLOWED_ORIGINS[i])) return true;
+    if (origin === ALLOWED_ORIGINS[i]) return true;
   }
   return false;
 }

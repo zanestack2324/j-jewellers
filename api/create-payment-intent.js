@@ -11,7 +11,7 @@ function getClientIP(req) {
 function isAllowedOrigin(origin) {
   if (!origin) return false;
   for (var i = 0; i < ALLOWED_ORIGINS.length; i++) {
-    if (origin.startsWith(ALLOWED_ORIGINS[i])) return true;
+    if (origin === ALLOWED_ORIGINS[i]) return true;
   }
   return false;
 }

@@ -77,6 +77,10 @@ module.exports = async (req, res) => {
     if (!settings.staffNextId) settings.staffNextId = 1;
 
     if (data.section && data.value) {
+      const allowedSections = ['store', 'notifications', 'security', 'payment'];
+      if (!allowedSections.includes(data.section)) {
+        return res.status(400).json({ error: 'Invalid section' });
+      }
       settings[data.section] = { ...settings[data.section], ...data.value };
       await db.saveSettings(settings);
       return res.status(200).json({ success: true, ...settings[data.section] });
