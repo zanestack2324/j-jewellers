@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout - J Jewellers</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/webp" href="imgi_2_head-logo.webp" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://js.stripe.com" />
+  <script src="https://js.stripe.com/v3/" defer></script>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    :root{
+      --teal:#0D8B8B;--teal-light:#30C5C5;--teal-dark:#087070;
+      --dark:#051A1A;--dark-2:#072424;--dark-3:#0A3030;
+      --surface:rgba(10,48,48,0.6);--text:#FFFFFF;--text-muted:#A0D4D4;
+      --font-heading:'Playfair Display',Georgia,serif;
+      --font-body:'Lato',Arial,sans-serif;--font-future:'Orbitron',monospace;
+    }
+    body{font-family:var(--font-body);background:linear-gradient(160deg,#021212 0%,#052020 25%,#0A3838 50%,#072828 75%,#031515 100%);background-attachment:fixed;color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 16px;position:relative;}
+    body::before{content:'';position:fixed;top:-50%;right:-30%;width:80vw;height:80vw;border-radius:50%;background:radial-gradient(circle,rgba(13,139,139,0.08) 0%,transparent 70%);pointer-events:none;z-index:0;}
+    body::after{content:'';position:fixed;bottom:-40%;left:-20%;width:70vw;height:70vw;border-radius:50%;background:radial-gradient(circle,rgba(48,197,197,0.06) 0%,transparent 70%);pointer-events:none;z-index:0;}
+    .checkout-wrap{max-width:1100px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;position:relative;z-index:1;}
+    .checkout-header{text-align:center;margin-bottom:32px;grid-column:1/-1;}
+    .checkout-header h1{font-family:var(--font-heading);font-size:2rem;margin-bottom:4px;background:linear-gradient(135deg,#30C5C5,#FFFFFF,#30C5C5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .checkout-header .subtitle{color:var(--text-muted);font-size:0.6rem;letter-spacing:1px;text-transform:uppercase;font-family:var(--font-future);}
+    .order-summary{background:linear-gradient(145deg,rgba(10,48,48,0.7),rgba(5,30,30,0.9));backdrop-filter:blur(12px);border:1px solid rgba(48,197,197,0.12);border-radius:16px;padding:28px;box-shadow:0 8px 32px rgba(0,0,0,0.3),inset 0 1px 0 rgba(48,197,197,0.08);}
+    .order-summary h2{font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--teal-light);margin-bottom:16px;font-family:var(--font-future);}
+    .order-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(48,197,197,0.08);}
+    .order-item:last-child{border-bottom:none;}
+    .order-item img{width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid rgba(48,197,197,0.15);}
+    .order-item-info{flex:1;}
+    .order-item-info h3{font-size:0.85rem;margin-bottom:2px;}
+    .order-item-info .qty{color:var(--text-muted);font-size:0.75rem;}
+    .order-item-info .price{color:var(--teal-light);font-weight:700;font-size:0.9rem;}
+    .order-total{display:flex;justify-content:space-between;padding:16px 0 0;margin-top:12px;border-top:2px solid rgba(48,197,197,0.15);font-size:1.1rem;font-weight:700;}
+    .order-total .amount{color:var(--teal-light);}
+
+    .stripe-frame{background:linear-gradient(160deg,rgba(8,56,56,0.85),rgba(3,25,25,0.95));backdrop-filter:blur(16px);border:2px solid rgba(48,197,197,0.25);border-radius:20px;padding:32px;min-height:460px;box-shadow:0 12px 48px rgba(0,0,0,0.4),0 0 60px rgba(13,139,139,0.08),inset 0 1px 0 rgba(48,197,197,0.15);position:relative;overflow:hidden;}
+    .stripe-frame::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--teal-light),var(--teal),var(--teal-light),transparent);opacity:0.6;}
+    .stripe-frame h2{font-size:0.8rem;text-transform:uppercase;letter-spacing:3px;color:var(--teal-light);margin-bottom:20px;font-family:var(--font-future);font-weight:600;}
+    #checkout-loading{text-align:center;padding:60px 20px;color:var(--text-muted);}
+    #checkout-loading .spinner{width:36px;height:36px;border:3px solid rgba(48,197,197,0.15);border-top-color:var(--teal-light);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:0.8rem;text-decoration:none;margin-bottom:24px;transition:color 0.2s;}
+    .back-link:hover{color:var(--teal-light);}
+    .logo-link{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);margin-bottom:24px;}
+    .logo-link img{height:36px;}
+    .logo-link span{font-family:var(--font-future);font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);}
+    .error-msg{background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);border-radius:8px;padding:12px 16px;color:#fca5a5;font-size:0.85rem;margin-bottom:16px;}
+    .secure-badge{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--text-muted);font-size:0.7rem;margin-top:20px;padding-top:16px;border-top:1px solid rgba(48,197,197,0.1);}
+    .secure-badge svg{width:14px;height:14px;stroke:var(--teal-light);fill:none;}
+
+    @media(max-width:768px){
+      body{padding:16px 12px;}
+      .checkout-wrap{grid-template-columns:1fr;gap:20px;max-width:480px;}
+      .checkout-header{margin-bottom:20px;}
+      .checkout-header h1{font-size:1.5rem;}
+      .order-summary{order:1;border-radius:14px;padding:20px;}
+      .order-item img{width:48px;height:48px;}
+      .order-item-info h3{font-size:0.8rem;}
+      .stripe-frame{order:2;border-radius:14px;padding:20px;min-height:auto;border-width:1px;}
+      .stripe-frame::before{display:none;}
+      .stripe-frame h2{font-size:0.7rem;letter-spacing:2px;margin-bottom:14px;}
+      #checkout-loading{padding:40px 16px;}
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="logo-link">
+    <img src="imgi_2_head-logo.webp" alt="J Jewellers" />
+    <span>J Jewellers</span>
+  </a>
+  <a href="javascript:history.back()" class="back-link">← Back to shop</a>
+
+  <div class="checkout-wrap">
+    <div class="checkout-header">
+      <h1>Checkout</h1>
+      <div class="subtitle">Secure Payment Powered by Stripe</div>
+    </div>
+
+    <div class="order-summary" id="orderSummary">
+      <h2>Order Summary</h2>
+      <div id="orderItems"></div>
+      <div class="order-subtotal" style="display:flex;justify-content:space-between;padding:8px 0;color:var(--text-muted);font-size:0.85rem;">
+        <span>Subtotal</span>
+        <span id="orderSubtotal">£0.00</span>
+      </div>
+      <div class="order-subtotal" style="display:flex;justify-content:space-between;padding:8px 0;color:var(--text-muted);font-size:0.85rem;">
+        <span>Shipping</span>
+        <span id="orderShipping" style="font-size:0.75rem;">Calculated at checkout</span>
+      </div>
+      <div class="order-total">
+        <span>Total</span>
+        <span class="amount" id="orderTotal">£0.00</span>
+      </div>
+    </div>
+
+    <div class="stripe-frame">
+      <h2>Payment Details</h2>
+      <div id="checkout-loading">
+        <div class="spinner"></div>
+        <p>Loading secure payment form...</p>
+      </div>
+      <div id="checkout-error" class="error-msg" style="display:none;"></div>
+      <div id="stripe-checkout"></div>
+      <div class="secure-badge">
+        <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <span>256-bit SSL Encrypted</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var cart = JSON.parse(localStorage.getItem('jj_cart') || '[]');
+      if (!cart.length) {
+        window.location.href = '/#home';
+        return;
+      }
+
+      var orderItems = document.getElementById('orderItems');
+      var orderTotal = document.getElementById('orderTotal');
+      var total = 0;
+      var html = '';
+      cart.forEach(function(item) {
+        var itemTotal = item.price * item.qty;
+        total += itemTotal;
+        var safeName = item.name.replace(/[<>&"']/g, '').substring(0, 200);
+        var safeImg = item.img.split('/').map(function(s){ return encodeURIComponent(s); }).join('/');
+        html += '<div class="order-item"><img src="' + safeImg + '" alt="' + safeName + '" /><div class="order-item-info"><h3>' + safeName + '</h3><div class="qty">Qty: ' + item.qty + '</div><div class="price">£' + itemTotal.toFixed(2) + '</div></div></div>';
+      });
+      orderItems.innerHTML = html;
+      document.getElementById('orderSubtotal').textContent = '£' + total.toFixed(2);
+      orderTotal.textContent = '£' + total.toFixed(2);
+
+      var items = cart.map(function(i) { return { name: i.name, price: i.price, qty: i.qty, img: i.img }; });
+      var customerEmail = localStorage.getItem('jj_email') || '';
+
+      fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items, ui_mode: 'embedded', email: customerEmail })
+      })
+      .then(function(r) {
+        return r.json().then(function(data) {
+          if (!r.ok || data.error) {
+            showError(data.error || 'Server error (' + r.status + '). Please try again.');
+            return null;
+          }
+          return data;
+        });
+      })
+      .then(function(data) {
+        if (data && data.clientSecret) {
+          initEmbeddedCheckout(data.clientSecret);
+        }
+      })
+      .catch(function() {
+        showError('Failed to initialize checkout. Please check your connection and try again.');
+      });
+
+      function initEmbeddedCheckout(clientSecret) {
+        if (typeof Stripe === 'undefined') {
+          showError('Payment system failed to load. Please refresh the page.');
+          return;
+        }
+
+        var stripe = Stripe('pk_live_51Syo8SPOkHltFicB1AC6cBgx2NmPaRFZzNcmBJ41gjzk0s1eP7CK4PeEkyKsW94TrtsvIQnVbs6RFD4ltQacpawk00W8ugpnID');
+        stripe.initEmbeddedCheckout({
+          clientSecret: clientSecret,
+          onComplete: function() {
+            localStorage.removeItem('jj_cart');
+            window.location.href = '/?session_id=' + clientSecret.split('_secret_')[0];
+          }
+        })
+          .then(function(checkout) {
+            document.getElementById('checkout-loading').style.display = 'none';
+            checkout.mount('#stripe-checkout');
+          })
+          .catch(function(err) {
+            showError('Failed to load payment form: ' + err.message);
+          });
+      }
+
+      function showError(msg) {
+        document.getElementById('checkout-loading').style.display = 'none';
+        var el = document.getElementById('checkout-error');
+        el.textContent = msg;
+        el.style.display = 'block';
+      }
+    })();
+  </script>
+</body>
+</html>

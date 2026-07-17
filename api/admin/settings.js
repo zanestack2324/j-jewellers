@@ -34,13 +34,12 @@ const DEFAULT_SETTINGS = {
     taxRate: 20,
     taxName: 'VAT',
     shippingTaxable: true
-  }
+  },
+  staff: [
+    { id: 1, name: 'Admin', email: 'admin@jjewellers.co.uk', role: 'superadmin', status: 'active', lastLogin: new Date().toISOString() }
+  ],
+  staffNextId: 1
 };
-
-const staffAccounts = [
-  { id: 1, name: 'Admin', email: 'admin@jjewellers.co.uk', role: 'superadmin', status: 'active', lastLogin: new Date().toISOString() }
-];
-let staffId = 1;
 
 module.exports = async (req, res) => {
   setCors(res);
@@ -51,9 +50,12 @@ module.exports = async (req, res) => {
 
   if (req.method === 'GET') {
     const { section } = req.query;
-    if (section === 'staff') return res.status(200).json(staffAccounts);
     const saved = await db.getSettings();
-    const settings = saved || DEFAULT_SETTINGS;
+    const settings = saved || JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+    if (!settings.staff) settings.staff = DEFAULT_SETTINGS.staff;
+    if (!settings.staffNextId) settings.staffNextId = 1;
+
+    if (section === 'staff') return res.status(200).json(settings.staff);
     if (section) return res.status(200).json(settings[section] || settings);
     return res.status(200).json({
       storeName: settings.store.name,
@@ -71,6 +73,8 @@ module.exports = async (req, res) => {
     const data = req.body || {};
     const saved = await db.getSettings();
     const settings = saved || JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+    if (!settings.staff) settings.staff = DEFAULT_SETTINGS.staff;
+    if (!settings.staffNextId) settings.staffNextId = 1;
 
     if (data.section && data.value) {
       settings[data.section] = { ...settings[data.section], ...data.value };
@@ -90,16 +94,22 @@ module.exports = async (req, res) => {
   if (req.method === 'POST') {
     if (req.query.section === 'staff') {
       const data = req.body || {};
-      staffId++;
+      const saved = await db.getSettings();
+      const settings = saved || JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+      if (!settings.staff) settings.staff = DEFAULT_SETTINGS.staff;
+      if (!settings.staffNextId) settings.staffNextId = 1;
+
+      settings.staffNextId++;
       const staff = {
-        id: staffId,
+        id: settings.staffNextId,
         name: data.name || 'New Staff',
         email: data.email || 'staff@jjewellers.co.uk',
         role: data.role || 'staff',
         status: 'active',
         lastLogin: ''
       };
-      staffAccounts.push(staff);
+      settings.staff.push(staff);
+      await db.saveSettings(settings);
       return res.status(201).json(staff);
     }
     return res.status(400).json({ error: 'Invalid request' });
@@ -107,9 +117,14 @@ module.exports = async (req, res) => {
 
   if (req.method === 'DELETE') {
     if (req.query.section === 'staff' && req.query.id) {
-      const idx = staffAccounts.findIndex(s => s.id == req.query.id);
+      const saved = await db.getSettings();
+      const settings = saved || JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+      if (!settings.staff) settings.staff = DEFAULT_SETTINGS.staff;
+
+      const idx = settings.staff.findIndex(s => s.id == req.query.id);
       if (idx === -1) return res.status(404).json({ error: 'Staff not found' });
-      staffAccounts.splice(idx, 1);
+      settings.staff.splice(idx, 1);
+      await db.saveSettings(settings);
       return res.status(200).json({ success: true });
     }
     return res.status(400).json({ error: 'Invalid request' });

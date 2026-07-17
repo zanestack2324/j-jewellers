@@ -1,6 +1,6 @@
 const db = require('./_db');
 
-const ALLOWED_ORIGIN = 'https://j-jewellers-six.vercel.app';
+const ALLOWED_ORIGIN = 'https://jjeweller.com';
 
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');

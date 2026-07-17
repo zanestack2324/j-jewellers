@@ -1,4 +1,24 @@
 const { authenticate, setCors } = require('./_auth');
+const github = require('../_github');
+
+function compressImage(base64Data, maxDimension) {
+  return new Promise((resolve) => {
+    try {
+      const matches = base64Data.match(/^data:image\/(\w+);base64,(.+)$/);
+      if (!matches) return resolve({ raw: base64Data, ext: 'jpg' });
+      const ext = matches[1] === 'png' ? 'png' : 'jpg';
+      const buffer = Buffer.from(matches[2], 'base64');
+      if (buffer.length < 200 * 1024) return resolve({ raw: matches[2], ext: ext });
+      const sharp = require('sharp');
+      sharp(buffer)
+        .resize({ width: maxDimension, height: maxDimension, fit: 'inside', withoutEnlargement: true })
+        .jpeg({ quality: 80 })
+        .toBuffer()
+        .then(out => resolve({ raw: out.toString('base64'), ext: 'jpg' }))
+        .catch(() => resolve({ raw: matches[2], ext: ext }));
+    } catch { resolve({ raw: base64Data, ext: 'jpg' }); }
+  });
+}
 
 module.exports = async (req, res) => {
   setCors(res);
@@ -9,41 +29,40 @@ module.exports = async (req, res) => {
 
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
+  if (!github.isConfigured()) {
+    return res.status(200).json({ error: 'GitHub not configured. Set GITHUB_TOKEN env var.', configured: false });
+  }
+
   try {
-    if (!req.body) {
-      return res.status(400).json({ error: 'No image provided' });
+    if (!req.body) return res.status(400).json({ error: 'No image provided' });
+
+    if (req.body._check) {
+      return res.status(200).json({ success: true, configured: true });
     }
 
-    // Support bulk upload: { images: [base64, base64, ...] }
-    if (req.body.images && Array.isArray(req.body.images)) {
-      const results = [];
-      for (const imageData of req.body.images) {
-        if (!imageData || !imageData.startsWith('data:image/')) {
-          results.push({ error: 'Invalid image format' });
-          continue;
-        }
-        const sizeInBytes = Math.round((imageData.length * 3) / 4);
-        if (sizeInBytes > 4 * 1024 * 1024) {
-          results.push({ error: 'Image too large (max 4MB)' });
-          continue;
-        }
-        results.push({ success: true, url: imageData });
-      }
-      return res.status(200).json({ success: true, results });
-    }
-
-    // Single image: { image: base64 }
     const imageData = req.body.image;
+    const productName = req.body.name || 'product';
     if (!imageData || !imageData.startsWith('data:image/')) {
       return res.status(400).json({ error: 'Invalid image format' });
     }
 
-    const sizeInBytes = Math.round((imageData.length * 3) / 4);
-    if (sizeInBytes > 4 * 1024 * 1024) {
-      return res.status(400).json({ error: 'Image too large (max 4MB)' });
+    const { raw, ext } = await compressImage(imageData, 800);
+    const sizeKB = Math.round(raw.length * 3 / 4 / 1024);
+    if (sizeKB > 2500) {
+      return res.status(400).json({ error: 'Image too large (' + sizeKB + 'KB). Max 2.5MB after compression.' });
     }
 
-    return res.status(200).json({ success: true, url: imageData });
+    const slug = productName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+    const timestamp = Date.now();
+    const filePath = 'uploads/products/' + slug + '-' + timestamp + '.' + ext;
+
+    await github.createOrUpdateBinary(
+      filePath,
+      raw,
+      'Upload product image: ' + productName
+    );
+
+    return res.status(200).json({ success: true, url: filePath, sizeKB: sizeKB });
   } catch (err) {
     console.error('Upload error:', err);
     return res.status(500).json({ error: 'Upload failed' });

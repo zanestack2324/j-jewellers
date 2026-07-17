@@ -8,7 +8,7 @@
   <meta name="keywords" content="gold jewellery, bridal jewellery, choker set, bangles, earrings, tikka set, hand pieces, rings, anklets, South Asian jewellery, UK jewellery shop, affordable luxury" />
   <meta name="author" content="J Jewellers" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
-  <link rel="canonical" href="https://j-jewellers.vercel.app/" />
+  <link rel="canonical" href="https://jjeweller.com/" />
   <link rel="icon" type="image/webp" href="imgi_2_head-logo.webp" />
   <link rel="apple-touch-icon" href="imgi_2_head-logo.webp" />
   <meta name="theme-color" content="#0D8B8B" />
@@ -18,8 +18,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="J JEWELLERS – Look Boujee On A Budget" />
   <meta property="og:description" content="Handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles & more. Royal Mail tracked shipping worldwide." />
-  <meta property="og:image" content="https://j-jewellers.vercel.app/hero-poster.jpg" />
-  <meta property="og:url" content="https://j-jewellers.vercel.app/" />
+  <meta property="og:image" content="https://jjeweller.com/hero-poster.jpg" />
+  <meta property="og:url" content="https://jjeweller.com/" />
   <meta property="og:site_name" content="J Jewellers" />
   <meta property="og:locale" content="en_GB" />
 
@@ -27,7 +27,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="J JEWELLERS – Look Boujee On A Budget" />
   <meta name="twitter:description" content="Handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles & more." />
-  <meta name="twitter:image" content="https://j-jewellers.vercel.app/hero-poster.jpg" />
+  <meta name="twitter:image" content="https://jjeweller.com/hero-poster.jpg" />
 
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
@@ -35,8 +35,8 @@
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "J Jewellers",
-    "url": "https://j-jewellers.vercel.app",
-    "logo": "https://j-jewellers.vercel.app/imgi_2_head-logo.webp",
+    "url": "https://jjeweller.com",
+    "logo": "https://jjeweller.com/imgi_2_head-logo.webp",
     "description": "Handcrafted luxury jewellery at unbeatable prices. Gold choker sets, bridal collections, earrings, bangles & more.",
     "sameAs": [],
     "contactPoint": {
@@ -51,10 +51,10 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "J Jewellers",
-    "url": "https://j-jewellers.vercel.app",
+    "url": "https://jjeweller.com",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://j-jewellers.vercel.app/?q={search_term_string}",
+      "target": "https://jjeweller.com/?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
@@ -163,12 +163,15 @@
       background:linear-gradient(to bottom,var(--dark) 0%,transparent 20%,transparent 80%,var(--dark) 100%);
     }
 
-    #essence{background:#0D8B8B;}
-    #essence .section-title{color:#fff;}
-    #essence .section-label{color:#fff;text-shadow:none;}
+    #essence{background:#0D8B8B;position:relative;}
+    #essence .section-bg{z-index:0;}
+    #essence .section-bg img{opacity:1;filter:none;}
+    #essence .section-bg::after{background:linear-gradient(135deg,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.3) 50%,rgba(0,0,0,0.55) 100%);}
+    #essence .section-title{color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.6);}
+    #essence .section-label{color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.6);}
     #essence .section-label::before{background:linear-gradient(90deg,#fff,transparent);}
     #essence .section-label::after{background:linear-gradient(90deg,transparent,#fff);}
-    #essence .essence-text p{color:#fff !important;font-weight:400;}
+    #essence .essence-text p{color:#fff !important;font-weight:400;text-shadow:0 1px 4px rgba(0,0,0,0.5);}
     #essence .teal-text{background:none;-webkit-text-fill-color:#fff;background-clip:unset;color:#fff;}
 
 
@@ -465,18 +468,22 @@
 
     /* ─── FOOTER ─── */
     footer{padding:80px 0 30px;border-top:1px solid var(--border);position:relative;z-index:2;background:rgba(13,139,139,0.12);}
+    footer .footer-bg{position:absolute;inset:0;z-index:0;overflow:hidden;}
+    footer .footer-bg picture img{width:100%;height:100%;object-fit:cover;opacity:0.4;}
+    footer .footer-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(7,25,25,0.85) 0%,rgba(7,25,25,0.7) 50%,rgba(7,25,25,0.85) 100%);}
+    footer > .container{position:relative;z-index:1;}
     .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
     .footer-brand .logo{font-family:var(--font-heading);font-size:1.5rem;font-weight:700;margin-bottom:14px;display:block;cursor:pointer;}
     .footer-brand .logo span{background:linear-gradient(135deg,var(--teal-light),var(--teal-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .footer-brand p{color:var(--text-muted);font-size:0.85rem;font-weight:300;line-height:1.7;max-width:280px;}
+    .footer-brand p{color:var(--text-muted);font-size:0.85rem;font-weight:300;line-height:1.7;max-width:280px;text-shadow:0 1px 3px rgba(0,0,0,0.5);}
     .footer-features{margin-top:20px;}
     .footer-features .f-item{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
     .footer-features .f-item svg{flex-shrink:0;width:14px;height:14px;color:var(--teal);}
     .footer-features .f-item span{font-size:0.75rem;color:var(--text-muted);font-weight:300;}
-    .footer-col h4{font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;color:var(--text);}
-    .footer-col a{display:block;color:var(--text-muted);text-decoration:none;font-size:0.85rem;font-weight:300;margin-bottom:10px;transition:all 0.3s var(--ease-out);cursor:pointer;}
+    .footer-col h4{font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;color:var(--text);text-shadow:0 1px 3px rgba(0,0,0,0.5);}
+    .footer-col a{display:block;color:var(--text-muted);text-decoration:none;font-size:0.85rem;font-weight:300;margin-bottom:10px;transition:all 0.3s var(--ease-out);cursor:pointer;text-shadow:0 1px 2px rgba(0,0,0,0.4);}
     .footer-col a:hover{color:var(--teal);padding-left:4px;}
-    .footer-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:0.7rem;color:var(--text-dim);font-weight:300;flex-wrap:wrap;gap:14px;}
+    .footer-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:0.7rem;color:var(--text-dim);font-weight:300;flex-wrap:wrap;gap:14px;text-shadow:0 1px 2px rgba(0,0,0,0.4);}
     .footer-payments{display:flex;gap:8px;align-items:center;}
     .footer-payments svg{width:34px;height:auto;border-radius:2px;display:block;}
     .footer-socials{display:flex;gap:12px;}
@@ -916,10 +923,9 @@
         <div class="reveal-r"><h2 class="section-title">As Seen On <span class="teal-text">You</span></h2></div>
         <div class="reveal-l"><p class="section-desc">Real customers, real style. Tag us to be featured.</p></div>
         <div class="gallery-grid">
-          <div class="g-item reveal-l"><img src="imgi_21_showcase-img1.webp" alt="Gallery 1" loading="lazy" /></div>
-          <div class="g-item reveal-r"><img src="imgi_22_image-25.webp" alt="Gallery 2" loading="lazy" /></div>
-          <div class="g-item reveal-l"><img src="imgi_23_image-26.webp" alt="Gallery 3" loading="lazy" /></div>
-          <div class="g-item reveal-r"><img src="imgi_24_image-27.webp" alt="Gallery 4" loading="lazy" /></div>
+          <div class="g-item reveal-l"><picture><source srcset="gallery/as_seen_1.webp" type="image/webp" /><img src="gallery/as_seen_1.jpg" alt="As Seen On You" loading="lazy" /></picture></div>
+          <div class="g-item reveal-r"><picture><source srcset="gallery/as_seen_2.webp" type="image/webp" /><img src="gallery/as_seen_2.jpg" alt="As Seen On You" loading="lazy" /></picture></div>
+          <div class="g-item reveal-l"><picture><source srcset="gallery/as_seen_3.webp" type="image/webp" /><img src="gallery/as_seen_3.jpg" alt="As Seen On You" loading="lazy" /></picture></div>
         </div>
       </div>
       <div class="section-divider"></div>
@@ -938,6 +944,9 @@
 
     <!-- ESSENCE -->
     <section class="lap" id="essence">
+      <div class="section-bg">
+        <img src="Photo 1.png" alt="" loading="lazy" />
+      </div>
       <div class="container">
         <div class="reveal-r" style="text-align:center"><p class="section-label">Our Essence</p></div>
         <div class="reveal-l" style="text-align:center"><h2 class="section-title">Statement Jewellery That <span class="teal-text">Captures Your Essence</span></h2></div>
@@ -1234,6 +1243,7 @@
 
   <!-- ====== FOOTER ====== -->
   <footer id="footer">
+    <div class="footer-bg"><picture><source srcset="footer.webp" type="image/webp" /><img src="footer.jpg" alt="" /></picture></div>
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
@@ -1269,7 +1279,6 @@
           <a onclick="playClick();navigateTo('support')">Customer Support</a>
           <a onclick="playClick();navigateTo('faq')">FAQ</a>
           <a onclick="playClick();navigateTo('track')">Track Order</a>
-          <a href="admin/" target="_blank" onclick="playClick()" style="color:rgba(13,139,139,0.4);font-size:0.7rem;">Admin Portal</a>
         </div>
         <div class="footer-col">
           <h4>Social Networks</h4>
@@ -1414,14 +1423,9 @@
     ];
 
     var categoryCards = [
-      { id:'Long Mala Sets', label:'Long Mala Sets', desc:'Regal heritage necklaces', img:'products/Long Mala Sets/Aaira-Collection.png', webp:'products/Long Mala Sets/Aaira-Collection.webp', tall:true },
-      { id:'Choker Sets', label:'Choker Sets', desc:'Bold & contemporary', img:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.png', webp:'products/Choker Sets/The-Noor-e-Zar-Bridal-Ensemble.webp' },
-      { id:'Earrings', label:'Earrings', desc:'Statement drops & jhumkas', img:'products/Earrings/Gold_Jhumka_Earrings_-_Traditional_Bell_With_coloured_stones.png', webp:'products/Earrings/Gold_Jhumka_Earrings_-_Traditional_Bell_With_coloured_stones.webp' },
-      { id:'Bangles', label:'Bangles', desc:'Traditional & modern bangles', img:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.png', webp:'products/Bangles/Bridal-Jhumki-Pearl-Bangles.webp' },
-      { id:'Rings', label:'Rings', desc:'Kundan & statement rings', img:'products/Rings/Adjustable_Kundan_Statement_Ring.png', webp:'products/Rings/Adjustable_Kundan_Statement_Ring.webp' },
-      { id:'Hand Pieces', label:'Hand Pieces', desc:'Elegant hath phool designs', img:'products/Hand Pieces/Kundan_Hath_Phool_-_Bracelet_with_Ring_Chain.png', webp:'products/Hand Pieces/Kundan_Hath_Phool_-_Bracelet_with_Ring_Chain.webp' },
-      { id:'Tikka Sets', label:'Tikka Sets', desc:'Maang tikka & forehead jewellery', img:'products/Tikka Sets/PhotoshopExtension_Image_(60).png', webp:'products/Tikka Sets/PhotoshopExtension_Image_(60).webp' },
-      { id:'Anklets', label:'Anklets', desc:'Payal & ankle chains', img:'products/Anklets/Golden_Anklets_(payal).png', webp:'products/Anklets/Golden_Anklets_(payal).webp' },
+      { id:'Long Mala Sets', label:'Long Mala Sets', desc:'Regal heritage necklaces', img:'products/Long Mala Sets/Long mala sets/EE2EA028-493C-4DFF-ABD2-9BCC44337C6D.png', tall:true },
+      { id:'Choker Sets', label:'Choker Sets', desc:'Bold & contemporary', img:'products/Choker Sets/Choker sets/Stone choker sets £40/E823B3C8-F36A-48DB-97E1-9E3C62B1F341.png' },
+      { id:'Earrings', label:'Earrings', desc:'Statement drops & jhumkas', img:'products/Earrings/Earrings/Mini Jhumki Earrings/B620C58D-FE2B-474D-96B5-A2C0040BDF50.png' },
     ];
 
     var cart = JSON.parse(localStorage.getItem('jj_cart') || '[]');
@@ -1476,7 +1480,7 @@
       if (v) {
         v.muted = true;
         v.setAttribute('playsinline','');
-        v.play().then(function(){ console.log('hero video started'); }).catch(function(e){ console.warn('hero video play failed:', e); });
+        v.play().then(function(){}).catch(function(){});
       }
     }
 
@@ -1682,7 +1686,7 @@
         }
       }).catch(function(){
         // API failed — products remain empty
-        console.log('Could not load products from API');
+        void(0);
       }).finally(function(){
         // Always render with whatever data we have
         renderCategoryTabs();
@@ -2231,7 +2235,7 @@
 
     window.addEventListener('load', function(){ setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }, 500); });
 
-    console.log('✨ J JEWELLERS — Look Boujee On A Budget');
+    void(0);
   </script>
 </body>
 </html>

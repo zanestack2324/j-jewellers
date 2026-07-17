@@ -341,7 +341,7 @@ var STATE = {
 };
 
 // ═══ LOGGING ═══
-function log(msg) { console.log('[ADMIN]', msg); }
+function log() {}
 
 // ═══ API CALL ═══
 function api(url, opts) {
@@ -353,12 +353,45 @@ function api(url, opts) {
     opts.headers['Content-Type'] = 'application/json';
   }
   log('API: ' + url + ' method=' + (opts.method || 'GET'));
-  return fetch(url, opts).then(function(r){
+  return fetch(url, opts).then(function(r) {
     log('API response: ' + url + ' status=' + r.status);
-    return r.json().then(function(data){
-      log('API data: ' + url + ' ' + JSON.stringify(data).slice(0,200));
+    return r.text().then(function(text) {
+      var data;
+      try { data = JSON.parse(text); } catch(e) { data = { error: 'Invalid server response' }; }
+      log('API data: ' + url + ' ' + JSON.stringify(data).slice(0, 200));
+      if (!r.ok) { throw new Error(data.error || 'Server error ' + r.status); }
       return data;
     });
+  }).catch(function(err) {
+    log('API error: ' + url + ' ' + err.message);
+    throw err;
+  });
+}
+
+// ═══ CLIENT-SIDE IMAGE COMPRESSION ═══
+function compressImage(file, maxDim, quality) {
+  return new Promise(function(resolve) {
+    maxDim = maxDim || 800;
+    quality = quality || 0.7;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var w = img.width, h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+          else { w = Math.round(w * maxDim / h); h = maxDim; }
+        }
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = function() { resolve(e.target.result); };
+      img.src = e.target.result;
+    };
+    reader.onerror = function() { resolve(''); };
+    reader.readAsDataURL(file);
   });
 }
 
@@ -511,7 +544,13 @@ function renderPage(page) {
 
 // ═══ DASHBOARD ═══
 function renderDashboard(el) {
-  api('/api/admin/dashboard').then(function(data){
+  Promise.all([
+    api('/api/admin/dashboard').catch(function(){ return null; }),
+    api('/api/admin/upload', { method: 'POST', body: { _check: true } }).then(function(d){ return d; }).catch(function(){ return { error: 'unreachable' }; })
+  ]).then(function(results) {
+    var data = results[0];
+    var uploadStatus = results[1];
+    var githubOk = uploadStatus && !uploadStatus.error;
     if (!data) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">◉</div><h4>No Data</h4><p class="sub">Could not load dashboard.</p></div>'; return; }
     var d = data.overview || {};
     var r = data.revenue || {};
@@ -526,6 +565,11 @@ function renderDashboard(el) {
       html += '<div class="dash-card"><div class="dash-icon">' + c.icon + '</div><div class="dash-label">' + c.label + '</div><div class="dash-value">' + c.value + '</div>' + (c.change ? '<div class="dash-change up">' + c.change + '</div>' : '') + '</div>';
     });
     html += '</div>';
+    if (!githubOk) {
+      html += '<div class="card" style="border-left:3px solid #e74c3c;"><div class="card-body"><p style="color:#e74c3c;font-weight:600;">GitHub Not Connected</p><p class="text-muted text-sm" style="margin-top:4px;">Set the <code>GITHUB_TOKEN</code> environment variable in Vercel to enable image uploads and data sync.</p></div></div>';
+    } else {
+      html += '<div class="card" style="border-left:3px solid #2ecc71;"><div class="card-body"><p style="color:#2ecc71;font-weight:600;">GitHub Connected</p><p class="text-muted text-sm" style="margin-top:4px;">Image uploads and product data sync to GitHub. Site auto-deploys on save.</p></div></div>';
+    }
     html += '<div class="card"><div class="card-header"><h4>Recent Activity</h4></div><div class="card-body no-padding"><table class="data-table"><thead><tr><th>Type</th><th>Message</th><th>Time</th></tr></thead><tbody>';
     (data.recentActivity || []).slice(0, 10).forEach(function(a){
       html += '<tr><td><span class="status-badge ' + (a.type || 'info') + '">' + (a.type || 'event') + '</span></td><td>' + (a.message || '') + '</td><td class="text-muted text-sm">' + (a.time ? new Date(a.time).toLocaleString() : '') + '</td></tr>';
@@ -549,7 +593,7 @@ function formatUptime(sec) {
 // ═══ PRODUCTS ═══
 function renderProducts(el) {
   api('/api/admin/products').then(function(products){
-    if (!products) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">\u25C8</div><h4>No Products</h4><p class="sub">Could not load products.</p></div>'; return; }
+    if (!products || !Array.isArray(products)) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">\u25C8</div><h4>No Products</h4><p class="sub">Could not load products.</p></div>'; return; }
     STATE.products = products;
 
     var catMap = {};
@@ -593,6 +637,8 @@ function renderProducts(el) {
     }
 
     el.innerHTML = html;
+  }).catch(function(err) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">\u25C8</div><h4>Failed to Load</h4><p class="sub">' + err.message + '</p></div>';
   });
 }
 
@@ -671,7 +717,7 @@ function saveProduct(id) {
   var fileInput = document.getElementById('prodImageInput');
   var files = fileInput && fileInput.files ? Array.from(fileInput.files) : [];
 
-  function doSaveSingle(image, cb) {
+  function doSaveSingle(image, cb, errCb) {
     var body = {};
     if (id) body.id = id;
     body.name = name;
@@ -683,77 +729,77 @@ function saveProduct(id) {
     if (image !== undefined) body.image = image;
 
     var method = id ? 'PUT' : 'POST';
+    toast('Saving product…', 'info');
     api('/api/admin/products', { method: method, body: body }).then(function(data){
-      if (data && data.success) { if (cb) cb(); }
-      else { toast('Failed: ' + (data && data.error ? data.error : 'unknown'), 'error'); if(btn) { btn.disabled = false; btn.textContent = 'Save Product'; } }
+      if (data && data.success) { toast('Product saved', 'success'); if (cb) cb(); }
+      else { toast('Save failed: ' + (data && data.error ? data.error : 'unknown'), 'error'); if(errCb) errCb(); }
+    }).catch(function(err) {
+      toast('Save error: ' + err.message, 'error');
+      if(errCb) errCb();
     });
   }
 
-  function uploadFile(file, cb) {
-    if (file.size > 4 * 1024 * 1024) { toast('Image too large (max 4MB): ' + file.name, 'error'); cb(null); return; }
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var base64 = e.target.result;
-      api('/api/admin/upload', { method: 'POST', body: { image: base64 } }).then(function(uploadResult){
-        if (uploadResult && uploadResult.success) { cb(uploadResult.url); }
-        else { cb(base64); }
-      }).catch(function(){ cb(base64); });
-    };
-    reader.readAsDataURL(file);
-  }
-
-  function uploadFilesBulk(filesList, cb) {
-    var readers = filesList.map(function(file) {
-      return new Promise(function(resolve) {
-        if (file.size > 4 * 1024 * 1024) { toast('Image too large (max 4MB): ' + file.name, 'error'); resolve(null); return; }
-        var reader = new FileReader();
-        reader.onload = function(e) { resolve(e.target.result); };
-        reader.onerror = function() { resolve(null); };
-        reader.readAsDataURL(file);
-      });
-    });
-    Promise.all(readers).then(function(base64s) {
-      var valid = base64s.filter(function(b) { return b !== null; });
-      if (!valid.length) { cb([]); return; }
-      api('/api/admin/upload', { method: 'POST', body: { images: valid } }).then(function(result) {
-        if (result && result.success && result.results) {
-          cb(result.results.map(function(r) { return r.url || null; }));
+  function uploadAndSaveFile(file, cb, errCb) {
+    compressImage(file, 800, 0.7).then(function(base64) {
+      if (!base64) { toast('Failed to process image', 'error'); if(errCb) errCb(); return; }
+      var sizeKB = Math.round(base64.length * 3 / 4 / 1024);
+      log('Compressed image: ' + sizeKB + 'KB');
+      toast('Uploading image…', 'info');
+      api('/api/admin/upload', { method: 'POST', body: { image: base64, name: name } }).then(function(uploadResult) {
+        log('Upload result: ' + JSON.stringify(uploadResult));
+        if (uploadResult && uploadResult.success && uploadResult.url) {
+          toast('Image uploaded to GitHub (' + (uploadResult.sizeKB || '?') + 'KB)', 'success');
+          cb(uploadResult.url);
+        } else if (uploadResult && uploadResult.configured === false) {
+          toast('GitHub not connected – set GITHUB_TOKEN in Vercel', 'error');
+          cb(base64);
         } else {
-          cb(valid);
+          toast('Upload failed – saving image locally', 'error');
+          cb(base64);
         }
-      }).catch(function() { cb(valid); });
+      }).catch(function(err) {
+        toast('Upload error: ' + err.message, 'error');
+        cb(base64);
+      });
     });
   }
 
   if (files.length > 0) {
     if (id) {
-      uploadFile(files[0], function(url) {
+      uploadAndSaveFile(files[0], function(url) {
         doSaveSingle(url, function() {
           toast('Product updated', 'success'); closeModal(); navigateTo('products');
+        }, function() {
+          if(btn) { btn.disabled = false; btn.textContent = 'Save'; }
         });
       });
     } else {
-      uploadFilesBulk(files, function(urls) {
-        var total = urls.length;
-        if (!total) { toast('No valid images to upload', 'error'); if(btn) { btn.disabled = false; btn.textContent = 'Save Product'; } return; }
-        var created = 0;
-        var failed = 0;
-        urls.forEach(function(url) {
+      var idx = 0;
+      var created = 0, failed = 0;
+      function uploadNext() {
+        if (idx >= files.length) {
+          toast(created + ' product(s) created' + (failed ? ', ' + failed + ' failed' : ''), failed ? 'error' : 'success');
+          closeModal(); navigateTo('products');
+          return;
+        }
+        var file = files[idx];
+        idx++;
+        uploadAndSaveFile(file, function(url) {
           var body = { name: name, category: category || 'Uncategorized', price: price, stock: stock, description: description, badge: badge };
           if (url) body.image = url;
           api('/api/admin/products', { method: 'POST', body: body }).then(function(data) {
             if (data && data.success) created++; else failed++;
-            if (created + failed === total) {
-              toast(created + ' product(s) created' + (failed ? ', ' + failed + ' failed' : ''), failed ? 'error' : 'success');
-              closeModal(); navigateTo('products');
-            }
-          });
-        });
-      });
+            uploadNext();
+          }).catch(function() { failed++; uploadNext(); });
+        }, function() { failed++; uploadNext(); });
+      }
+      uploadNext();
     }
   } else {
     doSaveSingle(undefined, function() {
       toast(id ? 'Product updated' : 'Product added', 'success'); closeModal(); navigateTo('products');
+    }, function() {
+      if(btn) { btn.disabled = false; btn.textContent = 'Save Product'; }
     });
   }
 }
@@ -761,8 +807,8 @@ function saveProduct(id) {
 function deleteProduct(id) {
   if (!confirm('Are you sure you want to delete this product?')) return;
   api('/api/admin/products?id=' + id, { method: 'DELETE' }).then(function(data){
-    if (data && data.success) { toast('Product deleted', 'success'); closeModal(); navigateTo('products'); } else { toast('Delete failed', 'error'); }
-  });
+    if (data && data.success) { toast('Product deleted', 'success'); closeModal(); navigateTo('products'); } else { toast('Delete failed: ' + (data && data.error ? data.error : 'unknown'), 'error'); }
+  }).catch(function(err) { toast('Delete error: ' + err.message, 'error'); });
 }
 
 function deleteCategory(catName, count) {
@@ -779,7 +825,7 @@ function deleteCategory(catName, count) {
         toast(deleted + ' product(s) deleted' + (failed ? ', ' + failed + ' failed' : ''), failed ? 'error' : 'success');
         navigateTo('products');
       }
-    });
+    }).catch(function() { failed++; if (deleted + failed === total) { toast(deleted + ' deleted, ' + failed + ' failed', 'error'); navigateTo('products'); } });
   });
 }
 
@@ -887,8 +933,9 @@ if (savedToken) {
       localStorage.removeItem('jj_admin_token');
     }
   }).catch(function(){
-    log('Token check failed (network), entering dashboard anyway');
-    enterDashboard();
+    log('Token check failed (network), staying on login');
+    STATE.token = '';
+    localStorage.removeItem('jj_admin_token');
   });
 } else {
   log('No saved token, showing login screen');

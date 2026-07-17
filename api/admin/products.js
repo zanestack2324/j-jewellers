@@ -1,5 +1,22 @@
 const { authenticate, setCors } = require('./_auth');
 const db = require('../_db');
+const github = require('../_github');
+
+async function syncToGitHub(store) {
+  if (!github.isConfigured()) return;
+  try {
+    const content = JSON.stringify(store, null, 2);
+    const existing = await github.getFile('data/products.json');
+    await github.createOrUpdateFile(
+      'data/products.json',
+      content,
+      'Update products data via admin panel',
+      existing ? existing.sha : null
+    );
+  } catch (err) {
+    console.error('GitHub sync failed:', err.message);
+  }
+}
 
 module.exports = async (req, res) => {
   setCors(res);
@@ -8,7 +25,12 @@ module.exports = async (req, res) => {
   const session = authenticate(req);
   if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
-  const store = await db.getProducts();
+  let store;
+  try {
+    store = await db.getProducts();
+  } catch (e) {
+    return res.status(500).json({ error: 'Failed to load products' });
+  }
   let { products, nextId } = store;
 
   if (req.method === 'GET') {
@@ -39,7 +61,12 @@ module.exports = async (req, res) => {
     };
     products.push(product);
     store.nextId = nextId + 1;
-    await db.saveProducts(store);
+    try {
+      await db.saveProducts(store);
+      syncToGitHub(store);
+    } catch (e) {
+      return res.status(500).json({ error: 'Save failed' });
+    }
     return res.status(201).json({ success: true, product });
   }
 
@@ -55,7 +82,12 @@ module.exports = async (req, res) => {
     if (data.badge !== undefined) product.badge = data.badge;
     if (data.description !== undefined) product.description = data.description;
     if (data.image !== undefined) product.image = data.image;
-    await db.saveProducts(store);
+    try {
+      await db.saveProducts(store);
+      syncToGitHub(store);
+    } catch (e) {
+      return res.status(500).json({ error: 'Save failed' });
+    }
     return res.status(200).json({ success: true, product });
   }
 
@@ -63,10 +95,27 @@ module.exports = async (req, res) => {
     const { id } = req.query;
     const idx = products.findIndex(p => p.id === Number(id));
     if (idx === -1) return res.status(404).json({ error: 'Product not found' });
-    products.splice(idx, 1);
-    await db.saveProducts(store);
+    const deleted = products.splice(idx, 1)[0];
+    try {
+      await db.saveProducts(store);
+      syncToGitHub(store);
+      if (deleted && deleted.image && github.isConfigured() && deleted.image.startsWith('uploads/')) {
+        const existing = await github.getFile(deleted.image);
+        if (existing) {
+          github.deleteFile(deleted.image, existing.sha, 'Delete product image: ' + deleted.name).catch(() => {});
+        }
+      }
+    } catch (e) {
+      return res.status(500).json({ error: 'Delete failed' });
+    }
     return res.status(200).json({ success: true });
   }
 
   return res.status(405).json({ error: 'Method not allowed' });
+};
+
+module.exports.config = {
+  api: {
+    bodyParser: { sizeLimit: '10mb' }
+  }
 };

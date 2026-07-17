@@ -1,7 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin/
 Disallow: /*.mp3
 Disallow: /*.mp4
 
-Sitemap: https://j-jewellers.vercel.app/sitemap.xml
+Sitemap: https://jjeweller.com/sitemap.xml

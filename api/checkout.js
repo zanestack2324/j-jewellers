@@ -44,7 +44,7 @@ function sanitize(str) {
 }
 
 function isAllowedOrigin(origin) {
-  if (!origin) return true;
+  if (!origin) return false;
   for (var i = 0; i < ALLOWED_ORIGINS.length; i++) {
     if (origin.startsWith(ALLOWED_ORIGINS[i])) return true;
   }
@@ -176,6 +176,6 @@ module.exports = async (req, res) => {
     return res.status(200).json({ url: session.url });
   } catch (err) {
     console.error('Stripe checkout error:', err.message, err.type || '', err.statusCode || '');
-    return res.status(500).json({ error: err.message || 'Payment processing failed' });
+    return res.status(500).json({ error: 'Payment processing failed' });
   }
 };

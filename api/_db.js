@@ -5,6 +5,12 @@ const DATA_DIR = path.join(__dirname, '..', 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
 const SHIPPING_FILE = path.join(DATA_DIR, 'shipping.json');
+const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
+const CUSTOMERS_FILE = path.join(DATA_DIR, 'customers.json');
+const COUPONS_FILE = path.join(DATA_DIR, 'coupons.json');
+const REVIEWS_FILE = path.join(DATA_DIR, 'reviews.json');
+const CONTACTS_FILE = path.join(DATA_DIR, 'contacts.json');
+const CONTENT_FILE = path.join(DATA_DIR, 'content.json');
 
 let redis = null;
 function getRedis() {
@@ -73,5 +79,41 @@ module.exports = {
   },
   async saveShipping(data) {
     return setData('shipping', SHIPPING_FILE, { zones: [], countryToZone: {}, allowedCountries: [] }, data);
+  },
+  async getOrders() {
+    return getData('orders', ORDERS_FILE, { orders: [], nextId: 3 });
+  },
+  async saveOrders(store) {
+    return setData('orders', ORDERS_FILE, { orders: [], nextId: 3 }, store);
+  },
+  async getCustomers() {
+    return getData('customers', CUSTOMERS_FILE, { customers: [], nextId: 5 });
+  },
+  async saveCustomers(store) {
+    return setData('customers', CUSTOMERS_FILE, { customers: [], nextId: 5 }, store);
+  },
+  async getCoupons() {
+    return getData('coupons', COUPONS_FILE, { coupons: [], nextId: 3 });
+  },
+  async saveCoupons(store) {
+    return setData('coupons', COUPONS_FILE, { coupons: [], nextId: 3 }, store);
+  },
+  async getReviews() {
+    return getData('reviews', REVIEWS_FILE, { reviews: [], nextId: 5 });
+  },
+  async saveReviews(store) {
+    return setData('reviews', REVIEWS_FILE, { reviews: [], nextId: 5 }, store);
+  },
+  async getContacts() {
+    return getData('contacts', CONTACTS_FILE, { submissions: [] });
+  },
+  async saveContacts(store) {
+    return setData('contacts', CONTACTS_FILE, { submissions: [] }, store);
+  },
+  async getContent() {
+    return getData('content', CONTENT_FILE, null);
+  },
+  async saveContent(data) {
+    return setData('content', CONTENT_FILE, null, data);
   }
 };

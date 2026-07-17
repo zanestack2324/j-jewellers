@@ -5,13 +5,11 @@
   "description": "J Jewellers - Look Boujee On A Budget. Handcrafted luxury jewellery e-commerce store.",
   "dependencies": {
     "@upstash/redis": "^1.38.0",
-    "@vercel/kv": "^3.0.0",
-    "resend": "^4.1.2",
+    "sharp": "^0.35.3",
     "stripe": "^17.5.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
-    "@types/node": "^26.1.1",
     "puppeteer-core": "^25.3.0"
   },
   "scripts": {
