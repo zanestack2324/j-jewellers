@@ -478,7 +478,8 @@ var navSections = [
     { id: 'dashboard', label: 'Dashboard', icon: '◉' }
   ]},
   { section: 'Manage', items: [
-    { id: 'products', label: 'Products', icon: '◈' }
+    { id: 'products', label: 'Products', icon: '◈' },
+    { id: 'categories', label: 'Categories', icon: '⊞' }
   ]},
   { section: 'Finance', items: [
     { id: 'payments', label: 'Stripe', icon: '◈' },
@@ -519,6 +520,7 @@ function getPageTitle(page) {
   var titles = {
     dashboard: 'Dashboard',
     products: 'Products',
+    categories: 'Categories',
     payments: 'Payments (Stripe)',
     shipping: 'Shipping',
     settings: 'Settings'
@@ -534,6 +536,7 @@ function renderPage(page) {
   switch(page) {
     case 'dashboard': renderDashboard(content); break;
     case 'products': renderProducts(content); break;
+    case 'categories': renderCategories(content); break;
     case 'payments': renderPayments(content); break;
     case 'shipping': renderShipping(content); break;
     case 'settings': renderSettings(content); break;
@@ -587,6 +590,70 @@ function formatUptime(sec) {
   var m = Math.floor((sec % 3600) / 60);
   var s = sec % 60;
   return h + 'h ' + m + 'm ' + s + 's';
+}
+
+// ═══ CATEGORIES ═══
+function renderCategories(el) {
+  api('/api/admin/products').then(function(products){
+    if (!products || !Array.isArray(products)) products = [];
+    var catCounts = {};
+    products.forEach(function(p){
+      var cat = (p.category || '').trim() || 'Uncategorized';
+      if (!catCounts[cat]) catCounts[cat] = 0;
+      catCounts[cat]++;
+    });
+    var catNames = Object.keys(catCounts).sort();
+    var html = '<div class="section-header"><h3>Categories (' + catNames.length + ')</h3><button class="btn-admin btn-primary-admin btn-sm-admin" onclick="showAddCategory()">+ Add Category</button></div>';
+    html += '<div class="card"><div class="card-body no-padding"><table class="data-table"><thead><tr><th>Category Name</th><th>Products</th><th></th></tr></thead><tbody>';
+    catNames.forEach(function(cat){
+      html += '<tr><td style="font-weight:600;">' + cat + '</td><td><span class="status-badge active">' + catCounts[cat] + ' product' + (catCounts[cat] !== 1 ? 's' : '') + '</span></td>';
+      html += '<td class="td-actions"><div class="flex gap-8">';
+      html += '<button class="btn-admin btn-xs-admin btn-secondary-admin" onclick="showAddProduct(\'' + cat.replace(/'/g, "\\'") + '\')">+ Add Product</button>';
+      if (catCounts[cat] === 0) {
+        html += '<button class="btn-admin btn-xs-admin btn-danger-admin" onclick="deleteCategoryAdmin(\'' + cat.replace(/'/g, "\\'") + '\')">Delete</button>';
+      }
+      html += '</div></td></tr>';
+    });
+    if (!catNames.length) html += '<tr><td colspan="3" class="text-muted" style="text-align:center;padding:24px;">No categories yet. Add your first category to get started.</td></tr>';
+    html += '</tbody></table></div></div>';
+    el.innerHTML = html;
+  }).catch(function(err){
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">⊞</div><h4>Failed to Load</h4><p class="sub">' + err.message + '</p></div>';
+  });
+}
+
+function showAddCategory() {
+  openModal('<h3>Add New Category</h3>' +
+    '<div class="form-group"><label>Category Name *</label><input id="newCatName" placeholder="e.g. Necklace Sets, Payal" /></div>' +
+    '<p class="text-muted text-sm" style="margin-bottom:16px;">Categories are used to organize products. You can also type a new category name directly when adding a product.</p>' +
+    '<button class="btn-admin btn-primary-admin" onclick="saveCategory()">Save Category</button>');
+}
+
+function saveCategory() {
+  var name = document.getElementById('newCatName').value.trim();
+  if (!name) { toast('Category name is required', 'error'); return; }
+  var products = STATE.products || [];
+  var exists = products.some(function(p){ return (p.category || '').trim().toLowerCase() === name.toLowerCase(); });
+  if (exists) { toast('Category already exists', 'error'); return; }
+  api('/api/admin/products', { method: 'POST', body: { name: name + ' – Placeholder', category: name, price: 0, stock: 0, description: 'Category placeholder — add products to this category.', badge: '' } }).then(function(data){
+    if (data && data.success) {
+      toast('Category "' + name + '" created', 'success');
+      closeModal();
+      navigateTo('categories');
+    } else {
+      toast('Failed: ' + (data && data.error ? data.error : 'unknown'), 'error');
+    }
+  }).catch(function(err){
+    toast('Error: ' + err.message, 'error');
+  });
+}
+
+function deleteCategoryAdmin(catName) {
+  if (!confirm('Delete the "' + catName + '" category?')) return;
+  var products = STATE.products.filter(function(p){ return (p.category || '').trim() === catName; });
+  if (products.length) { toast('Cannot delete category with products', 'error'); return; }
+  toast('Category will be removed on next product load', 'success');
+  navigateTo('categories');
 }
 
 // ═══ PRODUCTS ═══
@@ -643,10 +710,16 @@ function renderProducts(el) {
 
 function showAddProduct(category) {
   var catVal = category ? category.replace(/'/g, '&#39;').replace(/"/g, '&quot;') : '';
+  var catList = '';
+  var seen = {};
+  (STATE.products || []).forEach(function(p){
+    var c = (p.category || '').trim();
+    if (c && !seen[c]) { seen[c] = true; catList += '<option value="' + c.replace(/'/g, '&#39;') + '"' + (c === category ? ' selected' : '') + '>' + c + '</option>'; }
+  });
   openModal('<h3>Add Product</h3>' +
     '<div class="form-group"><label>Product Name *</label><input id="prodName" placeholder="Enter product name" /></div>' +
     '<div class="form-row">' +
-      '<div class="form-group"><label>Category</label><input id="prodCategory" value="' + catVal + '" placeholder="e.g. Bangles, Earrings" /></div>' +
+      '<div class="form-group"><label>Category *</label><select id="prodCategorySelect" onchange="if(this.value===\"__new__\"){document.getElementById(\'prodCategoryNew\').style.display=\'block\';document.getElementById(\'prodCategoryNew\').focus();}else{document.getElementById(\'prodCategoryNew\').style.display=\'none\';}"><option value="">Select category...</option>' + catList + '<option value="__new__">+ New Category</option></select><input id="prodCategoryNew" placeholder="Enter new category name" style="display:none;margin-top:8px;" /></div>' +
       '<div class="form-group"><label>Price (\u00A3)</label><input id="prodPrice" type="number" step="0.01" placeholder="0.00" /></div>' +
     '</div>' +
     '<div class="form-row">' +
@@ -682,10 +755,16 @@ function editProduct(id) {
   if (!product) return;
   var imgSrc = product.image ? (product.image.startsWith('data:') || product.image.startsWith('/uploads') || product.image.startsWith('http') ? product.image : '../' + product.image) : '';
   var previewHtml = imgSrc ? '<img src="' + imgSrc + '" style="max-width:200px;max-height:200px;border-radius:8px;border:1px solid var(--admin-border);">' : '';
+  var catList = '';
+  var seen = {};
+  (STATE.products || []).forEach(function(p){
+    var c = (p.category || '').trim();
+    if (c && !seen[c]) { seen[c] = true; catList += '<option value="' + c.replace(/'/g, '&#39;') + '"' + (c === product.category ? ' selected' : '') + '>' + c + '</option>'; }
+  });
   openModal('<h3>Edit Product</h3>' +
     '<div class="form-group"><label>Product Name *</label><input id="prodName" value="' + (product.name || '').replace(/'/g, '&#39;').replace(/"/g, '&quot;') + '" /></div>' +
     '<div class="form-row">' +
-      '<div class="form-group"><label>Category</label><input id="prodCategory" value="' + (product.category || '').replace(/'/g, '&#39;').replace(/"/g, '&quot;') + '" /></div>' +
+      '<div class="form-group"><label>Category *</label><select id="prodCategorySelect" onchange="if(this.value===\"__new__\"){document.getElementById(\'prodCategoryNew\').style.display=\'block\';document.getElementById(\'prodCategoryNew\').focus();}else{document.getElementById(\'prodCategoryNew\').style.display=\'none\';}"><option value="">Select category...</option>' + catList + '<option value="__new__">+ New Category</option></select><input id="prodCategoryNew" placeholder="Enter new category name" style="display:none;margin-top:8px;" /></div>' +
       '<div class="form-group"><label>Price (\u00A3)</label><input id="prodPrice" type="number" step="0.01" value="' + (product.price || 0) + '" /></div>' +
     '</div>' +
     '<div class="form-row">' +
@@ -706,12 +785,18 @@ function saveProduct(id) {
   var btn = document.getElementById('saveProductBtn');
   if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
   var name = document.getElementById('prodName').value.trim();
-  var category = document.getElementById('prodCategory').value.trim();
+  var categorySelect = document.getElementById('prodCategorySelect');
+  var categoryNew = document.getElementById('prodCategoryNew');
+  var category = '';
+  if (categorySelect) {
+    category = categorySelect.value === '__new__' ? (categoryNew ? categoryNew.value.trim() : '') : categorySelect.value;
+  }
   var price = parseFloat(document.getElementById('prodPrice').value) || 0;
   var stock = parseInt(document.getElementById('prodStock').value) || 0;
   var description = document.getElementById('prodDesc').value.trim();
   var badge = document.getElementById('prodBadge').value.trim();
   if (!name) { toast('Product name is required', 'error'); if(btn) { btn.disabled = false; btn.textContent = 'Save Product'; } return; }
+  if (!category) { toast('Please select or enter a category', 'error'); if(btn) { btn.disabled = false; btn.textContent = 'Save Product'; } return; }
 
   var fileInput = document.getElementById('prodImageInput');
   var files = fileInput && fileInput.files ? Array.from(fileInput.files) : [];
