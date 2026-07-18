@@ -1609,24 +1609,26 @@
     }
 
     var colorMap = {
-      'gold':'#D4AF37','white':'#FFFFFF','plum':'#8E4585','lilac':'#C8A2C8','navy':'#1B2A4A',
-      'black':'#1a1a1a','emerald':'#2ECC71','maroon':'#800000','baby pink':'#F4C2C2',
-      'hot pink':'#FF69B4','teal':'#008080','silver':'#C0C0C0','candy pink':'#E4717A',
-      'light pink':'#FFB6C1','red':'#E74C3C','blue':'#3498DB','green':'#228B22',
-      'pink':'#E91E63','purple':'#9B59B6','brown':'#8B4513','beige':'#F5F5DC',
-      'champagne':'#F7E7CE','ivory':'#FFFFF0','rose':'#FF007F','wine':'#722F37',
-      'grey':'#808080','gray':'#808080','multi':'#FF6B9D','multicolour':'#FF6B9D'
+      'gold':'#C9993A','white':'#E8E4E0','plum':'#6B2D6B','lilac':'#9E7EB8','navy':'#1E2D5A',
+      'black':'#2A2A2A','emerald':'#1A7A52','maroon':'#7A1A2A','baby pink':'#E8A8BE',
+      'hot pink':'#D94080','teal':'#1A7A7A','silver':'#B8B8C0','candy pink':'#E07088',
+      'light pink':'#E8B8C8','red':'#C43030','blue':'#2850A0','green':'#1A7A3A',
+      'pink':'#D94080','purple':'#7A3A9A','brown':'#6A3A1A','beige':'#D8CDB8',
+      'champagne':'#C8A878','ivory':'#E8E0D0','rose':'#C84068','wine':'#6A1A2A',
+      'grey':'#707078','gray':'#707078','multi':'#D94080','multicolour':'#D94080',
+      'dark grey':'#505058','white gold':'#C8C0B8','royal blue':'#2850A0'
     };
 
     function extractColor(name) {
       var n = (name || '').toLowerCase();
-      var parts = n.split('–');
+      var parts = n.split('\u2013');
       if (parts.length > 1) {
         var colorPart = parts[parts.length - 1].trim();
         if (colorMap[colorPart]) return { name: colorPart.replace(/\b\w/g, function(c){ return c.toUpperCase(); }), hex: colorMap[colorPart] };
-      }
-      for (var key in colorMap) {
-        if (n.indexOf(key) > -1) return { name: key.replace(/\b\w/g, function(c){ return c.toUpperCase(); }), hex: colorMap[key] };
+        var colorKeys = Object.keys(colorMap).sort(function(a,b){ return b.length - a.length; });
+        for (var i = 0; i < colorKeys.length; i++) {
+          if (colorPart.indexOf(colorKeys[i]) === 0) return { name: colorKeys[i].replace(/\b\w/g, function(c){ return c.toUpperCase(); }), hex: colorMap[colorKeys[i]] };
+        }
       }
       return null;
     }
