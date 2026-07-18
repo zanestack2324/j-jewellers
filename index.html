@@ -351,13 +351,13 @@
 
     /* ─── SHOP BY CATEGORY ─── */
     .shop-layout{display:grid;grid-template-columns:260px 1fr;gap:40px;align-items:start;}
-    .shop-sidebar{position:sticky;top:100px;background:var(--surface-glass);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);padding:24px;border:1px solid var(--border);}
-    .filter-section{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+    .shop-sidebar{position:sticky;top:100px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);padding:24px;border:1px solid #e8e8e8;}
+    .filter-section{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #eee;}
     .filter-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
-    .filter-section h4{font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text);margin-bottom:14px;}
+    .filter-section h4{font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#111;margin-bottom:14px;}
     .filter-list{display:flex;flex-direction:column;gap:8px;}
-    .filter-check{display:flex;align-items:center;gap:10px;font-size:0.78rem;font-weight:300;color:var(--text-muted);cursor:pointer;transition:color 0.3s var(--ease-out);}
-    .filter-check:hover{color:var(--text);}
+    .filter-check{display:flex;align-items:center;gap:10px;font-size:0.78rem;font-weight:300;color:#666;cursor:pointer;transition:color 0.3s var(--ease-out);}
+    .filter-check:hover{color:#111;}
     .filter-check input{accent-color:var(--teal);width:14px;height:14px;cursor:pointer;}
     .filter-check span{color:var(--teal);font-size:0.65rem;margin-left:auto;}
     .filter-check.active-cat{color:var(--teal);}
@@ -371,31 +371,35 @@
     @media(max-width:1024px){.shop-layout{grid-template-columns:1fr;}.shop-sidebar{position:static;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px;}.shop-sidebar .filter-section:last-child{grid-column:span 2;}}
     @media(max-width:768px){.shop-sidebar{grid-template-columns:1fr;}.shop-sidebar .filter-section:last-child{grid-column:span 1;}}
     .cat-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:36px;}
-    .cat-tab{padding:10px 24px;background:transparent;border:1px solid var(--border);color:var(--text-muted);font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.4s var(--ease-out);}
-    .cat-tab:hover{border-color:var(--border-light);color:var(--text);}
+    .cat-tab{padding:10px 24px;background:transparent;border:1px solid #e0e0e0;color:#666;font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.4s var(--ease-out);}
+    .cat-tab:hover{border-color:var(--border-light);color:#111;}
     .cat-tab.active{background:rgba(13,139,139,0.06);border-color:var(--teal);color:var(--teal);box-shadow:0 0 20px rgba(13,139,139,0.1);}
     @media(max-width:768px){.cat-tabs{gap:4px;}.cat-tab{font-size:0.5rem;padding:8px 14px;}}
 
-    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:2px;}
-    .product-card{background:var(--surface-glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all 0.6s var(--ease-out);will-change:transform;contain:layout style paint;}
-    .product-card:hover{background:rgba(22,22,27,0.7);border-color:var(--border-light);transform:translateY(-6px) scale(1.02);box-shadow:0 20px 60px rgba(0,0,0,0.3),0 0 40px rgba(13,139,139,0.1);}
-    .product-img{position:relative;overflow:hidden;aspect-ratio:1;background:rgba(13,139,139,0.05);}
+    .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+    .product-card{background:#FFFFFF;overflow:hidden;border:1px solid #e8e8e8;cursor:pointer;transition:all 0.6s var(--ease-out);will-change:transform;}
+    .product-card:hover{background:#f8f8f8;border-color:var(--teal);transform:translateY(-6px) scale(1.02);box-shadow:0 20px 60px rgba(0,0,0,0.08),0 0 40px rgba(13,139,139,0.08);}
+    .product-img{position:relative;overflow:hidden;aspect-ratio:3/4;background:#f5f5f5;}
     .product-img picture{display:block;width:100%;height:100%;}
     .product-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease,filter 0.8s var(--ease-out);opacity:1;}
     .product-img img.lazy{opacity:0;filter:blur(20px);transform:scale(1.1);}
     .product-img img.loaded{opacity:1;filter:blur(0);transform:scale(1);}
     .product-card:hover .product-img img{transform:scale(1.08) rotate(1deg);}
+    .product-img::after{content:'jjewellers.com';position:absolute;bottom:10px;right:10px;font-family:var(--font-future);font-size:0.45rem;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,0.7);text-shadow:0 1px 4px rgba(0,0,0,0.5);pointer-events:none;z-index:3;}
     .product-img .badge{position:absolute;top:12px;left:12px;padding:4px 12px;font-family:var(--font-future);font-size:0.45rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
     .badge-new{background:var(--teal);color:var(--dark);}
     .badge-sale{background:#E74C3C;color:white;}
     .product-info{padding:18px;}
     .product-info .cat{font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;}
-    .product-info h3{font-family:var(--font-heading);font-size:1rem;font-weight:600;margin-bottom:4px;}
-    .product-info .p-desc{font-size:0.7rem;color:var(--text-muted);font-weight:300;line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .product-info h3{font-family:var(--font-heading);font-size:1rem;font-weight:600;margin-bottom:4px;color:#111;}
+    .product-info .p-desc{font-size:0.7rem;color:#666;font-weight:300;line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
     .product-info .price{font-size:1.1rem;font-weight:700;color:var(--teal);}
-    .product-info .price .old{font-size:0.7rem;color:var(--text-dim);text-decoration:line-through;margin-right:8px;font-weight:400;}
-    .add-to-cart{width:100%;padding:11px;background:transparent;border:1px solid var(--border);color:var(--text-muted);font-family:var(--font-future);font-size:0.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.4s var(--ease-out);}
-    .add-to-cart:hover{background:rgba(22,22,27,0.5);border-color:var(--border-light);color:var(--teal);}
+    .product-info .price .old{font-size:0.7rem;color:#999;text-decoration:line-through;margin-right:8px;font-weight:400;}
+    .product-colors{display:flex;gap:6px;margin:10px 0 4px;align-items:center;}
+    .product-colors .color-dot{width:14px;height:14px;border-radius:50%;border:2px solid #e0e0e0;cursor:pointer;transition:all 0.3s var(--ease-out);}
+    .product-colors .color-dot:hover{border-color:var(--teal);transform:scale(1.3);box-shadow:0 0 8px rgba(13,139,139,0.3);}
+    .add-to-cart{width:100%;padding:11px;background:transparent;border:1px solid #e0e0e0;color:#555;font-family:var(--font-future);font-size:0.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.4s var(--ease-out);}
+    .add-to-cart:hover{background:rgba(13,139,139,0.05);border-color:var(--border-light);color:var(--teal);}
     .product-actions{display:flex;gap:8px;margin-top:12px;}
     .product-actions .add-to-cart{flex:1;margin-top:0;}
     .buy-now-btn{flex:1;padding:11px;background:linear-gradient(135deg,var(--teal-light),var(--teal));border:none;color:var(--dark);font-family:var(--font-future);font-size:0.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.3s var(--ease-out);border-radius:var(--radius-sm);}
@@ -403,6 +407,10 @@
     .detail-actions{display:flex;gap:12px;margin-top:0;}
     .detail-actions .btn{flex:1;text-align:center;justify-content:center;}
     .cart-checkout-options .btn-sm{padding:12px 28px;font-size:0.55rem;letter-spacing:2px;}
+    .cat-group-header{grid-column:1/-1;padding:28px 0 12px;border-bottom:2px solid var(--teal);margin-bottom:8px;}
+    .cat-group-header h3{font-family:var(--font-heading);font-size:1.6rem;font-weight:700;color:#111;}
+    .cat-group-header p{font-size:0.8rem;color:#888;font-weight:300;margin-top:4px;}
+    @media(max-width:1024px){.products-grid{grid-template-columns:repeat(3,1fr);}}
     @media(max-width:768px){.products-grid{grid-template-columns:repeat(2,1fr);gap:2px;}.product-info{padding:12px;}.product-info h3{font-size:0.85rem;}}
     @media(max-width:480px){.products-grid{grid-template-columns:1fr 1fr;}.product-info{padding:10px;}}
 
@@ -838,10 +846,10 @@
     </section>
 
     <!-- SHOP BY CATEGORY -->
-    <section id="shop-cat">
+    <section id="shop-cat" style="background:#f7f8f8;">
       <div class="container">
-        <div class="reveal-l"><p class="section-label">Browse Our Range</p></div>
-        <div class="reveal-r"><h2 class="section-title">Shop Our <span class="teal-text">Collection</span></h2></div>
+        <div class="reveal-l"><p class="section-label" style="color:#0D8B8B;">Browse Our Range</p></div>
+        <div class="reveal-r"><h2 class="section-title" style="color:#111;">Shop Our <span class="teal-text">Collection</span></h2></div>
         <div class="reveal-l shop-layout">
           <aside class="shop-sidebar" id="shopSidebar">
             <div class="filter-section reveal-l">
@@ -973,10 +981,10 @@
 
   <!-- ====== SHOP PAGE ====== -->
   <div id="page-shop" class="page-content">
-    <section style="padding-top:140px;">
+    <section style="padding-top:140px;background:#f7f8f8;min-height:100vh;">
       <div class="container">
-        <div class="reveal-l"><p class="section-label">Browse All</p></div>
-        <div class="reveal-r"><h2 class="section-title">Shop Our <span class="teal-text">Collection</span></h2></div>
+        <div class="reveal-l"><p class="section-label" style="color:#0D8B8B;">Browse All</p></div>
+        <div class="reveal-r"><h2 class="section-title" style="color:#111;">Shop Our <span class="teal-text">Collection</span></h2></div>
         <div class="reveal-l shop-layout">
           <aside class="shop-sidebar">
             <div class="filter-section reveal-l">
@@ -1065,7 +1073,7 @@
           <h3>Your Rights Under UK GDPR</h3>
           <p class="reveal-l" style="margin-bottom:16px;">Under UK data protection law, you have the right to access your personal data, request correction or deletion of your data, restrict or object to processing, request data portability, and withdraw consent at any time where we rely on your consent to process your data.</p>
           <h3>Contact Us</h3>
-          <p class="reveal-r" style="margin-bottom:16px;">If you have any questions about this Privacy Policy or wish to exercise your data protection rights, please contact us at <a href="mailto:info@jjewellers.co.uk">info@jjewellers.co.uk</a>.</p>
+          <p class="reveal-r" style="margin-bottom:16px;">If you have any questions about this Privacy Policy or wish to exercise your data protection rights, please contact us at <a href="mailto:jjewellers1312@gmail.com">jjewellers1312@gmail.com</a>.</p>
         </div>
       </div>
     </section>
@@ -1090,7 +1098,7 @@
           <h3>Shipping Costs for Returns</h3>
           <p class="reveal-r" style="margin-bottom:16px;">Customers are responsible for return shipping costs unless the item is faulty, damaged, or an error was made on our part. We recommend using a tracked shipping service, as we cannot be held responsible for items lost in transit during return.</p>
           <h3>How to Initiate a Return</h3>
-          <p class="reveal-l" style="margin-bottom:16px;">To start a return, please email us at <a href="mailto:info@jjewellers.co.uk">info@jjewellers.co.uk</a> with your order number, the item you wish to return, and the reason for return. Our team will provide you with the return address and further instructions.</p>
+          <p class="reveal-l" style="margin-bottom:16px;">To start a return, please email us at <a href="mailto:jjewellers1312@gmail.com">jjewellers1312@gmail.com</a> with your order number, the item you wish to return, and the reason for return. Our team will provide you with the return address and further instructions.</p>
         </div>
       </div>
     </section>
@@ -1122,8 +1130,8 @@
           </div>
           <div class="reveal-s" style="padding:28px;border:1px solid var(--border);background:var(--surface-glass);text-align:center;">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" style="margin-bottom:12px;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-            <h3 style="font-family:var(--font-heading);font-size:1.1rem;margin-bottom:6px;">Call Us</h3>
-            <p style="color:var(--text-muted);font-size:0.8rem;font-weight:300;"><a href="mailto:info@jjewellers.co.uk" style="color:var(--teal);">info@jjewellers.co.uk</a></p>
+            <h3 style="font-family:var(--font-heading);font-size:1.1rem;margin-bottom:6px;">Email Us</h3>
+            <p style="color:var(--text-muted);font-size:0.8rem;font-weight:300;"><a href="mailto:jjewellers1312@gmail.com" style="color:var(--teal);">jjewellers1312@gmail.com</a></p>
           </div>
         </div>
 
@@ -1182,7 +1190,7 @@
           </div>
           <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">Can I return or exchange an item?<span class="faq-icon">+</span></button>
-            <div class="faq-answer"><p>We accept returns within 30 days of delivery for a full refund, provided items are unworn and in original packaging. For hygiene reasons, earrings cannot be returned unless faulty. To initiate a return, email us at <a href="mailto:info@jjewellers.co.uk">info@jjewellers.co.uk</a> with your order number.</p></div>
+            <div class="faq-answer"><p>We accept returns within 30 days of delivery for a full refund, provided items are unworn and in original packaging. For hygiene reasons, earrings cannot be returned unless faulty. To initiate a return, email us at <a href="mailto:jjewellers1312@gmail.com">jjewellers1312@gmail.com</a> with your order number.</p></div>
           </div>
           <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">What payment methods do you accept?<span class="faq-icon">+</span></button>
@@ -1198,7 +1206,7 @@
           </div>
           <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">Do you offer wholesale or bulk orders?<span class="faq-icon">+</span></button>
-            <div class="faq-answer"><p>Yes! We offer competitive pricing for bulk and wholesale orders. Please contact us at <a href="mailto:info@jjewellers.co.uk">info@jjewellers.co.uk</a> with your requirements and we'll provide a custom quote within 24 hours.</p></div>
+            <div class="faq-answer"><p>Yes! We offer competitive pricing for bulk and wholesale orders. Please contact us at <a href="mailto:jjewellers1312@gmail.com">jjewellers1312@gmail.com</a> with your requirements and we'll provide a custom quote within 24 hours.</p></div>
           </div>
           <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">How can I track my order?<span class="faq-icon">+</span></button>
@@ -1284,7 +1292,8 @@
         </div>
         <div class="footer-col">
           <h4>Contact Us</h4>
-          <a href="mailto:info@jjewellers.co.uk" onclick="playClick()">info@jjewellers.co.uk</a>
+          <a href="mailto:jjewellers1312@gmail.com" onclick="playClick()">jjewellers1312@gmail.com</a>
+          <a href="mailto:jjewellers1312@gmail.com" onclick="playClick()">jjewellers1312@gmail.com</a>
           <a onclick="playClick();navigateTo('support')">Customer Support</a>
           <a onclick="playClick();scrollToSection('contact')">Newsletter Signup</a>
         </div>
@@ -1408,7 +1417,6 @@
     var featured = [];
 
     var categories = [
-      { id:'all', label:'All Products' },
       { id:'Long Mala Sets', label:'Long Mala Sets' },
       { id:'Choker Sets', label:'Choker Sets' },
       { id:'Earrings', label:'Earrings' },
@@ -1595,22 +1603,39 @@
     function filterCategory(catId) {
       document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('active'); });
       document.querySelectorAll('.cat-tab[data-cat="' + catId + '"]').forEach(function(t){ t.classList.add('active'); });
-      var filtered = catId === 'all' ? products : products.filter(function(p){ return p.cat === catId; });
-      renderCatProducts(filtered);
+      renderCatProducts(catId);
       var sizeWraps = document.querySelectorAll('.size-filter-wrap');
       sizeWraps.forEach(function(w){ w.classList.toggle('visible', catId === 'Bangles'); });
     }
 
-    function renderCatProducts(list) {
+    var defaultColors = ['#D4AF37','#C0C0C0','#E74C3C','#0D8B8B','#9B59B6','#F5C469'];
+
+    function renderCatProducts(catId) {
       var ids = ['catProducts','catProductsShop'];
       ids.forEach(function(id){
         var el = document.getElementById(id);
         if (!el) return;
+        var filtered = catId === 'all' ? products : products.filter(function(p){ return p.cat === catId; });
         var html = '';
-        list.forEach(function(p){
-          var badge = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
-          var webpSrc = p.webp || p.img.replace(/\.png$/i, '.webp');
-          html += '<div class="product-card" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img class="lazy" data-src="' + p.img + '" alt="' + p.name + '" /></picture>' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><div class="product-actions"><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><button class="buy-now-btn" onclick="event.stopPropagation();buyNow(' + p.id + ')" aria-pressed="false">Buy Now</button></div></div></div>';
+        var grouped = {};
+        var groupOrder = [];
+        filtered.forEach(function(p){
+          var cat = p.cat || 'Other';
+          if (!grouped[cat]) { grouped[cat] = []; groupOrder.push(cat); }
+          grouped[cat].push(p);
+        });
+        groupOrder.forEach(function(cat){
+          html += '<div class="cat-group-header"><h3>' + cat + '</h3><p>' + grouped[cat].length + ' product' + (grouped[cat].length !== 1 ? 's' : '') + '</p></div>';
+          grouped[cat].forEach(function(p){
+            var badge = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
+            var webpSrc = p.webp || p.img.replace(/\.png$/i, '.webp');
+            var colorDots = '';
+            var colors = defaultColors.slice(0, 4);
+            colors.forEach(function(c){
+              colorDots += '<span class="color-dot" style="background-color:' + c + ';"></span>';
+            });
+            html += '<div class="product-card" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img class="lazy" data-src="' + p.img + '" alt="' + p.name + '" /></picture>' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div><div class="product-colors">' + colorDots + '</div><div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><div class="product-actions"><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><button class="buy-now-btn" onclick="event.stopPropagation();buyNow(' + p.id + ')" aria-pressed="false">Buy Now</button></div></div></div>';
+          });
         });
         el.innerHTML = html;
         lazyLoadImages(el);
@@ -1672,7 +1697,7 @@
           var cats = {};
           products.forEach(function(p){ if(p.cat && !cats[p.cat]){cats[p.cat]=true;} });
           var catKeys = Object.keys(cats);
-          categories = [{ id:'all', label:'All Products' }];
+          categories = [];
           catKeys.forEach(function(k){ categories.push({ id:k, label:k }); });
           // Build featured from non-empty images
           featured = products.filter(function(p){ return p.img && p.price; }).slice(0, 9).map(function(p){
@@ -1686,7 +1711,7 @@
       }).finally(function(){
         // Always render with whatever data we have
         renderCategoryTabs();
-        filterCategory('all');
+        filterCategory(categories.length > 0 ? categories[0].id : 'all');
         renderSidebarCategories();
       });
     }
@@ -1704,12 +1729,10 @@
         if (!el) return;
         var counts = {};
         products.forEach(function(p){ counts[p.cat] = (counts[p.cat]||0)+1; });
-        var allCount = products.length;
-        var html = '<label class="filter-check active-cat" data-cat="all"><input type="radio" name="sideCat" checked /> All Products <span>(' + allCount + ')</span></label>';
-        categories.forEach(function(c){
-          if (c.id === 'all') return;
+        var html = '';
+        categories.forEach(function(c,i){
           var cnt = counts[c.id] || 0;
-          html += '<label class="filter-check" data-cat="' + c.id + '"><input type="radio" name="sideCat" /> ' + c.label + ' <span>(' + cnt + ')</span></label>';
+          html += '<label class="filter-check' + (i===0?' active-cat':'') + '" data-cat="' + c.id + '"><input type="radio" name="sideCat"' + (i===0?' checked':'') + ' /> ' + c.label + ' <span>(' + cnt + ')</span></label>';
         });
         el.innerHTML = html;
         el.querySelectorAll('.filter-check').forEach(function(l){
@@ -1745,9 +1768,8 @@
     function resetFilters() {
       document.querySelectorAll('.filter-check input').forEach(function(i){ i.checked = false; });
       document.querySelectorAll('.stone-colors span').forEach(function(s){ s.style.borderColor = 'transparent'; });
-      var activeCat = document.querySelector('.filter-check.active-cat input');
-      if (activeCat) activeCat.checked = true;
-      filterCategory('all');
+      var firstCat = categories.length > 0 ? categories[0].id : 'all';
+      filterCategory(firstCat);
     }
 
     // ─── STONE COLORS ───
@@ -1942,13 +1964,13 @@
     var chatInitialized = false;
     var chatResponses = {
       'shipping': 'We offer Royal Mail tracked shipping on all orders! UK delivery is £3.65 (1-2 working days). International shipping starts from £6.60 (3-7 working days). You\'ll receive tracking details by email once dispatched.',
-      'returns': 'We accept returns within 30 days for a full refund. Items must be unworn and in original packaging. Earrings cannot be returned for hygiene reasons unless faulty. Email us at info@jjewellers.co.uk to start a return.',
+      'returns': 'We accept returns within 30 days for a full refund. Items must be unworn and in original packaging. Earrings cannot be returned for hygiene reasons unless faulty. Email us at jjewellers1312@gmail.com to start a return.',
       'track': 'To track your order, visit our Order Tracking page or check the tracking link in your dispatch email. You can also navigate to Support > Track Order.',
       'payment': 'We accept all major credit/debit cards (Visa, Mastercard, Amex) through Stripe — a PCI Level 1 certified payment processor. All transactions are encrypted and secure.',
       'care': 'Store jewellery in a dry place, avoid contact with perfumes and water, and gently wipe with a soft cloth after wearing. Remove before showering or swimming.',
-      'contact': 'You can reach us at info@jjewellers.co.uk or use the contact form on our Support page. We respond within 24 hours!',
+      'contact': 'You can reach us at jjewellers1312@gmail.com or use the contact form on our Support page. We respond within 24 hours!',
       'refund': 'Refunds are processed within 5-10 business days after we receive and inspect your return. The refund is applied to your original payment method.',
-      'bulk': 'Yes, we offer competitive pricing for bulk and wholesale orders! Email us at info@jjewellers.co.uk with your requirements for a custom quote.',
+      'bulk': 'Yes, we offer competitive pricing for bulk and wholesale orders! Email us at jjewellers1312@gmail.com with your requirements for a custom quote.',
       'hello': 'Hello! Welcome to J Jewellers support. How can I help you today?',
       'hi': 'Hi there! How can I assist you with your jewellery shopping experience?'
     };
@@ -2008,7 +2030,7 @@
       var now = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
       addChatMessage('user', msg, null);
       var lower = msg.toLowerCase();
-      var response = 'Thanks for your message! For detailed assistance, please email us at info@jjewellers.co.uk or visit our <a onclick="navigateTo(\'support\')" style="color:var(--teal);cursor:pointer;">Support page</a>. Our team responds within 24 hours.';
+      var response = 'Thanks for your message! For detailed assistance, please email us at <a href="mailto:jjewellers1312@gmail.com" style="color:var(--teal);">jjewellers1312@gmail.com</a> or visit our <a onclick="navigateTo(\'support\')" style="color:var(--teal);cursor:pointer;">Support page</a>. Our team responds within 24 hours.';
       var followUp = null;
 
       if (lower.match(/shipping|deliver|dispatch|postage/)) {

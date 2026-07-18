@@ -9,7 +9,7 @@ function isAllowedOrigin(origin) {
   return false;
 }
 
-const ADMIN_USER = 'admin';
+const ADMIN_USER = 'JJ_$3cur3_Us3r!';
 const getPass = () => {
   if (!process.env.ADMIN_PASSWORD) console.warn('ADMIN_PASSWORD not set');
   return process.env.ADMIN_PASSWORD || '';
