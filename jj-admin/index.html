@@ -310,19 +310,19 @@ img{max-width:100%;display:block;}
   </button>
   <button class="bnav-item active" data-bnav="dashboard" onclick="navigateTo('dashboard')" title="Dashboard">
     <span class="bnav-icon">◉</span>
-    <span>Dashboard</span>
+    <span>Home</span>
+  </button>
+  <button class="bnav-item" data-bnav="orders" onclick="navigateTo('orders')" title="Orders">
+    <span class="bnav-icon">◈</span>
+    <span>Orders</span>
+  </button>
+  <button class="bnav-item" data-bnav="customers" onclick="navigateTo('customers')" title="Customers">
+    <span class="bnav-icon">◉</span>
+    <span>Customers</span>
   </button>
   <button class="bnav-item" data-bnav="products" onclick="navigateTo('products')" title="Products">
     <span class="bnav-icon">◈</span>
     <span>Products</span>
-  </button>
-  <button class="bnav-item" data-bnav="payments" onclick="navigateTo('payments')" title="Payments">
-    <span class="bnav-icon">◈</span>
-    <span>Payments</span>
-  </button>
-  <button class="bnav-item" data-bnav="settings" onclick="navigateTo('settings')" title="Settings">
-    <span class="bnav-icon">⚙</span>
-    <span>Settings</span>
   </button>
 </nav>
 
@@ -477,13 +477,22 @@ var navSections = [
   { section: 'Overview', items: [
     { id: 'dashboard', label: 'Dashboard', icon: '◉' }
   ]},
+  { section: 'Sales', items: [
+    { id: 'orders', label: 'Orders', icon: '◈' },
+    { id: 'customers', label: 'Customers', icon: '◉' },
+    { id: 'coupons', label: 'Discounts', icon: '⊞' }
+  ]},
   { section: 'Manage', items: [
     { id: 'products', label: 'Products', icon: '◈' },
-    { id: 'categories', label: 'Categories', icon: '⊞' }
+    { id: 'categories', label: 'Categories', icon: '⊞' },
+    { id: 'reviews', label: 'Reviews', icon: '★' }
   ]},
   { section: 'Finance', items: [
     { id: 'payments', label: 'Stripe', icon: '◈' },
     { id: 'shipping', label: 'Shipping', icon: '⊞' }
+  ]},
+  { section: 'Engage', items: [
+    { id: 'contacts', label: 'Enquiries', icon: '✉' }
   ]},
   { section: 'System', items: [
     { id: 'settings', label: 'Settings', icon: '⚙' }
@@ -521,6 +530,11 @@ function getPageTitle(page) {
     dashboard: 'Dashboard',
     products: 'Products',
     categories: 'Categories',
+    orders: 'Orders',
+    customers: 'Customers',
+    coupons: 'Discounts & Coupons',
+    reviews: 'Reviews',
+    contacts: 'Enquiries',
     payments: 'Payments (Stripe)',
     shipping: 'Shipping',
     settings: 'Settings'
@@ -537,6 +551,11 @@ function renderPage(page) {
     case 'dashboard': renderDashboard(content); break;
     case 'products': renderProducts(content); break;
     case 'categories': renderCategories(content); break;
+    case 'orders': renderOrders(content); break;
+    case 'customers': renderCustomers(content); break;
+    case 'coupons': renderCoupons(content); break;
+    case 'reviews': renderReviews(content); break;
+    case 'contacts': renderContacts(content); break;
     case 'payments': renderPayments(content); break;
     case 'shipping': renderShipping(content); break;
     case 'settings': renderSettings(content); break;
@@ -548,23 +567,41 @@ function renderPage(page) {
 function renderDashboard(el) {
   Promise.all([
     api('/api/admin/dashboard').catch(function(){ return null; }),
-    api('/api/admin/upload', { method: 'POST', body: { _check: true } }).then(function(d){ return d; }).catch(function(){ return { error: 'unreachable' }; })
+    api('/api/admin/upload', { method: 'POST', body: { _check: true } }).then(function(d){ return d; }).catch(function(){ return { error: 'unreachable' }; }),
+    api('/api/admin/orders').catch(function(){ return []; }),
+    api('/api/admin/customers').catch(function(){ return []; }),
+    api('/api/admin/reviews').catch(function(){ return []; }),
+    api('/api/admin/coupons').catch(function(){ return []; }),
+    api('/api/admin/contacts').catch(function(){ return []; })
   ]).then(function(results) {
     var data = results[0];
     var uploadStatus = results[1];
-    var githubOk = uploadStatus && !uploadStatus.error;
+    var orders = results[2] || [];
+    var customers = results[3] || [];
+    var reviews = results[4] || [];
+    var coupons = results[5] || [];
+    var contacts = results[6] || [];
+    var githubOk = uploadStatus && uploadStatus.success && uploadStatus.configured !== false;
     if (!data) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">◉</div><h4>No Data</h4><p class="sub">Could not load dashboard.</p></div>'; return; }
     var d = data.overview || {};
     var r = data.revenue || {};
     var sb = data.stripeBalance || {};
+    var pendingOrders = orders.filter(function(o){ return o.status === 'pending'; }).length;
+    var totalRevenue = 0; orders.forEach(function(o){ totalRevenue += o.total || 0; });
+    var unreadContacts = contacts.filter(function(s){ return !s.read; }).length;
     var html = '<div class="dash-grid">';
     var cards = [
-      { label: 'Available Balance', value: sb.currency + ' ' + (sb.available || 0).toFixed(2), change: 'Stripe account', icon: '\u00A3' },
-      { label: 'Pending Balance', value: sb.currency + ' ' + (sb.pending || 0).toFixed(2), change: 'Processing', icon: '\u23F3' },
-      { label: 'Products', value: d.totalProducts || 0, change: (d.totalProducts || 0) + ' listed', icon: '\u25C6' }
+      { label: 'Available Balance', value: (sb.currency || 'gbp').toUpperCase() + ' ' + (sb.available || 0).toFixed(2), change: 'Stripe account', icon: '\u00A3', page: 'payments' },
+      { label: 'Total Revenue', value: '\u00A3' + totalRevenue.toFixed(2), change: orders.length + ' orders total', icon: '\u00A3', page: 'orders' },
+      { label: 'Orders', value: orders.length, change: pendingOrders + ' pending', icon: '◈', page: 'orders' },
+      { label: 'Customers', value: customers.length, change: 'registered', icon: '◉', page: 'customers' },
+      { label: 'Products', value: d.totalProducts || 0, change: (d.totalProducts || 0) + ' listed', icon: '◆', page: 'products' },
+      { label: 'Reviews', value: reviews.length, change: reviews.filter(function(r){ return r.status === 'pending'; }).length + ' pending', icon: '★', page: 'reviews' },
+      { label: 'Coupons', value: coupons.length, change: coupons.filter(function(c){ return c.active; }).length + ' active', icon: '⊞', page: 'coupons' },
+      { label: 'Enquiries', value: contacts.length, change: unreadContacts + ' unread', icon: '✉', page: 'contacts' }
     ];
     cards.forEach(function(c){
-      html += '<div class="dash-card"><div class="dash-icon">' + c.icon + '</div><div class="dash-label">' + c.label + '</div><div class="dash-value">' + c.value + '</div>' + (c.change ? '<div class="dash-change up">' + c.change + '</div>' : '') + '</div>';
+      html += '<div class="dash-card" style="cursor:pointer;" onclick="navigateTo(\'' + c.page + '\')"><div class="dash-icon">' + c.icon + '</div><div class="dash-label">' + c.label + '</div><div class="dash-value">' + c.value + '</div>' + (c.change ? '<div class="dash-change up">' + c.change + '</div>' : '') + '</div>';
     });
     html += '</div>';
     if (!githubOk) {
@@ -824,17 +861,18 @@ function saveProduct(id) {
       api('/api/admin/upload', { method: 'POST', body: { image: base64, name: name } }).then(function(uploadResult) {
         log('Upload result: ' + JSON.stringify(uploadResult));
         if (uploadResult && uploadResult.success && uploadResult.url) {
-          toast('Image uploaded to GitHub (' + (uploadResult.sizeKB || '?') + 'KB)', 'success');
+          toast('Image uploaded (' + (uploadResult.sizeKB || '?') + 'KB)', 'success');
           cb(uploadResult.url);
         } else if (uploadResult && uploadResult.configured === false) {
-          toast('GitHub not connected – set GITHUB_TOKEN in Vercel', 'error');
+          log('GitHub not configured — saving image inline');
           cb(base64);
         } else {
-          toast('Upload failed – saving image locally', 'error');
+          toast('Upload failed — saving image inline', 'error');
           cb(base64);
         }
       }).catch(function(err) {
-        toast('Upload error: ' + err.message, 'error');
+        log('Upload API error: ' + err.message);
+        toast('Upload unavailable — saving image inline', 'error');
         cb(base64);
       });
     });
@@ -903,6 +941,408 @@ function deleteCategory(catName, count) {
       }
     }).catch(function() { failed++; if (deleted + failed === total) { toast(deleted + ' deleted, ' + failed + ' failed', 'error'); navigateTo('products'); } });
   });
+}
+
+// ═══ ORDERS ═══
+function renderOrders(el) {
+  api('/api/admin/orders').then(function(orders) {
+    if (!orders || !orders.length) { el.innerHTML = '<div class="section-header"><h3>Orders</h3><button class="btn-admin btn-primary-admin" onclick="showAddOrder()">+ New Order</button></div><div class="empty-state"><div class="empty-icon">◈</div><h4>No Orders Yet</h4><p class="sub">Orders will appear here once customers start purchasing.</p></div>'; return; }
+    var stats = { total: orders.length, pending: 0, confirmed: 0, shipped: 0, delivered: 0, cancelled: 0, totalRevenue: 0 };
+    orders.forEach(function(o) { if (stats[o.status] !== undefined) stats[o.status]++; stats.totalRevenue += o.total || 0; });
+    var html = '<div class="section-header"><h3>Orders</h3><button class="btn-admin btn-primary-admin" onclick="showAddOrder()">+ New Order</button></div>';
+    html += '<div class="dash-grid">';
+    html += '<div class="dash-card"><div class="dash-icon">◈</div><div class="dash-label">Total Orders</div><div class="dash-value">' + stats.total + '</div></div>';
+    html += '<div class="dash-card"><div class="dash-icon">\u23F3</div><div class="dash-label">Pending</div><div class="dash-value">' + stats.pending + '</div></div>';
+    html += '<div class="dash-card"><div class="dash-icon">◆</div><div class="dash-label">Shipped</div><div class="dash-value">' + stats.shipped + '</div></div>';
+    html += '<div class="dash-card"><div class="dash-icon">\u00A3</div><div class="dash-label">Revenue</div><div class="dash-value">\u00A3' + stats.totalRevenue.toFixed(2) + '</div></div>';
+    html += '</div>';
+    html += '<div style="margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap;">';
+    ['all','pending','confirmed','shipped','delivered','cancelled'].forEach(function(s) {
+      html += '<button class="btn-admin btn-sm' + (s === 'all' ? ' btn-primary-admin' : '') + '" onclick="filterOrders(\'' + s + '\')">' + s.charAt(0).toUpperCase() + s.slice(1) + '</button>';
+    });
+    html += '</div>';
+    html += '<div class="card"><div class="card-body no-padding"><table class="data-table"><thead><tr><th>#</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>';
+    orders.sort(function(a,b){ return new Date(b.createdAt) - new Date(a.createdAt); });
+    orders.forEach(function(o) {
+      var itemCount = (o.items || []).length;
+      html += '<tr>';
+      html += '<td class="font-mono text-sm">#' + o.id + '</td>';
+      html += '<td><div>' + (o.customerName || 'Unknown') + '</div><div class="text-sm text-muted">' + (o.customerEmail || '') + '</div></td>';
+      html += '<td>' + itemCount + ' item' + (itemCount !== 1 ? 's' : '') + '</td>';
+      html += '<td class="font-mono">\u00A3' + (o.total || 0).toFixed(2) + '</td>';
+      html += '<td><span class="status-badge ' + (o.status || 'pending') + '">' + (o.status || 'pending') + '</span></td>';
+      html += '<td class="text-sm text-muted">' + (o.createdAt ? new Date(o.createdAt).toLocaleDateString() : '') + '</td>';
+      html += '<td><button class="btn-admin btn-sm" onclick="editOrder(' + o.id + ')">Edit</button> <button class="btn-admin btn-sm btn-danger-admin" onclick="deleteOrder(' + o.id + ')">×</button></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table></div></div>';
+    el.innerHTML = html;
+  }).catch(function(err) { el.innerHTML = '<div class="empty-state"><h4>Error loading orders</h4><p class="sub">' + err.message + '</p></div>'; });
+}
+
+function filterOrders(status) {
+  var el = document.getElementById('content');
+  el.innerHTML = '<p class="text-muted" style="padding:24px;text-align:center;">Loading orders…</p>';
+  api('/api/admin/orders?status=' + status).then(function(orders) {
+    var html = '<div class="section-header"><h3>Orders</h3><button class="btn-admin btn-primary-admin" onclick="showAddOrder()">+ New Order</button></div>';
+    html += '<div style="margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap;">';
+    ['all','pending','confirmed','shipped','delivered','cancelled'].forEach(function(s) {
+      html += '<button class="btn-admin btn-sm' + (s === status ? ' btn-primary-admin' : '') + '" onclick="filterOrders(\'' + s + '\')">' + s.charAt(0).toUpperCase() + s.slice(1) + '</button>';
+    });
+    html += '</div>';
+    html += '<div class="card"><div class="card-body no-padding"><table class="data-table"><thead><tr><th>#</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>';
+    if (!orders.length) html += '<tr><td colspan="7" class="text-muted" style="text-align:center;padding:24px;">No orders with status "' + status + '"</td></tr>';
+    orders.forEach(function(o) {
+      var itemCount = (o.items || []).length;
+      html += '<tr><td class="font-mono text-sm">#' + o.id + '</td><td><div>' + (o.customerName || 'Unknown') + '</div><div class="text-sm text-muted">' + (o.customerEmail || '') + '</div></td><td>' + itemCount + ' item' + (itemCount !== 1 ? 's' : '') + '</td><td class="font-mono">\u00A3' + (o.total || 0).toFixed(2) + '</td><td><span class="status-badge ' + (o.status || 'pending') + '">' + (o.status || 'pending') + '</span></td><td class="text-sm text-muted">' + (o.createdAt ? new Date(o.createdAt).toLocaleDateString() : '') + '</td><td><button class="btn-admin btn-sm" onclick="editOrder(' + o.id + ')">Edit</button> <button class="btn-admin btn-sm btn-danger-admin" onclick="deleteOrder(' + o.id + ')">×</button></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+    el.innerHTML = html;
+  });
+}
+
+function showAddOrder() {
+  openModal('<h3>Create Order</h3>' +
+    '<div class="form-row"><div class="form-group"><label>Customer Name *</label><input id="orderName" placeholder="Full name" /></div><div class="form-group"><label>Email</label><input id="orderEmail" type="email" placeholder="customer@email.com" /></div></div>' +
+    '<div class="form-row"><div class="form-group"><label>Phone</label><input id="orderPhone" placeholder="Phone number" /></div><div class="form-group"><label>Status</label><select id="orderStatus"><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option></select></div></div>' +
+    '<div class="form-group"><label>Shipping Address</label><textarea id="orderAddress" rows="2" placeholder="Full address"></textarea></div>' +
+    '<div class="form-row"><div class="form-group"><label>Subtotal (\u00A3)</label><input id="orderSubtotal" type="number" step="0.01" value="0" /></div><div class="form-group"><label>Shipping (\u00A3)</label><input id="orderShipping" type="number" step="0.01" value="0" /></div></div>' +
+    '<div class="form-row"><div class="form-group"><label>Discount (\u00A3)</label><input id="orderDiscount" type="number" step="0.01" value="0" /></div><div class="form-group"><label>Total (\u00A3) *</label><input id="orderTotal" type="number" step="0.01" value="0" /></div></div>' +
+    '<div class="form-group"><label>Tracking Number</label><input id="orderTracking" placeholder="Royal Mail / courier tracking" /></div>' +
+    '<div class="form-group"><label>Notes</label><textarea id="orderNotes" rows="2" placeholder="Internal notes"></textarea></div>' +
+    '<button class="btn-admin btn-primary-admin" onclick="saveOrder()">Create Order</button>');
+}
+
+function editOrder(id) {
+  api('/api/admin/orders?id=' + id).then(function(o) {
+    if (!o || !o.id) { toast('Order not found', 'error'); return; }
+    openModal('<h3>Order #' + o.id + '</h3>' +
+      '<div class="form-row"><div class="form-group"><label>Customer Name</label><input id="orderName" value="' + (o.customerName || '').replace(/"/g, '&quot;') + '" /></div><div class="form-group"><label>Email</label><input id="orderEmail" type="email" value="' + (o.customerEmail || '').replace(/"/g, '&quot;') + '" /></div></div>' +
+      '<div class="form-row"><div class="form-group"><label>Phone</label><input id="orderPhone" value="' + (o.customerPhone || '').replace(/"/g, '&quot;') + '" /></div><div class="form-group"><label>Status</label><select id="orderStatus"><option value="pending"' + (o.status === 'pending' ? ' selected' : '') + '>Pending</option><option value="confirmed"' + (o.status === 'confirmed' ? ' selected' : '') + '>Confirmed</option><option value="shipped"' + (o.status === 'shipped' ? ' selected' : '') + '>Shipped</option><option value="delivered"' + (o.status === 'delivered' ? ' selected' : '') + '>Delivered</option><option value="cancelled"' + (o.status === 'cancelled' ? ' selected' : '') + '>Cancelled</option><option value="refunded"' + (o.status === 'refunded' ? ' selected' : '') + '>Refunded</option></select></div></div>' +
+      '<div class="form-group"><label>Shipping Address</label><textarea id="orderAddress" rows="2">' + (o.shippingAddress || '') + '</textarea></div>' +
+      '<div class="form-row"><div class="form-group"><label>Subtotal (\u00A3)</label><input id="orderSubtotal" type="number" step="0.01" value="' + (o.subtotal || 0) + '" /></div><div class="form-group"><label>Shipping (\u00A3)</label><input id="orderShipping" type="number" step="0.01" value="' + (o.shippingCost || 0) + '" /></div></div>' +
+      '<div class="form-row"><div class="form-group"><label>Discount (\u00A3)</label><input id="orderDiscount" type="number" step="0.01" value="' + (o.discount || 0) + '" /></div><div class="form-group"><label>Total (\u00A3)</label><input id="orderTotal" type="number" step="0.01" value="' + (o.total || 0) + '" /></div></div>' +
+      '<div class="form-group"><label>Tracking Number</label><input id="orderTracking" value="' + (o.trackingNumber || '').replace(/"/g, '&quot;') + '" /></div>' +
+      '<div class="form-group"><label>Notes</label><textarea id="orderNotes" rows="2">' + (o.notes || '') + '</textarea></div>' +
+      '<button class="btn-admin btn-primary-admin" onclick="saveOrder(' + o.id + ')">Save Changes</button> ' +
+      '<button class="btn-admin btn-danger-admin" onclick="deleteOrder(' + o.id + ')">Delete Order</button>');
+  });
+}
+
+function saveOrder(id) {
+  var body = {
+    customerName: (document.getElementById('orderName').value || '').trim(),
+    customerEmail: (document.getElementById('orderEmail').value || '').trim(),
+    customerPhone: (document.getElementById('orderPhone').value || '').trim(),
+    shippingAddress: (document.getElementById('orderAddress').value || '').trim(),
+    status: document.getElementById('orderStatus').value,
+    subtotal: parseFloat(document.getElementById('orderSubtotal').value) || 0,
+    shippingCost: parseFloat(document.getElementById('orderShipping').value) || 0,
+    discount: parseFloat(document.getElementById('orderDiscount').value) || 0,
+    total: parseFloat(document.getElementById('orderTotal').value) || 0,
+    trackingNumber: (document.getElementById('orderTracking').value || '').trim(),
+    notes: (document.getElementById('orderNotes').value || '').trim()
+  };
+  if (!body.customerName) { toast('Customer name is required', 'error'); return; }
+  if (id) body.id = id;
+  api('/api/admin/orders', { method: id ? 'PUT' : 'POST', body: body }).then(function(data) {
+    if (data && data.success) { toast(id ? 'Order updated' : 'Order created', 'success'); closeModal(); navigateTo('orders'); }
+    else { toast('Failed: ' + (data && data.error ? data.error : 'unknown'), 'error'); }
+  }).catch(function(err) { toast('Error: ' + err.message, 'error'); });
+}
+
+function deleteOrder(id) {
+  if (!confirm('Delete order #' + id + '? This cannot be undone.')) return;
+  api('/api/admin/orders?id=' + id, { method: 'DELETE' }).then(function(data) {
+    if (data && data.success) { toast('Order deleted', 'success'); closeModal(); navigateTo('orders'); }
+    else { toast('Delete failed', 'error'); }
+  }).catch(function(err) { toast('Error: ' + err.message, 'error'); });
+}
+
+// ═══ CUSTOMERS ═══
+function renderCustomers(el) {
+  api('/api/admin/customers').then(function(customers) {
+    var list = customers || [];
+    var totalSpent = 0;
+    list.forEach(function(c) { totalSpent += c.totalSpent || 0; });
+    var html = '<div class="section-header"><h3>Customers</h3><div style="display:flex;gap:8px;"><input id="customerSearch" placeholder="Search name, email, phone…" style="padding:8px 12px;border:1px solid #333;border-radius:6px;background:#111;color:#fff;font-size:13px;width:240px;" oninput="searchCustomers(this.value)" /><button class="btn-admin btn-primary-admin" onclick="showAddCustomer()">+ Add Customer</button></div></div>';
+    html += '<div class="dash-grid">';
+    html += '<div class="dash-card"><div class="dash-icon">◉</div><div class="dash-label">Total Customers</div><div class="dash-value">' + list.length + '</div></div>';
+    html += '<div class="dash-card"><div class="dash-icon">\u00A3</div><div class="dash-label">Total Revenue</div><div class="dash-value">\u00A3' + totalSpent.toFixed(2) + '</div></div>';
+    html += '</div>';
+    html += '<div class="card"><div class="card-body no-padding"><table class="data-table"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Orders</th><th>Spent</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="customerTableBody">';
+    if (!list.length) html += '<tr><td colspan="7" class="text-muted" style="text-align:center;padding:24px;">No customers yet. Customers are added when they submit enquiries or place orders.</td></tr>';
+    list.forEach(function(c) {
+      html += '<tr><td>' + (c.name || '') + '</td><td class="text-sm">' + (c.email || '') + '</td><td class="text-sm">' + (c.phone || '') + '</td><td>' + (c.totalOrders || 0) + '</td><td class="font-mono">\u00A3' + (c.totalSpent || 0).toFixed(2) + '</td><td class="text-sm text-muted">' + (c.createdAt ? new Date(c.createdAt).toLocaleDateString() : '') + '</td><td><button class="btn-admin btn-sm" onclick="editCustomer(' + c.id + ')">Edit</button> <button class="btn-admin btn-sm btn-danger-admin" onclick="deleteCustomer(' + c.id + ')">×</button></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+    el.innerHTML = html;
+  }).catch(function(err) { el.innerHTML = '<div class="empty-state"><h4>Error loading customers</h4><p class="sub">' + err.message + '</p></div>'; });
+}
+
+function searchCustomers(q) {
+  api('/api/admin/customers?search=' + encodeURIComponent(q)).then(function(list) {
+    var tbody = document.getElementById('customerTableBody');
+    if (!tbody) return;
+    if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" class="text-muted" style="text-align:center;padding:24px;">No customers found</td></tr>'; return; }
+    var html = '';
+    list.forEach(function(c) {
+      html += '<tr><td>' + (c.name || '') + '</td><td class="text-sm">' + (c.email || '') + '</td><td class="text-sm">' + (c.phone || '') + '</td><td>' + (c.totalOrders || 0) + '</td><td class="font-mono">\u00A3' + (c.totalSpent || 0).toFixed(2) + '</td><td class="text-sm text-muted">' + (c.createdAt ? new Date(c.createdAt).toLocaleDateString() : '') + '</td><td><button class="btn-admin btn-sm" onclick="editCustomer(' + c.id + ')">Edit</button> <button class="btn-admin btn-sm btn-danger-admin" onclick="deleteCustomer(' + c.id + ')">×</button></td></tr>';
+    });
+    tbody.innerHTML = html;
+  });
+}
+
+function showAddCustomer() {
+  openModal('<h3>Add Customer</h3>' +
+    '<div class="form-row"><div class="form-group"><label>Name *</label><input id="custName" placeholder="Full name" /></div><div class="form-group"><label>Email</label><input id="custEmail" type="email" placeholder="customer@email.com" /></div></div>' +
+    '<div class="form-row"><div class="form-group"><label>Phone</label><input id="custPhone" placeholder="Phone number" /></div><div class="form-group"><label>Postcode</label><input id="custPostcode" placeholder="e.g. SW1A 1AA" /></div></div>' +
+    '<div class="form-group"><label>Address</label><textarea id="custAddress" rows="2" placeholder="Full address"></textarea></div>' +
+    '<div class="form-group"><label>City</label><input id="custCity" placeholder="City" /></div>' +
+    '<div class="form-group"><label>Notes</label><textarea id="custNotes" rows="2" placeholder="Internal notes about this customer"></textarea></div>' +
+    '<button class="btn-admin btn-primary-admin" onclick="saveCustomer()">Save Customer</button>');
+}
+
+function editCustomer(id) {
+  api('/api/admin/customers?id=' + id).then(function(c) {
+    if (!c || !c.id) { toast('Customer not found', 'error'); return; }
+    openModal('<h3>Edit Customer</h3>' +
+      '<div class="form-row"><div class="form-group"><label>Name *</label><input id="custName" value="' + (c.name || '').replace(/"/g, '&quot;') + '" /></div><div class="form-group"><label>Email</label><input id="custEmail" type="email" value="' + (c.email || '').replace(/"/g, '&quot;') + '" /></div></div>' +
+      '<div class="form-row"><div class="form-group"><label>Phone</label><input id="custPhone" value="' + (c.phone || '').replace(/"/g, '&quot;') + '" /></div><div class="form-group"><label>Postcode</label><input id="custPostcode" value="' + (c.postcode || '').replace(/"/g, '&quot;') + '" /></div></div>' +
+      '<div class="form-group"><label>Address</label><textarea id="custAddress" rows="2">' + (c.address || '') + '</textarea></div>' +
+      '<div class="form-group"><label>City</label><input id="custCity" value="' + (c.city || '').replace(/"/g, '&quot;') + '" /></div>' +
+      '<div class="form-group"><label>Notes</label><textarea id="custNotes" rows="2">' + (c.notes || '') + '</textarea></div>' +
+      '<div class="text-sm text-muted" style="margin-bottom:12px;">Orders: ' + (c.totalOrders || 0) + ' | Total spent: \u00A3' + (c.totalSpent || 0).toFixed(2) + ' | Joined: ' + (c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'N/A') + '</div>' +
+      '<button class="btn-admin btn-primary-admin" onclick="saveCustomer(' + c.id + ')">Save Changes</button> ' +
+      '<button class="btn-admin btn-danger-admin" onclick="deleteCustomer(' + c.id + ')">Delete Customer</button>');
+  });
+}
+
+function saveCustomer(id) {
+  var body = {
+    name: (document.getElementById('custName').value || '').trim(),
+    email: (document.getElementById('custEmail').value || '').trim(),
+    phone: (document.getElementById('custPhone').value || '').trim(),
+    postcode: (document.getElementById('custPostcode').value || '').trim(),
+    address: (document.getElementById('custAddress').value || '').trim(),
+    city: (document.getElementById('custCity').value || '').trim(),
+    notes: (document.getElementById('custNotes').value || '').trim()
+  };
+  if (!body.name) { toast('Name is required', 'error'); return; }
+  if (id) body.id = id;
+  api('/api/admin/customers', { method: id ? 'PUT' : 'POST', body: body }).then(function(data) {
+    if (data && data.success) { toast(id ? 'Customer updated' : 'Customer added', 'success'); closeModal(); navigateTo('customers'); }
+    else { toast('Failed: ' + (data && data.error ? data.error : 'unknown'), 'error'); }
+  }).catch(function(err) { toast('Error: ' + err.message, 'error'); });
+}
+
+function deleteCustomer(id) {
+  if (!confirm('Delete this customer record? This cannot be undone.')) return;
+  api('/api/admin/customers?id=' + id, { method: 'DELETE' }).then(function(data) {
+    if (data && data.success) { toast('Customer deleted', 'success'); closeModal(); navigateTo('customers'); }
+    else { toast('Delete failed', 'error'); }
+  }).catch(function(err) { toast('Error: ' + err.message, 'error'); });
+}
+
+// ═══ COUPONS ═══
+function renderCoupons(el) {
+  api('/api/admin/coupons').then(function(coupons) {
+    var list = coupons || [];
+    var active = list.filter(function(c){ return c.active; }).length;
+    var html = '<div class="section-header"><h3>Discounts & Coupons</h3><button class="btn-admin btn-primary-admin" onclick="showAddCoupon()">+ Create Coupon</button></div>';
+    html += '<div class="dash-grid">';
+    html += '<div class="dash-card"><div class="dash-icon">⊞</div><div class="dash-label">Total Coupons</div><div class="dash-value">' + list.length + '</div></div>';
+    html += '<div class="dash-card"><div class="dash-icon">◆</div><div class="dash-label">Active</div><div class="dash-value">' + active + '</div></div>';
+    html += '</div>';
+    html += '<div class="card"><div class="card-body no-padding"><table class="data-table"><thead><tr><th>Code</th><th>Type</th><th>Value</th><th>Min Order</th><th>Used</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+    if (!list.length) html += '<tr><td colspan="7" class="text-muted" style="text-align:center;padding:24px;">No coupons created yet</td></tr>';
+    list.forEach(function(c) {
+      var valStr = c.type === 'percentage' ? c.value + '%' : '\u00A3' + c.value.toFixed(2);
+      html += '<tr><td class="font-mono" style="font-weight:600;">' + c.code + '</td><td>' + c.type + '</td><td>' + valStr + '</td><td>\u00A3' + (c.minOrder || 0).toFixed(2) + '</td><td>' + (c.usedCount || 0) + (c.maxUses ? ' / ' + c.maxUses : ' / \u221E') + '</td><td><span class="status-badge ' + (c.active ? 'active' : 'inactive') + '">' + (c.active ? 'Active' : 'Inactive') + '</span></td><td><button class="btn-admin btn-sm" onclick="editCoupon(' + c.id + ')">Edit</button> <button class="btn-admin btn-sm btn-danger-admin" onclick="deleteCoupon(' + c.id + ')">×</button></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+    el.innerHTML = html;
+  }).catch(function(err) { el.innerHTML = '<div class="empty-state"><h4>Error loading coupons</h4><p class="sub">' + err.message + '</p></div>'; });
+}
+
+function showAddCoupon() {
+  openModal('<h3>Create Coupon</h3>' +
+    '<div class="form-row"><div class="form-group"><label>Code *</label><input id="couponCode" placeholder="e.g. SUMMER20" style="text-transform:uppercase;" /></div><div class="form-group"><label>Type</label><select id="couponType"><option value="percentage">Percentage (%)</option><option value="fixed">Fixed (\u00A3)</option></select></div></div>' +
+    '<div class="form-row"><div class="form-group"><label>Value *</label><input id="couponValue" type="number" step="0.01" placeholder="e.g. 20" /></div><div class="form-group"><label>Min Order (\u00A3)</label><input id="couponMin" type="number" step="0.01" value="0" /></div></div>' +
+    '<div class="form-row"><div class="form-group"><label>Max Uses (0 = unlimited)</label><input id="couponMaxUses" type="number" value="0" /></div><div class="form-group"><label>Expires</label><input id="couponExpires" type="date" /></div></div>' +
+    '<button class="btn-admin btn-primary-admin" onclick="saveCoupon()">Create Coupon</button>');
+}
+
+function editCoupon(id) {
+  api('/api/admin/coupons?id=' + id).then(function(c) {
+    if (!c || !c.id) { toast('Coupon not found', 'error'); return; }
+    openModal('<h3>Edit Coupon: ' + c.code + '</h3>' +
+      '<div class="form-row"><div class="form-group"><label>Code</label><input id="couponCode" value="' + c.code + '" style="text-transform:uppercase;" /></div><div class="form-group"><label>Type</label><select id="couponType"><option value="percentage"' + (c.type === 'percentage' ? ' selected' : '') + '>Percentage (%)</option><option value="fixed"' + (c.type === 'fixed' ? ' selected' : '') + '>Fixed (\u00A3)</option></select></div></div>' +
+      '<div class="form-row"><div class="form-group"><label>Value</label><input id="couponValue" type="number" step="0.01" value="' + c.value + '" /></div><div class="form-group"><label>Min Order (\u00A3)</label><input id="couponMin" type="number" step="0.01" value="' + (c.minOrder || 0) + '" /></div></div>' +
+      '<div class="form-row"><div class="form-group"><label>Max Uses</label><input id="couponMaxUses" type="number" value="' + (c.maxUses || 0) + '" /></div><div class="form-group"><label>Expires</label><input id="couponExpires" type="date" value="' + (c.expiresAt || '') + '" /></div></div>' +
+      '<div class="form-group"><label><input type="checkbox" id="couponActive"' + (c.active ? ' checked' : '') + ' /> Active</label></div>' +
+      '<div class="text-sm text-muted" style="margin-bottom:12px;">Used ' + (c.usedCount || 0) + ' times | Created: ' + (c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'N/A') + '</div>' +
+      '<button class="btn-admin btn-primary-admin" onclick="saveCoupon(' + c.id + ')">Save Changes</button> ' +
+      '<button class="btn-admin btn-danger-admin" onclick="deleteCoupon(' + c.id + ')">Delete Coupon</button>');
+  });
+}
+
+function saveCoupon(id) {
+  var body = {
+    code: (document.getElementById('couponCode').value || '').trim(),
+    type: document.getElementById('couponType').value,
+    value: parseFloat(document.getElementById('couponValue').value) || 0,
+    minOrder: parseFloat(document.getElementById('couponMin').value) || 0,
+    maxUses: parseInt(document.getElementById('couponMaxUses').value) || 0,
+    expiresAt: document.getElementById('couponExpires').value || ''
+  };
+  if (id) { body.id = id; body.active = document.getElementById('couponActive') ? document.getElementById('couponActive').checked : true; }
+  if (!body.code) { toast('Coupon code is required', 'error'); return; }
+  api('/api/admin/coupons', { method: id ? 'PUT' : 'POST', body: body }).then(function(data) {
+    if (data && data.success) { toast(id ? 'Coupon updated' : 'Coupon created', 'success'); closeModal(); navigateTo('coupons'); }
+    else { toast('Failed: ' + (data && data.error ? data.error : 'unknown'), 'error'); }
+  }).catch(function(err) { toast('Error: ' + err.message, 'error'); });
+}
+
+function deleteCoupon(id) {
+  if (!confirm('Delete this coupon? This cannot be undone.')) return;
+  api('/api/admin/coupons?id=' + id, { method: 'DELETE' }).then(function(data) {
+    if (data && data.success) { toast('Coupon deleted', 'success'); closeModal(); navigateTo('coupons'); }
+    else { toast('Delete failed', 'error'); }
+  }).catch(function(err) { toast('Error: ' + err.message, 'error'); });
+}
+
+// ═══ REVIEWS ═══
+function renderReviews(el) {
+  api('/api/admin/reviews').then(function(reviews) {
+    var list = reviews || [];
+    var pending = list.filter(function(r){ return r.status === 'pending'; }).length;
+    var approved = list.filter(function(r){ return r.status === 'approved'; }).length;
+    var html = '<div class="section-header"><h3>Reviews</h3><button class="btn-admin btn-primary-admin" onclick="showAddReview()">+ Add Review</button></div>';
+    html += '<div class="dash-grid">';
+    html += '<div class="dash-card"><div class="dash-icon">★</div><div class="dash-label">Total Reviews</div><div class="dash-value">' + list.length + '</div></div>';
+    html += '<div class="dash-card"><div class="dash-icon">\u23F3</div><div class="dash-label">Pending</div><div class="dash-value">' + pending + '</div></div>';
+    html += '<div class="dash-card"><div class="dash-icon">✓</div><div class="dash-label">Approved</div><div class="dash-value">' + approved + '</div></div>';
+    html += '</div>';
+    html += '<div class="card"><div class="card-body no-padding"><table class="data-table"><thead><tr><th>Customer</th><th>Product</th><th>Rating</th><th>Review</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>';
+    if (!list.length) html += '<tr><td colspan="7" class="text-muted" style="text-align:center;padding:24px;">No reviews yet</td></tr>';
+    list.forEach(function(r) {
+      var stars = '';
+      for (var i = 0; i < 5; i++) stars += i < r.rating ? '★' : '☆';
+      html += '<tr><td><div>' + (r.customerName || 'Anonymous') + '</div><div class="text-sm text-muted">' + (r.customerEmail || '') + '</div></td><td class="text-sm">' + (r.productName || 'N/A') + '</td><td style="color:#f1c40f;">' + stars + '</td><td class="text-sm" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">' + (r.title ? '<strong>' + r.title + '</strong> ' : '') + (r.body || '') + '</td><td><span class="status-badge ' + (r.status || 'pending') + '">' + (r.status || 'pending') + '</span></td><td class="text-sm text-muted">' + (r.createdAt ? new Date(r.createdAt).toLocaleDateString() : '') + '</td><td><button class="btn-admin btn-sm" onclick="editReview(' + r.id + ')">Edit</button> <button class="btn-admin btn-sm btn-danger-admin" onclick="deleteReview(' + r.id + ')">×</button></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+    el.innerHTML = html;
+  }).catch(function(err) { el.innerHTML = '<div class="empty-state"><h4>Error loading reviews</h4><p class="sub">' + err.message + '</p></div>'; });
+}
+
+function showAddReview() {
+  openModal('<h3>Add Review</h3>' +
+    '<div class="form-row"><div class="form-group"><label>Customer Name</label><input id="revName" placeholder="Name" /></div><div class="form-group"><label>Email</label><input id="revEmail" type="email" placeholder="Email" /></div></div>' +
+    '<div class="form-row"><div class="form-group"><label>Product Name</label><input id="revProduct" placeholder="Product name" /></div><div class="form-group"><label>Rating (1-5)</label><select id="revRating"><option value="5">5 ★★★★★</option><option value="4">4 ★★★★☆</option><option value="3">3 ★★★☆☆</option><option value="2">2 ★★☆☆☆</option><option value="1">1 ★☆☆☆☆</option></select></div></div>' +
+    '<div class="form-group"><label>Title</label><input id="revTitle" placeholder="Review title" /></div>' +
+    '<div class="form-group"><label>Review</label><textarea id="revBody" rows="3" placeholder="Review text"></textarea></div>' +
+    '<button class="btn-admin btn-primary-admin" onclick="saveReview()">Save Review</button>');
+}
+
+function editReview(id) {
+  api('/api/admin/reviews?id=' + id).then(function(r) {
+    if (!r || !r.id) { toast('Review not found', 'error'); return; }
+    openModal('<h3>Edit Review</h3>' +
+      '<div class="form-group"><label>Customer</label><div class="text-sm text-muted">' + (r.customerName || 'Anonymous') + ' (' + (r.customerEmail || '') + ')</div></div>' +
+      '<div class="form-group"><label>Product</label><div class="text-sm text-muted">' + (r.productName || 'N/A') + '</div></div>' +
+      '<div class="form-row"><div class="form-group"><label>Rating</label><select id="revRating"><option value="5"' + (r.rating === 5 ? ' selected' : '') + '>5 ★★★★★</option><option value="4"' + (r.rating === 4 ? ' selected' : '') + '>4 ★★★★☆</option><option value="3"' + (r.rating === 3 ? ' selected' : '') + '>3 ★★★☆☆</option><option value="2"' + (r.rating === 2 ? ' selected' : '') + '>2 ★★☆☆☆</option><option value="1"' + (r.rating === 1 ? ' selected' : '') + '>1 ★☆☆☆☆</option></select></div><div class="form-group"><label>Status</label><select id="revStatus"><option value="pending"' + (r.status === 'pending' ? ' selected' : '') + '>Pending</option><option value="approved"' + (r.status === 'approved' ? ' selected' : '') + '>Approved</option><option value="rejected"' + (r.status === 'rejected' ? ' selected' : '') + '>Rejected</option></select></div></div>' +
+      '<div class="form-group"><label>Title</label><input id="revTitle" value="' + (r.title || '').replace(/"/g, '&quot;') + '" /></div>' +
+      '<div class="form-group"><label>Review</label><textarea id="revBody" rows="3">' + (r.body || '') + '</textarea></div>' +
+      '<button class="btn-admin btn-primary-admin" onclick="saveReview(' + r.id + ')">Save Changes</button> ' +
+      '<button class="btn-admin btn-danger-admin" onclick="deleteReview(' + r.id + ')">Delete Review</button>');
+  });
+}
+
+function saveReview(id) {
+  var body = {
+    rating: parseInt(document.getElementById('revRating').value) || 5,
+    title: (document.getElementById('revTitle').value || '').trim(),
+    body: (document.getElementById('revBody').value || '').trim()
+  };
+  if (id) { body.id = id; body.status = document.getElementById('revStatus') ? document.getElementById('revStatus').value : 'pending'; }
+  else {
+    body.customerName = (document.getElementById('revName').value || '').trim() || 'Anonymous';
+    body.customerEmail = (document.getElementById('revEmail').value || '').trim();
+    body.productName = (document.getElementById('revProduct').value || '').trim();
+  }
+  api('/api/admin/reviews', { method: id ? 'PUT' : 'POST', body: body }).then(function(data) {
+    if (data && data.success) { toast(id ? 'Review updated' : 'Review added', 'success'); closeModal(); navigateTo('reviews'); }
+    else { toast('Failed: ' + (data && data.error ? data.error : 'unknown'), 'error'); }
+  }).catch(function(err) { toast('Error: ' + err.message, 'error'); });
+}
+
+function deleteReview(id) {
+  if (!confirm('Delete this review?')) return;
+  api('/api/admin/reviews?id=' + id, { method: 'DELETE' }).then(function(data) {
+    if (data && data.success) { toast('Review deleted', 'success'); closeModal(); navigateTo('reviews'); }
+    else { toast('Delete failed', 'error'); }
+  }).catch(function(err) { toast('Error: ' + err.message, 'error'); });
+}
+
+// ═══ CONTACTS / ENQUIRIES ═══
+function renderContacts(el) {
+  api('/api/admin/contacts').then(function(list) {
+    var subs = list || [];
+    var unread = subs.filter(function(s){ return !s.read; }).length;
+    var html = '<div class="section-header"><h3>Enquiries</h3></div>';
+    html += '<div class="dash-grid">';
+    html += '<div class="dash-card"><div class="dash-icon">✉</div><div class="dash-label">Total Enquiries</div><div class="dash-value">' + subs.length + '</div></div>';
+    html += '<div class="dash-card"><div class="dash-icon">\u25C6</div><div class="dash-label">Unread</div><div class="dash-value">' + unread + '</div></div>';
+    html += '</div>';
+    html += '<div class="card"><div class="card-body no-padding"><table class="data-table"><thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+    if (!subs.length) html += '<tr><td colspan="7" class="text-muted" style="text-align:center;padding:24px;">No enquiries yet. Submissions from the contact form will appear here.</td></tr>';
+    subs.forEach(function(s) {
+      html += '<tr style="' + (!s.read ? 'font-weight:600;' : '') + '">';
+      html += '<td>' + (s.name || '') + '</td>';
+      html += '<td class="text-sm">' + (s.email || '') + '</td>';
+      html += '<td class="text-sm">' + (s.subject || '') + '</td>';
+      html += '<td class="text-sm" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">' + (s.message || '') + '</td>';
+      html += '<td class="text-sm text-muted">' + (s.createdAt ? new Date(s.createdAt).toLocaleDateString() : '') + '</td>';
+      html += '<td><span class="status-badge ' + (s.replied ? 'active' : (s.read ? 'confirmed' : 'pending')) + '">' + (s.replied ? 'Replied' : (s.read ? 'Read' : 'Unread')) + '</span></td>';
+      html += '<td><button class="btn-admin btn-sm" onclick="viewContact(\'' + s.id + '\')">View</button> <button class="btn-admin btn-sm btn-danger-admin" onclick="deleteContact(\'' + s.id + '\')">×</button></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table></div></div>';
+    el.innerHTML = html;
+  }).catch(function(err) { el.innerHTML = '<div class="empty-state"><h4>Error loading enquiries</h4><p class="sub">' + err.message + '</p></div>'; });
+}
+
+function viewContact(id) {
+  api('/api/admin/contacts?id=' + id).then(function(s) {
+    if (!s) { toast('Not found', 'error'); return; }
+    api('/api/admin/contacts', { method: 'PUT', body: { id: id, read: true } });
+    openModal('<h3>Enquiry</h3>' +
+      '<div class="form-group"><label>From</label><div>' + (s.name || '') + ' &lt;' + (s.email || '') + '&gt;</div></div>' +
+      '<div class="form-group"><label>Subject</label><div>' + (s.subject || 'No subject') + '</div></div>' +
+      '<div class="form-group"><label>Date</label><div class="text-sm text-muted">' + (s.createdAt ? new Date(s.createdAt).toLocaleString() : '') + '</div></div>' +
+      '<div class="form-group"><label>Message</label><div style="background:#111;padding:12px;border-radius:6px;white-space:pre-wrap;">' + (s.message || '') + '</div></div>' +
+      '<div class="form-group"><label>Notes</label><textarea id="contactNotes" rows="2" placeholder="Internal notes">' + (s.notes || '') + '</textarea></div>' +
+      '<div style="display:flex;gap:8px;">' +
+        '<button class="btn-admin btn-primary-admin" onclick="updateContact(\'' + id + '\', true)">Mark Replied</button>' +
+        '<button class="btn-admin btn-danger-admin" onclick="deleteContact(\'' + id + '\')">Delete</button>' +
+      '</div>');
+  });
+}
+
+function updateContact(id, replied) {
+  var notes = document.getElementById('contactNotes') ? document.getElementById('contactNotes').value : '';
+  api('/api/admin/contacts', { method: 'PUT', body: { id: id, replied: replied, notes: notes, read: true } }).then(function() {
+    toast(replied ? 'Marked as replied' : 'Updated', 'success'); closeModal(); navigateTo('contacts');
+  });
+}
+
+function deleteContact(id) {
+  if (!confirm('Delete this enquiry?')) return;
+  api('/api/admin/contacts?id=' + id, { method: 'DELETE' }).then(function(data) {
+    if (data && data.success) { toast('Deleted', 'success'); closeModal(); navigateTo('contacts'); }
+    else { toast('Delete failed', 'error'); }
+  }).catch(function(err) { toast('Error: ' + err.message, 'error'); });
 }
 
 // ═══ PAYMENTS ═══
