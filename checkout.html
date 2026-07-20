@@ -128,14 +128,15 @@
         var itemTotal = item.price * item.qty;
         total += itemTotal;
         var safeName = item.name.replace(/[<>&"']/g, '').substring(0, 200);
+        var variantLabel = item.variant ? ' – ' + item.variant : '';
         var safeImg = item.img.split('/').map(function(s){ return encodeURIComponent(s); }).join('/');
-        html += '<div class="order-item"><img src="' + safeImg + '" alt="' + safeName + '" /><div class="order-item-info"><h3>' + safeName + '</h3><div class="qty">Qty: ' + item.qty + '</div><div class="price">£' + itemTotal.toFixed(2) + '</div></div></div>';
+        html += '<div class="order-item"><img src="' + safeImg + '" alt="' + safeName + '" /><div class="order-item-info"><h3>' + safeName + '</h3><div class="qty" style="font-size:0.75rem;color:var(--text-muted);">' + variantLabel + 'Qty: ' + item.qty + '</div><div class="price">£' + itemTotal.toFixed(2) + '</div></div></div>';
       });
       orderItems.innerHTML = html;
       document.getElementById('orderSubtotal').textContent = '£' + total.toFixed(2);
       orderTotal.textContent = '£' + total.toFixed(2);
 
-      var items = cart.map(function(i) { return { name: i.name, price: i.price, qty: i.qty, img: i.img }; });
+      var items = cart.map(function(i) { return { name: i.name + (i.variant ? ' – ' + i.variant : ''), price: i.price, qty: i.qty, img: i.img }; });
       var customerEmail = localStorage.getItem('jj_email') || '';
 
       fetch('/api/checkout', {
@@ -167,21 +168,27 @@
           return;
         }
 
-        var stripe = Stripe('pk_live_51Syo8SPOkHltFicB1AC6cBgx2NmPaRFZzNcmBJ41gjzk0s1eP7CK4PeEkyKsW94TrtsvIQnVbs6RFD4ltQacpawk00W8ugpnID');
-        stripe.initEmbeddedCheckout({
-          clientSecret: clientSecret,
-          onComplete: function() {
-            localStorage.removeItem('jj_cart');
-            window.location.href = '/?session_id=' + clientSecret.split('_secret_')[0];
-          }
-        })
-          .then(function(checkout) {
-            document.getElementById('checkout-loading').style.display = 'none';
-            checkout.mount('#stripe-checkout');
+        fetch('/api/config').then(function(r){ return r.json(); }).then(function(cfg){
+          var pk = cfg.stripePublishableKey || '';
+          if (!pk) { showError('Payment not configured. Please contact support.'); return; }
+          var stripe = Stripe(pk);
+          stripe.initEmbeddedCheckout({
+            clientSecret: clientSecret,
+            onComplete: function() {
+              localStorage.removeItem('jj_cart');
+              window.location.href = '/?session_id=' + clientSecret.split('_secret_')[0];
+            }
           })
-          .catch(function(err) {
-            showError('Failed to load payment form: ' + err.message);
-          });
+            .then(function(checkout) {
+              document.getElementById('checkout-loading').style.display = 'none';
+              checkout.mount('#stripe-checkout');
+            })
+            .catch(function(err) {
+              showError('Failed to load payment form: ' + err.message);
+            });
+        }).catch(function() {
+          showError('Failed to load payment configuration. Please try again.');
+        });
       }
 
       function showError(msg) {

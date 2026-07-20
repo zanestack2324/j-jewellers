@@ -7,6 +7,18 @@ function sanitize(str, max) {
   return str.replace(/[<>"'`;\\]/g, '').trim().substring(0, max || 500);
 }
 
+function sanitizeVariants(variants) {
+  if (!Array.isArray(variants)) return [];
+  return variants.filter(v => v && typeof v === 'object').map(v => ({
+    color: sanitize(v.color || '', 50),
+    colorHex: sanitize(v.colorHex || '', 7),
+    image: v.image || '',
+    stock: parseInt(v.stock) || 0,
+    price: parseFloat(v.price) || 0,
+    sku: sanitize(v.sku || '', 100)
+  }));
+}
+
 async function syncToGitHub(store) {
   if (!github.isConfigured()) return;
   try {
@@ -62,7 +74,8 @@ module.exports = async (req, res) => {
       status: ['active', 'draft', 'out-of-stock'].includes(data.status) ? data.status : 'active',
       stock: parseInt(data.stock) || 0,
       sales: 0,
-      description: sanitize(data.description) || ''
+      description: sanitize(data.description) || '',
+      variants: sanitizeVariants(data.variants)
     };
     products.push(product);
     store.nextId = nextId + 1;
@@ -87,6 +100,7 @@ module.exports = async (req, res) => {
     if (data.badge !== undefined) product.badge = sanitize(data.badge, 50);
     if (data.description !== undefined) product.description = sanitize(data.description);
     if (data.image !== undefined) product.image = data.image;
+    if (data.variants !== undefined) product.variants = sanitizeVariants(data.variants);
     try {
       await db.saveProducts(store);
       syncToGitHub(store);

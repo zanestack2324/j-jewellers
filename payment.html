@@ -148,7 +148,7 @@
       document.getElementById('subtotalVal').textContent = '\u00a3' + subtotal.toFixed(2);
       updateTotalDisplay();
 
-      var items = cart.map(function(i) { return { name: i.name, price: i.price, qty: i.qty, img: i.img }; });
+      var items = cart.map(function(i) { return { name: i.name + (i.variant ? ' – ' + i.variant : ''), price: i.price, qty: i.qty, img: i.img }; });
 
       var stripe = null;
       var elements = null;
@@ -312,30 +312,36 @@
           return;
         }
 
-        stripe = Stripe('pk_live_51Syo8SPOkHltFicB1AC6cBgx2NmPaRFZzNcmBJ41gjzk0s1eP7CK4PeEkyKsW94TrtsvIQnVbs6RFD4ltQacpawk00W8ugpnID');
-        elements = stripe.elements({ clientSecret: secret, appearance: { theme: 'night', variables: { colorPrimary: '#0D8B8B', colorBackground: '#111114', colorText: '#FFFFFF', colorDanger: '#ef4444', fontFamily: 'Lato, sans-serif', borderRadius: '8px' } } });
+        fetch('/api/config').then(function(r){ return r.json(); }).then(function(cfg){
+          var pk = cfg.stripePublishableKey || '';
+          if (!pk) { showError('Payment not configured. Please contact support.'); return; }
+          stripe = Stripe(pk);
+          elements = stripe.elements({ clientSecret: secret, appearance: { theme: 'night', variables: { colorPrimary: '#0D8B8B', colorBackground: '#111114', colorText: '#FFFFFF', colorDanger: '#ef4444', fontFamily: 'Lato, sans-serif', borderRadius: '8px' } } });
 
-        var paymentElement = elements.create('payment', { layout: { type: 'tabs', defaultCollapsed: false } });
-        paymentElement.mount('#payment-element');
+          var paymentElement = elements.create('payment', { layout: { type: 'tabs', defaultCollapsed: false } });
+          paymentElement.mount('#payment-element');
 
-        paymentElement.on('ready', function() {
-          document.getElementById('loading-state').style.display = 'none';
-          document.getElementById('payment-form').style.display = 'block';
-          document.getElementById('payBtn').disabled = false;
-        });
+          paymentElement.on('ready', function() {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('payment-form').style.display = 'block';
+            document.getElementById('payBtn').disabled = false;
+          });
 
-        paymentElement.on('change', function(event) {
-          var errEl = document.getElementById('error-display');
-          if (event.error) {
-            errEl.textContent = event.error.message;
-            errEl.style.display = 'block';
-          } else {
-            errEl.style.display = 'none';
-          }
-        });
+          paymentElement.on('change', function(event) {
+            var errEl = document.getElementById('error-display');
+            if (event.error) {
+              errEl.textContent = event.error.message;
+              errEl.style.display = 'block';
+            } else {
+              errEl.style.display = 'none';
+            }
+          });
 
-        document.getElementById('payBtn').addEventListener('click', function() {
-          handlePayment(stripe);
+          document.getElementById('payBtn').addEventListener('click', function() {
+            handlePayment(stripe);
+          });
+        }).catch(function() {
+          showError('Failed to load payment configuration. Please try again.');
         });
       }
 

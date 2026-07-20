@@ -124,7 +124,11 @@ module.exports = async (req, res) => {
       amount: totalAmount
     });
   } catch (err) {
-    console.error('Payment intent error:', err.message);
-    return res.status(500).json({ error: 'Payment processing failed' });
+    console.error('Payment intent error:', err.message, err.type || '', err.statusCode || '');
+    var msg = 'Payment processing failed';
+    if (err.type === 'StripeAuthenticationError') msg = 'Payment configuration error. Please contact support.';
+    else if (err.type === 'StripeInvalidRequestError') msg = 'Invalid payment request. Please try again.';
+    else if (err.statusCode === 402) msg = 'Payment method declined. Please try another.';
+    return res.status(500).json({ error: msg });
   }
 };

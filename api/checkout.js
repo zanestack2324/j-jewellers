@@ -178,6 +178,10 @@ module.exports = async (req, res) => {
     return res.status(200).json({ url: session.url });
   } catch (err) {
     console.error('Stripe checkout error:', err.message, err.type || '', err.statusCode || '');
-    return res.status(500).json({ error: 'Payment processing failed' });
+    var msg = 'Payment processing failed';
+    if (err.type === 'StripeAuthenticationError') msg = 'Payment configuration error. Please contact support.';
+    else if (err.type === 'StripeInvalidRequestError') msg = 'Invalid payment request. Please try again.';
+    else if (err.statusCode === 402) msg = 'Payment method declined. Please try another.';
+    return res.status(500).json({ error: msg });
   }
 };
