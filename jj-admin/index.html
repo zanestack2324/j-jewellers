@@ -147,7 +147,7 @@ img{max-width:100%;display:block;}
 
 .modal-overlay-admin{position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;}
 .modal-overlay-admin.open{display:flex;}
-.modal-admin{width:600px;max-width:90vw;max-height:80vh;overflow-y:auto;background:rgba(8,30,30,0.97);backdrop-filter:blur(30px);border:1px solid var(--admin-accent);border-radius:var(--admin-radius);padding:32px;box-shadow:0 0 40px rgba(13,139,139,0.2);}
+.modal-admin{width:600px;max-width:90vw;max-height:90vh;overflow-y:auto;background:rgba(8,30,30,0.97);backdrop-filter:blur(30px);border:1px solid var(--admin-accent);border-radius:var(--admin-radius);padding:32px;box-shadow:0 0 40px rgba(13,139,139,0.2);scroll-behavior:smooth;}
 .modal-admin h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:20px;}
 .modal-admin .close-modal{float:right;background:none;border:none;color:var(--admin-text-muted);font-size:1.2rem;cursor:pointer;}
 .modal-admin .close-modal:hover{color:var(--admin-text);}
@@ -239,7 +239,7 @@ img{max-width:100%;display:block;}
 .font-mono{font-family:'Courier New',monospace;font-size:0.75rem;}
 
 /* VARIANT MANAGEMENT */
-.variant-section{margin-top:16px;border-top:1px solid var(--admin-border);padding-top:16px;}
+.variant-section{margin-top:16px;border-top:2px solid var(--admin-accent);padding-top:16px;background:rgba(13,139,139,0.04);border-radius:8px;padding:16px;margin-left:-12px;margin-right:-12px;padding-left:12px;padding-right:12px;}
 .variant-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .variant-section-header h4{font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--admin-text-muted);}
 .variant-row{display:grid;grid-template-columns:80px 1fr 1fr 100px 100px 1fr 40px;gap:8px;align-items:end;padding:10px 12px;background:rgba(13,139,139,0.04);border:1px solid var(--admin-border);border-radius:8px;margin-bottom:8px;}
@@ -778,7 +778,7 @@ function showAddProduct(category) {
     '<div class="form-group"><label>Product Photos (select multiple at once)</label><input id="prodImageInput" type="file" accept="image/png,image/jpeg,image/webp" multiple onchange="previewProductImage(event)"/></div>' +
     '<div id="prodImagePreview" style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;"></div>' +
     '<div class="variant-section"><div class="variant-section-header"><h4>Color Variants (Optional)</h4></div><p class="text-xs text-muted mb-16">Add color variants, each with its own image, price, stock and SKU. If empty, product sells as a single item.</p><div id="variantRows"></div><button class="add-variant-btn" onclick="addVariantRow()">+ Add Color Variant</button></div>' +
-    '<button class="btn-admin btn-primary-admin" id="saveProductBtn" onclick="saveProduct()">Save Product</button>');
+    '<div style="margin-top:16px;"><button class="btn-admin btn-primary-admin" id="saveProductBtn" onclick="saveProduct()">Save Product</button></div>');
 }
 
 function previewProductImage(event) {
