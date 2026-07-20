@@ -6,7 +6,7 @@ const ALLOWED_ORIGINS = ['https://jjeweller.com', 'https://j-jewellers-six.verce
 const MAX_ITEMS = 50;
 const MAX_QTY_PER_ITEM = 10;
 const MAX_ITEM_NAME_LEN = 200;
-const MIN_PRICE_PENCE = 100;
+const MIN_PRICE_PENCE = 30;
 const MAX_PRICE_PENCE = 500000;
 
 const rateLimitMap = new Map();
@@ -50,6 +50,7 @@ function isAllowedOrigin(origin) {
   for (var i = 0; i < ALLOWED_ORIGINS.length; i++) {
     if (origin === ALLOWED_ORIGINS[i]) return true;
   }
+  if (origin && origin.endsWith('.vercel.app')) return true;
   return false;
 }
 

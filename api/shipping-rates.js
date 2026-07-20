@@ -3,7 +3,7 @@ const db = require('./_db');
 module.exports = async (req, res) => {
   const ALLOWED_ORIGINS = ['https://jjeweller.com', 'https://j-jewellers-six.vercel.app'];
   const origin = req.headers.origin || '';
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : 'https://jjeweller.com';
+  const allowedOrigin = (ALLOWED_ORIGINS.includes(origin) || origin.endsWith('.vercel.app')) ? origin : 'https://jjeweller.com';
   res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');

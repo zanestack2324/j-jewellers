@@ -13,6 +13,7 @@ function isAllowedOrigin(origin) {
   for (var i = 0; i < ALLOWED_ORIGINS.length; i++) {
     if (origin === ALLOWED_ORIGINS[i]) return true;
   }
+  if (origin && origin.endsWith('.vercel.app')) return true;
   return false;
 }
 

@@ -1,10 +1,21 @@
 const db = require('./_db');
 
-const ALLOWED_ORIGIN = 'https://jjeweller.com';
+const ALLOWED_ORIGINS = ['https://jjeweller.com', 'https://j-jewellers-six.vercel.app'];
+
+function isAllowedOrigin(origin) {
+  if (!origin) return true;
+  for (var i = 0; i < ALLOWED_ORIGINS.length; i++) {
+    if (origin === ALLOWED_ORIGINS[i]) return true;
+  }
+  if (origin.endsWith('.vercel.app')) return true;
+  return false;
+}
 
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+  const origin = req.headers.origin || '';
+  const allowedOrigin = isAllowedOrigin(origin) ? (origin || 'https://jjeweller.com') : 'https://jjeweller.com';
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
