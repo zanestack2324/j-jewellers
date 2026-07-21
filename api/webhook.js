@@ -57,7 +57,7 @@ module.exports = async (req, res) => {
         if (!orderId) {
           console.error('No orderId in session metadata, attempting session lookup');
           // Try to find order by session ID
-          const store = await db.getOrders({ forceRefresh: true });
+          const store = await db.getOrders();
           const order = store.orders.find(o => o.stripeSessionId === session.id);
           if (order) {
             await finalizeOrder(order, session, store);
@@ -67,7 +67,7 @@ module.exports = async (req, res) => {
           break;
         }
 
-        const store = await db.getOrders({ forceRefresh: true });
+        const store = await db.getOrders();
         const order = store.orders.find(o => o.id === orderId);
         if (!order) {
           console.error('Order #' + orderId + ' not found in database');
@@ -84,7 +84,7 @@ module.exports = async (req, res) => {
 
         const piOrderId = pi.metadata && pi.metadata.orderId ? parseInt(pi.metadata.orderId) : null;
         if (piOrderId) {
-          const store = await db.getOrders({ forceRefresh: true });
+          const store = await db.getOrders();
           const order = store.orders.find(o => o.id === piOrderId);
           if (order && order.status === 'pending') {
             order.status = 'paid';

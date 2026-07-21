@@ -38,14 +38,12 @@ function writeJsonFile(filePath, data) {
   try { writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8'); } catch {}
 }
 
-async function getData(key, file, fallback, opts) {
+async function getData(key, file, fallback) {
   const r = getRedis();
   if (r) {
     try {
-      if (!opts || !opts.forceRefresh) {
-        const cached = await r.get('jj:' + key);
-        if (cached) return cached;
-      }
+      const cached = await r.get('jj:' + key);
+      if (cached) return cached;
       const fileData = readJsonFile(file, fallback);
       await r.set('jj:' + key, fileData);
       return fileData;
@@ -69,13 +67,6 @@ async function setData(key, file, fallback, data) {
   return data;
 }
 
-async function clearCache(key) {
-  const r = getRedis();
-  if (r) {
-    try { await r.del('jj:' + key); } catch {}
-  }
-}
-
 module.exports = {
   async getProducts() {
     return getData('products', PRODUCTS_FILE, { products: [], nextId: 1 });
@@ -95,8 +86,8 @@ module.exports = {
   async saveShipping(data) {
     return setData('shipping', SHIPPING_FILE, { zones: [], countryToZone: {}, allowedCountries: [] }, data);
   },
-  async getOrders(opts) {
-    return getData('orders', ORDERS_FILE, { orders: [], nextId: 3 }, opts);
+  async getOrders() {
+    return getData('orders', ORDERS_FILE, { orders: [], nextId: 3 });
   },
   async saveOrders(store) {
     return setData('orders', ORDERS_FILE, { orders: [], nextId: 3 }, store);

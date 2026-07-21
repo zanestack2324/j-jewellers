@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
       try {
         const orderId = session.metadata?.orderId ? parseInt(session.metadata.orderId) : null;
         if (orderId) {
-          const store = await db.getOrders({ forceRefresh: true });
+          const store = await db.getOrders();
           const order = store.orders.find(o => o.id === orderId);
           if (order && order.status === 'pending') {
             // Webhook hasn't updated yet — update from here

@@ -5,7 +5,7 @@
     "api/create-payment-intent.js": { "maxDuration": 30 },
     "api/admin/upload.js": { "maxDuration": 30 },
     "api/admin/products.js": { "maxDuration": 30 },
-    "api/admin/orders.js": { "maxDuration": 15 },
+    "api/admin/orders.js": { "maxDuration": 30 },
     "api/admin/customers.js": { "maxDuration": 15 },
     "api/admin/coupons.js": { "maxDuration": 15 },
     "api/admin/reviews.js": { "maxDuration": 15 },

@@ -100,7 +100,7 @@ module.exports = async (req, res) => {
     }
 
     // Create pending order
-    const store = await db.getOrders({ forceRefresh: true });
+    const store = await db.getOrders();
     const orderId = store.nextId;
     store.nextId = orderId + 1;
 

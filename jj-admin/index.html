@@ -1071,10 +1071,10 @@ function deleteCategory(catName, count) {
 // ═══ ORDERS ═══
 function renderOrders(el) {
   api('/api/admin/orders').then(function(orders) {
-    if (!orders || !orders.length) { el.innerHTML = '<div class="section-header"><h3>Orders</h3><button class="btn-admin btn-primary-admin" onclick="showAddOrder()">+ New Order</button></div><div class="empty-state"><div class="empty-icon">◈</div><h4>No Orders Yet</h4><p class="sub">Orders will appear here once customers start purchasing.</p></div>'; return; }
+    if (!orders || !orders.length) { el.innerHTML = '<div class="section-header"><h3>Orders</h3><div style="display:flex;gap:8px;"><button class="btn-admin btn-secondary-admin" onclick="syncFromStripe()" title="Pull latest payment status from Stripe">Sync from Stripe</button><button class="btn-admin btn-primary-admin" onclick="showAddOrder()">+ New Order</button></div></div><div class="empty-state"><div class="empty-icon">◈</div><h4>No Orders Yet</h4><p class="sub">Orders will appear here once customers start purchasing.</p></div>'; return; }
     var stats = { total: orders.length, pending: 0, confirmed: 0, shipped: 0, delivered: 0, cancelled: 0, totalRevenue: 0 };
     orders.forEach(function(o) { if (stats[o.status] !== undefined) stats[o.status]++; stats.totalRevenue += o.total || 0; });
-    var html = '<div class="section-header"><h3>Orders</h3><button class="btn-admin btn-primary-admin" onclick="showAddOrder()">+ New Order</button></div>';
+    var html = '<div class="section-header"><h3>Orders</h3><div style="display:flex;gap:8px;"><button class="btn-admin btn-secondary-admin" onclick="syncFromStripe()" title="Pull latest payment status from Stripe">Sync from Stripe</button><button class="btn-admin btn-primary-admin" onclick="showAddOrder()">+ New Order</button></div></div>';
     html += '<div class="dash-grid">';
     html += '<div class="dash-card"><div class="dash-icon">◈</div><div class="dash-label">Total Orders</div><div class="dash-value">' + stats.total + '</div></div>';
     html += '<div class="dash-card"><div class="dash-icon">\u23F3</div><div class="dash-label">Pending</div><div class="dash-value">' + stats.pending + '</div></div>';
@@ -1113,7 +1113,7 @@ function filterOrders(status) {
   var el = document.getElementById('content');
   el.innerHTML = '<p class="text-muted" style="padding:24px;text-align:center;">Loading orders…</p>';
   api('/api/admin/orders?status=' + status).then(function(orders) {
-    var html = '<div class="section-header"><h3>Orders</h3><button class="btn-admin btn-primary-admin" onclick="showAddOrder()">+ New Order</button></div>';
+    var html = '<div class="section-header"><h3>Orders</h3><div style="display:flex;gap:8px;"><button class="btn-admin btn-secondary-admin" onclick="syncFromStripe()" title="Pull latest payment status from Stripe">Sync from Stripe</button><button class="btn-admin btn-primary-admin" onclick="showAddOrder()">+ New Order</button></div></div>';
     html += '<div style="margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap;">';
     ['all','pending','confirmed','shipped','delivered','cancelled'].forEach(function(s) {
       html += '<button class="btn-admin btn-sm' + (s === status ? ' btn-primary-admin' : '') + '" onclick="filterOrders(\'' + s + '\')">' + s.charAt(0).toUpperCase() + s.slice(1) + '</button>';
