@@ -400,6 +400,13 @@
     .product-colors .color-swatch:hover{transform:scale(1.1);}
     .product-colors .color-dot{width:16px;height:16px;border-radius:50%;border:2px solid #555;flex-shrink:0;}
     .product-colors .color-dot.active{box-shadow:0 0 0 2px var(--teal);}
+    .product-colors .color-swatch.selected .color-dot{box-shadow:0 0 0 2px var(--teal),0 0 8px rgba(13,139,139,0.4);transform:scale(1.15);}
+    .product-colors .color-swatch.selected{position:relative;}
+    .product-colors .color-swatch.selected::after{content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border:1.5px solid var(--teal);border-radius:50%;}
+    .selected-color-name{font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--teal);margin:2px 0 6px;min-height:14px;}
+    .card-stock-label{font-size:0.6rem;margin-bottom:6px;}
+    .card-stock-label.in-stock{color:#2ECC71;}
+    .card-stock-label.out-of-stock{color:#E74C3C;}
     .product-colors .color-name{font-family:var(--font-future);font-size:0.45rem;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-muted);}
     .add-to-cart{width:100%;padding:11px;background:transparent;border:1px solid #e0e0e0;color:#555;font-family:var(--font-future);font-size:0.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.4s var(--ease-out);}
     .add-to-cart:hover{background:rgba(13,139,139,0.05);border-color:var(--border-light);color:var(--teal);}
@@ -1666,8 +1673,8 @@
       ids.forEach(function(id){
         var el = document.getElementById(id);
         if (!el) return;
-        var html = '';
-        categories.forEach(function(c, i) { html += '<button class="cat-tab' + (i===0?' active':'') + '" data-cat="' + c.id + '">' + c.label + '</button>'; });
+        var html = '<button class="cat-tab active" data-cat="all">All</button>';
+        categories.forEach(function(c) { html += '<button class="cat-tab" data-cat="' + c.id + '">' + c.label + '</button>'; });
         el.innerHTML = html;
       });
     }
@@ -1705,6 +1712,49 @@
       return null;
     }
 
+    var _cardSelectedVariant = {};
+    function selectCardVariant(productId, variantIdx) {
+      var p = products.find(function(x){ return x.id === productId; });
+      if (!p || !p.variants || !p.variants[variantIdx]) return;
+      var v = p.variants[variantIdx];
+      _cardSelectedVariant[productId] = variantIdx;
+      var cards = document.querySelectorAll('.product-card[data-id="' + productId + '"]');
+      cards.forEach(function(card) {
+        var imgWrap = card.querySelector('.product-img');
+        if (imgWrap && v.image) {
+          var webpSrc = v.image.replace(/\.(png|jpe?g)$/i, '.webp');
+          var existingPic = imgWrap.querySelector('picture');
+          if (existingPic) {
+            existingPic.innerHTML = '<source srcset="' + webpSrc + '" type="image/webp" /><img src="' + v.image + '" alt="' + p.name + '" style="width:100%;height:100%;object-fit:cover;" />';
+          }
+        }
+        var priceEl = card.querySelector('.price');
+        if (priceEl) {
+          var displayPrice = v.price > 0 ? v.price : p.price;
+          priceEl.innerHTML = '<span class="currency">\u00A3</span>' + displayPrice.toFixed(2);
+        }
+        var colorNameEl = card.querySelector('.selected-color-name');
+        if (colorNameEl) colorNameEl.textContent = v.color;
+        card.querySelectorAll('.product-colors .color-swatch').forEach(function(s, i) {
+          s.classList.toggle('selected', i === variantIdx);
+        });
+        var stockEl = card.querySelector('.card-stock-label');
+        if (stockEl) {
+          if (v.stock !== undefined) {
+            stockEl.textContent = v.stock > 0 ? 'In Stock (' + v.stock + ')' : 'Out of Stock';
+            stockEl.className = 'card-stock-label' + (v.stock > 0 ? ' in-stock' : ' out-of-stock');
+          }
+        }
+      });
+    }
+    function getCardSelectedVariant(productId) {
+      var idx = _cardSelectedVariant[productId];
+      if (idx === undefined || idx === null) return null;
+      var p = products.find(function(x){ return x.id === productId; });
+      if (p && p.variants && p.variants[idx]) return p.variants[idx];
+      return null;
+    }
+
     function renderCatProducts(catId) {
       var ids = ['catProducts','catProductsShop'];
       ids.forEach(function(id){
@@ -1718,19 +1768,22 @@
           var colorHtml = '';
           if (p.variants && p.variants.length > 0) {
             colorHtml = '<div class="product-colors">';
-            p.variants.forEach(function(v) {
+            p.variants.forEach(function(v, vi) {
               var borderColor = (v.colorHex === '#FFFFFF' || v.colorHex === '#ffffff') ? '#ccc' : v.colorHex;
-              colorHtml += '<span class="color-swatch" title="' + v.color + '"><span class="color-dot" style="background-color:' + borderColor + ';border-color:' + borderColor + ';"></span></span>';
+              colorHtml += '<span class="color-swatch' + (vi === 0 ? ' selected' : '') + '" title="' + v.color + '" onclick="event.stopPropagation();selectCardVariant(' + p.id + ',' + vi + ')"><span class="color-dot" style="background-color:' + borderColor + ';border-color:' + borderColor + ';"></span></span>';
             });
-            colorHtml += '</div>';
+            colorHtml += '</div><div class="selected-color-name">' + p.variants[0].color + '</div>';
           } else {
             var colorInfo = extractColor(p.name);
             if (colorInfo) {
               var borderColor = colorInfo.hex === '#FFFFFF' ? '#ccc' : colorInfo.hex;
-              colorHtml = '<div class="product-colors"><span class="color-swatch"><span class="color-dot" style="background-color:' + colorInfo.hex + ';border-color:' + borderColor + ';"></span><span class="color-name">' + colorInfo.name + '</span></span></div>';
+              colorHtml = '<div class="product-colors"><span class="color-swatch selected"><span class="color-dot" style="background-color:' + colorInfo.hex + ';border-color:' + borderColor + ';"></span></span></div><div class="selected-color-name">' + colorInfo.name + '</div>';
             }
           }
-          html += '<div class="product-card" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img class="lazy" data-src="' + p.img + '" alt="' + p.name + '" /></picture>' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div>' + colorHtml + '<div class="price"><span class="currency">£</span>' + p.price.toFixed(2) + '</div><div class="product-actions"><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><button class="buy-now-btn" onclick="event.stopPropagation();buyNow(' + p.id + ')" aria-pressed="false">Buy Now</button></div></div></div>';
+          var stockVal = (p.variants && p.variants.length > 0) ? (p.variants[0].stock || 0) : (p.stock || 0);
+          var stockLabel = stockVal > 0 ? 'In Stock (' + stockVal + ')' : 'Out of Stock';
+          var stockClass = stockVal > 0 ? 'in-stock' : 'out-of-stock';
+          html += '<div class="product-card" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img class="lazy" data-src="' + p.img + '" alt="' + p.name + '" /></picture>' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div>' + colorHtml + '<div class="price" data-base="' + p.price.toFixed(2) + '"><span class="currency">\u00A3</span>' + p.price.toFixed(2) + '</div><div class="card-stock-label ' + stockClass + '">' + stockLabel + '</div><div class="product-actions"><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><button class="buy-now-btn" onclick="event.stopPropagation();buyNow(' + p.id + ')" aria-pressed="false">Buy Now</button></div></div></div>';
         });
         el.innerHTML = html;
         lazyLoadImages(el);
@@ -1811,7 +1864,7 @@
       }).finally(function(){
         // Always render with whatever data we have
         renderCategoryTabs();
-        filterCategory(categories.length > 0 ? categories[0].id : 'all');
+        filterCategory('all');
         renderSidebarCategories();
       });
     }
@@ -1829,10 +1882,11 @@
         if (!el) return;
         var counts = {};
         products.forEach(function(p){ counts[p.cat] = (counts[p.cat]||0)+1; });
-        var html = '';
-        categories.forEach(function(c,i){
+        var total = products.length;
+        var html = '<label class="filter-check active-cat" data-cat="all"><input type="radio" name="sideCat" checked /> All <span>(' + total + ')</span></label>';
+        categories.forEach(function(c){
           var cnt = counts[c.id] || 0;
-          html += '<label class="filter-check' + (i===0?' active-cat':'') + '" data-cat="' + c.id + '"><input type="radio" name="sideCat"' + (i===0?' checked':'') + ' /> ' + c.label + ' <span>(' + cnt + ')</span></label>';
+          html += '<label class="filter-check" data-cat="' + c.id + '"><input type="radio" name="sideCat" /> ' + c.label + ' <span>(' + cnt + ')</span></label>';
         });
         el.innerHTML = html;
         el.querySelectorAll('.filter-check').forEach(function(l){
@@ -1868,8 +1922,10 @@
     function resetFilters() {
       document.querySelectorAll('.filter-check input').forEach(function(i){ i.checked = false; });
       document.querySelectorAll('.stone-colors span').forEach(function(s){ s.style.borderColor = 'transparent'; });
-      var firstCat = categories.length > 0 ? categories[0].id : 'all';
-      filterCategory(firstCat);
+      filterCategory('all');
+      document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.cat-tab[data-cat="all"]').forEach(function(t){ t.classList.add('active'); });
+      document.querySelectorAll('.filter-check[data-cat="all"]').forEach(function(l){ l.classList.add('active-cat'); l.querySelector('input').checked = true; });
     }
 
     // ─── STONE COLORS ───
@@ -1905,7 +1961,7 @@
       playClick();
       var p = products.find(function(x){ return x.id === id; });
       if (!p) return;
-      var variant = getSelectedVariant(p);
+      var variant = getSelectedVariant(p) || getCardSelectedVariant(id);
       var cartKey = id + (variant ? '-' + variant.color : '');
       var e = cart.find(function(x){ return x.key === cartKey; });
       if (e) e.qty++;
@@ -1949,7 +2005,7 @@
       playClick();
       var p = products.find(function(x){ return x.id === id; });
       if (!p) return;
-      var variant = getSelectedVariant(p);
+      var variant = getSelectedVariant(p) || getCardSelectedVariant(id);
       var cartKey = id + (variant ? '-' + variant.color : '');
       var item = { key: cartKey, id:p.id, name:p.name, price:p.price, img:p.img, qty:1 };
       if (variant) {
