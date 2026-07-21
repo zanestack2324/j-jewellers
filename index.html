@@ -422,6 +422,45 @@
     @media(max-width:768px){.products-grid{grid-template-columns:repeat(2,1fr);gap:2px;}.product-info{padding:12px;}.product-info h3{font-size:0.85rem;}}
     @media(max-width:480px){.products-grid{grid-template-columns:1fr 1fr;}.product-info{padding:10px;}}
 
+    /* ─── PRODUCT SHOWCASE (shop page one-at-a-time) ─── */
+    .product-showcase{position:relative;max-width:900px;margin:0 auto;}
+    .showcase-inner{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;background:var(--surface-glass);backdrop-filter:blur(10px);border:1px solid var(--border);overflow:hidden;}
+    .showcase-img-wrap{position:relative;overflow:hidden;aspect-ratio:3/4;background:rgba(13,139,139,0.05);}
+    .showcase-img-wrap img{width:100%;height:100%;object-fit:cover;transition:opacity 0.5s ease,transform 0.6s var(--ease-out);display:block;}
+    .showcase-img-wrap img.switching{opacity:0;transform:scale(0.96);}
+    .showcase-img-wrap::after{content:'jjewellers.com';position:absolute;bottom:12px;right:12px;font-family:var(--font-future);font-size:0.45rem;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,0.6);text-shadow:0 1px 4px rgba(0,0,0,0.5);pointer-events:none;z-index:3;}
+    .showcase-img-wrap .badge{position:absolute;top:14px;left:14px;padding:5px 14px;font-family:var(--font-future);font-size:0.45rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+    .showcase-info{padding:32px 28px;}
+    .showcase-info .p-category{font-family:var(--font-future);font-size:0.5rem;text-transform:uppercase;letter-spacing:3px;color:var(--text-dim);font-weight:600;margin-bottom:8px;}
+    .showcase-info h2{font-family:var(--font-heading);font-size:1.6rem;font-weight:600;margin-bottom:8px;line-height:1.25;}
+    .showcase-info .p-desc{font-size:0.82rem;color:var(--text-muted);font-weight:300;line-height:1.7;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+    .showcase-info .p-price{font-size:1.6rem;font-weight:700;color:var(--teal);margin-bottom:12px;}
+    .showcase-info .p-price .old{font-size:0.75rem;color:var(--text-dim);text-decoration:line-through;margin-right:8px;font-weight:400;}
+    .showcase-info .p-stock{font-size:0.75rem;margin-bottom:14px;}
+    .showcase-info .p-stock.in-stock{color:#2ECC71;}
+    .showcase-info .p-stock.out-of-stock{color:#E74C3C;}
+    .showcase-info .p-sku{font-size:0.65rem;color:var(--text-dim);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase;}
+    .showcase-variant-picker{margin-bottom:18px;}
+    .showcase-variant-picker label.sv-label{font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;display:block;}
+    .showcase-variant-picker .sv-options{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+    .showcase-variant-picker .sv-opt{position:relative;cursor:pointer;}
+    .showcase-variant-picker .sv-opt input{position:absolute;opacity:0;width:0;height:0;}
+    .showcase-variant-picker .sv-opt .swatch{width:36px;height:36px;border-radius:50%;border:3px solid transparent;transition:all 0.3s var(--ease-out);box-shadow:0 2px 8px rgba(0,0,0,0.2);display:block;}
+    .showcase-variant-picker .sv-opt input:checked + .swatch{border-color:var(--teal);box-shadow:0 0 0 2px var(--teal),0 2px 12px rgba(13,139,139,0.4);}
+    .showcase-variant-picker .sv-opt:hover .swatch{transform:scale(1.12);}
+    .showcase-color-name{font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--teal);margin:6px 0 0;min-height:14px;}
+    .showcase-actions{display:flex;gap:10px;margin-top:20px;}
+    .showcase-actions .btn{flex:1;text-align:center;justify-content:center;}
+    .showcase-nav{display:flex;align-items:center;justify-content:center;gap:24px;margin-top:28px;}
+    .showcase-nav-btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--surface-glass);backdrop-filter:blur(10px);border:1px solid var(--border);color:var(--text-muted);cursor:pointer;font-size:1.1rem;transition:all 0.4s var(--ease-out);border-radius:50%;}
+    .showcase-nav-btn:hover{border-color:var(--border-light);color:var(--teal);box-shadow:0 0 15px rgba(13,139,139,0.15);}
+    .showcase-nav-btn:disabled{opacity:0.25;cursor:default;box-shadow:none;}
+    .showcase-nav-btn:disabled:hover{border-color:var(--border);color:var(--text-muted);}
+    .showcase-counter{font-family:var(--font-future);font-size:0.55rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);}
+    .showcase-counter span{color:var(--teal);}
+    .showcase-empty{text-align:center;padding:60px 20px;color:var(--text-dim);font-size:0.9rem;}
+    @media(max-width:768px){.showcase-inner{grid-template-columns:1fr;}.showcase-img-wrap{aspect-ratio:1/1;max-height:420px;}.showcase-info{padding:24px 20px;}.showcase-info h2{font-size:1.3rem;}.showcase-nav{gap:16px;}}
+
     /* ─── HORIZONTAL SCROLL ─── */
     .h-scroll-wrap{position:relative;}
     .h-scroll-arrows{display:flex;gap:8px;justify-content:flex-end;margin-bottom:16px;}
@@ -1053,7 +1092,7 @@
           </aside>
           <div class="shop-main reveal-r">
             <div class="cat-tabs" id="catTabsShop"></div>
-            <div class="products-grid" id="catProductsShop"></div>
+            <div id="catProductsShop"></div>
           </div>
         </div>
       </div>
@@ -1455,14 +1494,12 @@
 
     var cart = JSON.parse(localStorage.getItem('jj_cart') || '[]');
     cart.forEach(function(item) { if (!item.key) item.key = '' + item.id; });
-    var clickSound = new Audio('CLICK SOUND.mp3'); clickSound.volume = 0.5;
     var countersStarted = false;
 
     // ─── AUDIO ───
     function playClick(e) {
       try {
         if (!e) e = window.event;
-        clickSound.currentTime = 0; clickSound.play().catch(function(){});
         var t = e && e.target;
         if (t && t.getAttribute) { var p = t.getAttribute('aria-pressed'); if (p === 'false') { t.setAttribute('aria-pressed', 'true'); setTimeout(function(){ t.setAttribute('aria-pressed', 'false'); }, 300); } }
       } catch(_) {}
@@ -1755,14 +1792,37 @@
       return null;
     }
 
+    var _showcaseGroups = [];
+    var _showcaseIndex = 0;
+    var _showcaseVariantIdx = 0;
+
+    function groupProductsByBase(filtered) {
+      var groups = {};
+      var groupOrder = [];
+      filtered.forEach(function(p) {
+        var parts = (p.name || '').split('\u2013');
+        var baseName = parts.length > 1 ? parts.slice(0, -1).join('\u2013').trim() : p.name;
+        if (!groups[baseName]) {
+          groups[baseName] = { baseName: baseName, products: [], cat: p.cat, desc: p.desc };
+          groupOrder.push(baseName);
+        }
+        var colorInfo = extractColor(p.name);
+        groups[baseName].products.push({
+          id: p.id, name: p.name, img: p.img, webp: p.webp,
+          price: p.price, stock: p.stock, badge: p.badge,
+          color: colorInfo ? colorInfo.name : (parts.length > 1 ? parts[parts.length - 1].trim() : ''),
+          colorHex: colorInfo ? colorInfo.hex : '#888'
+        });
+      });
+      return groupOrder.map(function(k) { return groups[k]; });
+    }
+
     function renderCatProducts(catId) {
-      var ids = ['catProducts','catProductsShop'];
-      ids.forEach(function(id){
-        var el = document.getElementById(id);
-        if (!el) return;
+      var gridEl = document.getElementById('catProducts');
+      if (gridEl) {
         var filtered = catId === 'all' ? products : products.filter(function(p){ return p.cat === catId; });
         var html = '';
-          filtered.forEach(function(p){
+        filtered.forEach(function(p){
           var badge = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
           var webpSrc = p.webp || p.img.replace(/\.(png|jpe?g)$/i, '.webp');
           var colorHtml = '';
@@ -1785,10 +1845,88 @@
           var stockClass = stockVal > 0 ? 'in-stock' : 'out-of-stock';
           html += '<div class="product-card" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img class="lazy" data-src="' + p.img + '" alt="' + p.name + '" /></picture>' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div>' + colorHtml + '<div class="price" data-base="' + p.price.toFixed(2) + '"><span class="currency">\u00A3</span>' + p.price.toFixed(2) + '</div><div class="card-stock-label ' + stockClass + '">' + stockLabel + '</div><div class="product-actions"><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><button class="buy-now-btn" onclick="event.stopPropagation();buyNow(' + p.id + ')" aria-pressed="false">Buy Now</button></div></div></div>';
         });
-        el.innerHTML = html;
-        lazyLoadImages(el);
-        setTimeout(function(){ if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh(); }, 100);
+        gridEl.innerHTML = html;
+        lazyLoadImages(gridEl);
+      }
+
+      var shopEl = document.getElementById('catProductsShop');
+      if (shopEl) {
+        var filtered2 = catId === 'all' ? products : products.filter(function(p){ return p.cat === catId; });
+        _showcaseGroups = groupProductsByBase(filtered2);
+        _showcaseIndex = 0;
+        renderShowcaseProduct();
+      }
+    }
+
+    function renderShowcaseProduct() {
+      var el = document.getElementById('catProductsShop');
+      if (!el) return;
+      if (_showcaseGroups.length === 0) {
+        el.innerHTML = '<div class="showcase-empty">No products found in this category.</div>';
+        return;
+      }
+      var g = _showcaseGroups[_showcaseIndex];
+      _showcaseVariantIdx = 0;
+      var p = g.products[0];
+      var webpSrc = p.webp || p.img.replace(/\.(png|jpe?g)$/i, '.webp');
+      var badgeHtml = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
+      var stockVal = p.stock || 0;
+      var stockLabel = stockVal > 0 ? 'In Stock (' + stockVal + ')' : 'Out of Stock';
+      var stockClass = stockVal > 0 ? 'in-stock' : 'out-of-stock';
+
+      var swatchesHtml = '';
+      g.products.forEach(function(v, vi) {
+        var borderC = (v.colorHex === '#FFFFFF' || v.colorHex === '#ffffff') ? '#ccc' : v.colorHex;
+        swatchesHtml += '<label class="sv-opt" title="' + v.color + '"><input type="radio" name="showcaseVariant" value="' + vi + '"' + (vi === 0 ? ' checked' : '') + ' onchange="selectShowcaseVariant(' + vi + ')" /><span class="swatch" style="background-color:' + borderC + ';"></span></label>';
       });
+
+      var navDisabled = _showcaseGroups.length <= 1;
+      el.innerHTML = '<div class="product-showcase"><div class="showcase-inner"><div class="showcase-img-wrap" id="showcaseImgWrap"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img id="showcaseMainImg" src="' + p.img + '" alt="' + g.baseName + '" /></picture>' + badgeHtml + '</div><div class="showcase-info"><div class="p-category">' + g.cat + '</div><h2>' + g.baseName + '</h2><div class="showcase-variant-picker"><label class="sv-label">Select Colour</label><div class="sv-options">' + swatchesHtml + '</div><div class="showcase-color-name" id="showcaseColorName">' + p.color + '</div></div><div class="p-price" id="showcasePrice">\u00A3' + p.price.toFixed(2) + '</div><div class="p-stock ' + stockClass + '" id="showcaseStock">' + stockLabel + '</div><div class="p-desc">' + (g.desc || '') + '</div><div class="showcase-actions"><button class="btn btn-cta" onclick="addToCart(' + p.id + ')" id="showcaseAddBtn">Add to Bag</button><button class="btn btn-primary" onclick="buyNow(' + p.id + ')" id="showcaseBuyBtn">Buy Now</button></div></div></div><div class="showcase-nav"><button class="showcase-nav-btn" onclick="prevShowcaseProduct()" id="showcasePrev"' + (navDisabled || _showcaseIndex === 0 ? ' disabled' : '') + ' aria-label="Previous product">\u2190</button><div class="showcase-counter"><span>' + (_showcaseIndex + 1) + '</span> / ' + _showcaseGroups.length + '</div><button class="showcase-nav-btn" onclick="nextShowcaseProduct()" id="showcaseNext"' + (navDisabled || _showcaseIndex === _showcaseGroups.length - 1 ? ' disabled' : '') + ' aria-label="Next product">\u2192</button></div></div>';
+    }
+
+    function selectShowcaseVariant(idx) {
+      var g = _showcaseGroups[_showcaseIndex];
+      if (!g || !g.products[idx]) return;
+      _showcaseVariantIdx = idx;
+      var p = g.products[idx];
+      var imgEl = document.getElementById('showcaseMainImg');
+      var wrap = document.getElementById('showcaseImgWrap');
+      if (wrap && p.img) {
+        var webpSrc = p.webp || p.img.replace(/\.(png|jpe?g)$/i, '.webp');
+        imgEl = document.getElementById('showcaseMainImg');
+        if (imgEl) imgEl.classList.add('switching');
+        setTimeout(function() {
+          wrap.innerHTML = '<picture><source srcset="' + webpSrc + '" type="image/webp" /><img id="showcaseMainImg" src="' + p.img + '" alt="' + g.baseName + '" /></picture>' + (p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '');
+        }, 250);
+      }
+      var priceEl = document.getElementById('showcasePrice');
+      if (priceEl) priceEl.textContent = '\u00A3' + p.price.toFixed(2);
+      var colorNameEl = document.getElementById('showcaseColorName');
+      if (colorNameEl) colorNameEl.textContent = p.color;
+      var stockEl = document.getElementById('showcaseStock');
+      if (stockEl) {
+        var sv = p.stock || 0;
+        stockEl.className = 'p-stock ' + (sv > 0 ? 'in-stock' : 'out-of-stock');
+        stockEl.textContent = sv > 0 ? 'In Stock (' + sv + ')' : 'Out of Stock';
+      }
+      var addBtn = document.getElementById('showcaseAddBtn');
+      if (addBtn) addBtn.setAttribute('onclick', 'addToCart(' + p.id + ')');
+      var buyBtn = document.getElementById('showcaseBuyBtn');
+      if (buyBtn) buyBtn.setAttribute('onclick', 'buyNow(' + p.id + ')');
+    }
+
+    function nextShowcaseProduct() {
+      if (_showcaseIndex < _showcaseGroups.length - 1) {
+        _showcaseIndex++;
+        renderShowcaseProduct();
+      }
+    }
+
+    function prevShowcaseProduct() {
+      if (_showcaseIndex > 0) {
+        _showcaseIndex--;
+        renderShowcaseProduct();
+      }
     }
 
     function lazyLoadImages(container) {
