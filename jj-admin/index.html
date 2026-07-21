@@ -735,7 +735,14 @@ function renderProducts(el) {
         var status = (stock > 0 || stock === 'N/A') ? 'active' : 'out_of_stock';
         var imgSrc = p.image ? (p.image.startsWith('data:') || p.image.startsWith('/uploads') || p.image.startsWith('http') ? p.image : '../' + p.image) : '';
         var thumbHtml = imgSrc ? '<img src="' + imgSrc + '" style="width:40px;height:40px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display=\'none\'" />' : '<span style="width:40px;height:40px;display:inline-block;flex-shrink:0;background:var(--admin-surface-2);border-radius:4px;"></span>';
-        var variantInfo = (p.variants && p.variants.length > 0) ? '<span style="font-size:0.6rem;color:var(--admin-accent-light);background:rgba(13,139,139,0.1);padding:2px 6px;border-radius:8px;margin-left:6px;">' + p.variants.length + ' color' + (p.variants.length > 1 ? 's' : '') + '</span>' : '';
+        var variantInfo = '';
+        if (p.variants && p.variants.length > 0) {
+          variantInfo = '<span style="display:inline-flex;align-items:center;gap:3px;margin-left:8px;vertical-align:middle;">';
+          p.variants.forEach(function(v) {
+            variantInfo += '<span title="' + (v.color || 'Variant') + (v.price ? ' \u00A3' + v.price.toFixed(2) : '') + '" style="display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid ' + (v.colorHex || '#333') + ';background:' + (v.colorHex || '#333') + ';box-shadow:0 0 4px rgba(0,0,0,0.3);cursor:help;"></span>';
+          });
+          variantInfo += '<span style="font-size:0.55rem;color:var(--admin-text-muted);margin-left:2px;">' + p.variants.length + '</span></span>';
+        }
         html += '<tr><td>' + thumbHtml + '</td><td>' + (p.name || 'Unnamed') + variantInfo + '</td><td>\u00A3' + (p.price || 0).toFixed(2) + '</td><td class="td-stock">' + stock + '</td><td class="td-status"><span class="status-badge ' + status + '">' + (status === 'active' ? 'Active' : 'Out of Stock') + '</span></td><td class="td-actions"><div class="flex gap-8"><button class="btn-admin btn-xs-admin btn-secondary-admin" onclick="editProduct(' + p.id + ')">Edit</button><button class="btn-admin btn-xs-admin btn-danger-admin" onclick="deleteProduct(' + p.id + ')">Delete</button></div></td></tr>';
       });
 
