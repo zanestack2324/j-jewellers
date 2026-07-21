@@ -123,7 +123,7 @@ img{max-width:100%;display:block;}
 .btn-danger-admin{background:rgba(231,76,60,0.12);color:var(--admin-danger);}
 .btn-danger-admin:hover{background:rgba(231,76,60,0.2);box-shadow:0 0 15px rgba(231,76,60,0.3);}
 .btn-danger-admin:active{box-shadow:0 0 25px rgba(231,76,60,0.4);}
-.btn-sm-admin{padding:6px 14px;font-size:0.55rem;letter-spacing:1px;}
+.btn-sm,.btn-sm-admin{padding:6px 14px;font-size:0.55rem;letter-spacing:1px;}
 .btn-xs-admin{padding:4px 10px;font-size:0.5rem;letter-spacing:0.5px;}
 
 .form-group{margin-bottom:16px;}
@@ -1482,7 +1482,7 @@ function renderPayments(el) {
     if (!payments.length) html += '<tr><td colspan="5" class="text-muted" style="text-align:center;padding:24px;">No payments yet</td></tr>';
     html += '</tbody></table></div></div>';
     el.innerHTML = html;
-  });
+  }).catch(function(err) { el.innerHTML = '<div class="empty-state"><h4>Error loading payments</h4><p class="sub">' + err.message + '</p></div>'; });
 }
 
 // ═══ SHIPPING ═══
@@ -1502,7 +1502,7 @@ function renderShipping(el) {
     });
     html += '</tbody></table></div></div>';
     el.innerHTML = html;
-  });
+  }).catch(function(err) { el.innerHTML = '<div class="empty-state"><h4>Error loading shipping</h4><p class="sub">' + err.message + '</p></div>'; });
 }
 
 // ═══ SETTINGS ═══
@@ -1516,7 +1516,7 @@ function renderSettings(el) {
     html += '<button class="btn-admin btn-primary-admin" onclick="saveSettings()">Save Settings</button></div></div>';
     html += '<div class="card"><div class="card-header"><h4>Admin</h4></div><div class="card-body"><button class="btn-admin btn-danger-admin" onclick="logoutAdmin()">Sign Out</button></div></div>';
     el.innerHTML = html;
-  });
+  }).catch(function(err) { el.innerHTML = '<div class="empty-state"><h4>Error loading settings</h4><p class="sub">' + err.message + '</p></div>'; });
 }
 
 function saveSettings() {
