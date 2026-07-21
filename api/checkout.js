@@ -80,7 +80,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { items } = req.body;
+    const { items, customer_email, email: emailAlt } = req.body;
+    const customerEmail = customer_email || emailAlt || '';
 
     if (!items || !Array.isArray(items) || !items.length) {
       return res.status(400).json({ error: 'No items provided' });
@@ -91,13 +92,13 @@ module.exports = async (req, res) => {
     }
 
     const line_items = [];
+    const validatedItems = [];
     for (const item of items) {
       if (!item || typeof item.name !== 'string' || !item.name.trim()) continue;
 
-      const qty = parseInt(item.qty, 10);
+      const qty = parseInt(item.qty, 10) || 1;
       const price = parseFloat(item.price);
 
-      if (isNaN(qty) || qty < 1 || qty > MAX_QTY_PER_ITEM) continue;
       if (isNaN(price) || Math.round(price * 100) < MIN_PRICE_PENCE || Math.round(price * 100) > MAX_PRICE_PENCE) continue;
 
       const imgPath = typeof item.img === 'string' ? item.img.replace(/[^a-zA-Z0-9\/\.\-\_]/g, '') : '';
@@ -113,6 +114,14 @@ module.exports = async (req, res) => {
         },
         quantity: qty,
       });
+
+      validatedItems.push({
+        name: sanitize(item.name),
+        price: price,
+        qty: qty,
+        img: item.img || '',
+        variant: item.variant || '',
+      });
     }
 
     if (!line_items.length) {
@@ -123,6 +132,36 @@ module.exports = async (req, res) => {
     if (totalPence > MAX_PRICE_PENCE * MAX_ITEMS) {
       return res.status(400).json({ error: 'Order total too large' });
     }
+
+    // Create pending order in database BEFORE Stripe session
+    const store = await db.getOrders();
+    const orderId = store.nextId;
+    store.nextId = orderId + 1;
+
+    const subtotal = totalPence / 100;
+    const order = {
+      id: orderId,
+      customerName: 'Pending',
+      customerEmail: customerEmail || '',
+      customerPhone: '',
+      shippingAddress: '',
+      items: validatedItems,
+      subtotal: subtotal,
+      shippingCost: 0,
+      discount: 0,
+      total: subtotal,
+      status: 'pending',
+      stripePaymentId: '',
+      stripeSessionId: '',
+      trackingNumber: '',
+      notes: '',
+      createdAt: new Date().toISOString(),
+    };
+
+    store.orders.push(order);
+    await db.saveOrders(store);
+
+    console.log('Created pending order #' + orderId);
 
     const uiMode = req.body.ui_mode === 'embedded' ? 'embedded' : 'hosted';
 
@@ -158,7 +197,16 @@ module.exports = async (req, res) => {
       invoice_creation: {
         enabled: true,
       },
+      metadata: {
+        orderId: String(orderId),
+        store: 'J Jewellers',
+        itemCount: String(validatedItems.length),
+      },
     };
+
+    if (customerEmail) {
+      sessionParams.customer_email = customerEmail;
+    }
 
     if (uiMode === 'embedded') {
       sessionParams.return_url = SITE_URL + '/?session_id={CHECKOUT_SESSION_ID}';
@@ -172,11 +220,20 @@ module.exports = async (req, res) => {
 
     const session = await stripe.checkout.sessions.create(sessionParams);
 
-    if (uiMode === 'embedded') {
-      return res.status(200).json({ clientSecret: session.client_secret });
+    // Update order with session ID
+    const orderIdx = store.orders.findIndex(o => o.id === orderId);
+    if (orderIdx !== -1) {
+      store.orders[orderIdx].stripeSessionId = session.id;
+      await db.saveOrders(store);
     }
 
-    return res.status(200).json({ url: session.url });
+    console.log('Stripe session created for order #' + orderId + ': ' + session.id);
+
+    if (uiMode === 'embedded') {
+      return res.status(200).json({ clientSecret: session.client_secret, orderId: orderId });
+    }
+
+    return res.status(200).json({ url: session.url, orderId: orderId });
   } catch (err) {
     console.error('Stripe checkout error:', err.message, err.type || '', err.statusCode || '');
     var msg = 'Payment processing failed';

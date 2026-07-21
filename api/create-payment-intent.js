@@ -1,7 +1,8 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const db = require('./_db');
 
 const ALLOWED_ORIGINS = ['https://jjeweller.com', 'https://j-jewellers-six.vercel.app'];
-const MIN_AMOUNT = 100;
+const MIN_AMOUNT = 30;
 const MAX_AMOUNT = 5000000;
 
 function getClientIP(req) {
@@ -74,9 +75,13 @@ module.exports = async (req, res) => {
       const itemTotal = Math.round(price * 100) * qty;
       totalAmount += itemTotal;
       validatedItems.push({
-        name: item.name.replace(/[<>&"']/g, '').trim().substring(0, 200),
+        name: item.name.replace(/[<>"'`;\\]/g, '').trim().substring(0, 200),
         quantity: qty,
-        amount: itemTotal
+        amount: itemTotal,
+        price: price,
+        qty: qty,
+        img: item.img || '',
+        variant: item.variant || '',
       });
     }
 
@@ -94,8 +99,38 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Order total too large' });
     }
 
+    // Create pending order
+    const store = await db.getOrders();
+    const orderId = store.nextId;
+    store.nextId = orderId + 1;
+
+    const subtotal = totalAmount / 100;
+    const order = {
+      id: orderId,
+      customerName: 'Pending',
+      customerEmail: customer_email || '',
+      customerPhone: '',
+      shippingAddress: '',
+      items: validatedItems.map(v => ({ name: v.name, price: v.price, qty: v.qty, img: v.img, variant: v.variant })),
+      subtotal: subtotal,
+      shippingCost: shippingPence / 100,
+      discount: 0,
+      total: subtotal,
+      status: 'pending',
+      stripePaymentId: '',
+      stripeSessionId: '',
+      trackingNumber: '',
+      notes: '',
+      createdAt: new Date().toISOString(),
+    };
+
+    store.orders.push(order);
+    await db.saveOrders(store);
+    console.log('Created pending order #' + orderId + ' (PaymentIntent)');
+
     const meta = {
       store: 'J Jewellers',
+      orderId: String(orderId),
       items: JSON.stringify(validatedItems.map(v => ({ name: v.name, qty: v.quantity })))
     };
     if (shippingPence > 0) {
@@ -120,9 +155,17 @@ module.exports = async (req, res) => {
 
     const paymentIntent = await stripe.paymentIntents.create(piParams);
 
+    // Update order with PI reference
+    const orderIdx = store.orders.findIndex(o => o.id === orderId);
+    if (orderIdx !== -1) {
+      store.orders[orderIdx].stripePaymentId = paymentIntent.id;
+      await db.saveOrders(store);
+    }
+
     return res.status(200).json({
       clientSecret: paymentIntent.client_secret,
-      amount: totalAmount
+      amount: totalAmount,
+      orderId: orderId
     });
   } catch (err) {
     console.error('Payment intent error:', err.message, err.type || '', err.statusCode || '');

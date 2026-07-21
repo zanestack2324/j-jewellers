@@ -2416,7 +2416,10 @@
           .then(function(data){
             if (data.valid && data.status === 'paid') {
               cart = []; updateCart();
-              openModal('Order Confirmed!', 'Thank you for your order! A confirmation email has been sent to ' + (data.customerEmail || 'your email address') + '. Order total: ' + (data.currency === 'gbp' ? '£' : '$') + ((data.amount || 0) / 100).toFixed(2));
+              var orderNum = data.orderId ? ' #' + data.orderId : '';
+              var emailMsg = data.customerEmail ? ' A confirmation email has been sent to ' + data.customerEmail + '.' : '';
+              var totalStr = (data.currency === 'gbp' ? '\u00A3' : '$') + ((data.amount || 0) / 100).toFixed(2);
+              openModal('Order Confirmed!' + orderNum, 'Thank you for your order!' + emailMsg + ' Order total: ' + totalStr + '. We will begin processing your order immediately.');
             } else {
               openModal('Payment Pending', 'Your payment is being processed. If you were charged, please contact support with your reference ID.');
             }

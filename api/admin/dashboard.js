@@ -30,8 +30,8 @@ module.exports = async (req, res) => {
 
     const recentActivity = orders.slice(0, 5).map(o => ({
       type: 'order',
-      message: o.customer + ' placed order ' + o.id + ' (\u00A3' + (o.total || 0).toFixed(2) + ')',
-      time: o.date || new Date().toISOString()
+      message: (o.customerName || 'Customer') + ' placed order #' + o.id + ' (\u00A3' + (o.total || 0).toFixed(2) + ')',
+      time: o.createdAt || o.date || new Date().toISOString()
     }));
 
     if (!recentActivity.length) {

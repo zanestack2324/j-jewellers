@@ -1,5 +1,8 @@
 {
   "functions": {
+    "api/webhook.js": { "maxDuration": 30 },
+    "api/checkout.js": { "maxDuration": 30 },
+    "api/create-payment-intent.js": { "maxDuration": 30 },
     "api/admin/upload.js": { "maxDuration": 30 },
     "api/admin/products.js": { "maxDuration": 30 },
     "api/admin/orders.js": { "maxDuration": 15 },
