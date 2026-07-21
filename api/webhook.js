@@ -1,5 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const db = require('./_db');
+const royalmail = require('./_royalmail');
 
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -59,6 +60,29 @@ module.exports = async (req, res) => {
               order.stripeSessionId = session.id;
               order.paidAt = new Date().toISOString();
               await db.saveOrders(orders);
+
+              if (royalmail.isConfigured()) {
+                try {
+                  const rmResult = await royalmail.createOrder({
+                    id: order.id,
+                    items: order.items || [],
+                    customerName: order.customerName || session.customer_details?.name || '',
+                    customerEmail: order.customerEmail || session.customer_details?.email || '',
+                    customerPhone: order.customerPhone || '',
+                    shippingAddress: order.shippingAddress || {},
+                  });
+                  order.clickDropOrderId = rmResult && rmResult[0] ? rmResult[0].id : null;
+                  order.clickDropStatus = 'created';
+                  order.clickDropSyncedAt = new Date().toISOString();
+                  await db.saveOrders(orders);
+                  console.log('Click & Drop order created for order #' + order.id);
+                } catch (rmErr) {
+                  console.error('Click & Drop sync failed for order #' + order.id + ':', rmErr.message);
+                  order.clickDropStatus = 'failed';
+                  order.clickDropError = rmErr.message;
+                  await db.saveOrders(orders);
+                }
+              }
             }
           } catch (e) { console.error('Failed to update order status'); }
         }

@@ -1083,12 +1083,16 @@ function renderOrders(el) {
     orders.sort(function(a,b){ return new Date(b.createdAt) - new Date(a.createdAt); });
     orders.forEach(function(o) {
       var itemCount = (o.items || []).length;
+      var cdBadge = '';
+      if (o.clickDropStatus === 'created') cdBadge = '<span style="font-size:0.55rem;color:var(--admin-success);background:rgba(46,204,113,0.1);padding:2px 6px;border-radius:8px;margin-left:4px;">Click & Drop \u2713</span>';
+      else if (o.clickDropStatus === 'failed') cdBadge = '<span style="font-size:0.55rem;color:var(--admin-danger);background:rgba(231,76,60,0.1);padding:2px 6px;border-radius:8px;margin-left:4px;">Sync Failed</span>';
+      else if (o.status === 'paid' && !o.clickDropOrderId) cdBadge = '<button class="btn-admin btn-xs-admin btn-secondary-admin" onclick="syncOrderToClickDrop(' + o.id + ')" title="Sync to Click & Drop">RM</button>';
       html += '<tr>';
       html += '<td class="font-mono text-sm">#' + o.id + '</td>';
       html += '<td><div>' + (o.customerName || 'Unknown') + '</div><div class="text-sm text-muted">' + (o.customerEmail || '') + '</div></td>';
       html += '<td>' + itemCount + ' item' + (itemCount !== 1 ? 's' : '') + '</td>';
       html += '<td class="font-mono">\u00A3' + (o.total || 0).toFixed(2) + '</td>';
-      html += '<td><span class="status-badge ' + (o.status || 'pending') + '">' + (o.status || 'pending') + '</span></td>';
+      html += '<td><span class="status-badge ' + (o.status || 'pending') + '">' + (o.status || 'pending') + '</span>' + cdBadge + '</td>';
       html += '<td class="text-sm text-muted">' + (o.createdAt ? new Date(o.createdAt).toLocaleDateString() : '') + '</td>';
       html += '<td><button class="btn-admin btn-sm" onclick="editOrder(' + o.id + ')">Edit</button> <button class="btn-admin btn-sm btn-danger-admin" onclick="deleteOrder(' + o.id + ')">×</button></td>';
       html += '</tr>';
@@ -1112,7 +1116,11 @@ function filterOrders(status) {
     if (!orders.length) html += '<tr><td colspan="7" class="text-muted" style="text-align:center;padding:24px;">No orders with status "' + status + '"</td></tr>';
     orders.forEach(function(o) {
       var itemCount = (o.items || []).length;
-      html += '<tr><td class="font-mono text-sm">#' + o.id + '</td><td><div>' + (o.customerName || 'Unknown') + '</div><div class="text-sm text-muted">' + (o.customerEmail || '') + '</div></td><td>' + itemCount + ' item' + (itemCount !== 1 ? 's' : '') + '</td><td class="font-mono">\u00A3' + (o.total || 0).toFixed(2) + '</td><td><span class="status-badge ' + (o.status || 'pending') + '">' + (o.status || 'pending') + '</span></td><td class="text-sm text-muted">' + (o.createdAt ? new Date(o.createdAt).toLocaleDateString() : '') + '</td><td><button class="btn-admin btn-sm" onclick="editOrder(' + o.id + ')">Edit</button> <button class="btn-admin btn-sm btn-danger-admin" onclick="deleteOrder(' + o.id + ')">×</button></td></tr>';
+      var cdBadge = '';
+      if (o.clickDropStatus === 'created') cdBadge = '<span style="font-size:0.55rem;color:var(--admin-success);background:rgba(46,204,113,0.1);padding:2px 6px;border-radius:8px;margin-left:4px;">Click & Drop \u2713</span>';
+      else if (o.clickDropStatus === 'failed') cdBadge = '<span style="font-size:0.55rem;color:var(--admin-danger);background:rgba(231,76,60,0.1);padding:2px 6px;border-radius:8px;margin-left:4px;">Sync Failed</span>';
+      else if (o.status === 'paid' && !o.clickDropOrderId) cdBadge = '<button class="btn-admin btn-xs-admin btn-secondary-admin" onclick="syncOrderToClickDrop(' + o.id + ')" title="Sync to Click & Drop">RM</button>';
+      html += '<tr><td class="font-mono text-sm">#' + o.id + '</td><td><div>' + (o.customerName || 'Unknown') + '</div><div class="text-sm text-muted">' + (o.customerEmail || '') + '</div></td><td>' + itemCount + ' item' + (itemCount !== 1 ? 's' : '') + '</td><td class="font-mono">\u00A3' + (o.total || 0).toFixed(2) + '</td><td><span class="status-badge ' + (o.status || 'pending') + '">' + (o.status || 'pending') + '</span>' + cdBadge + '</td><td class="text-sm text-muted">' + (o.createdAt ? new Date(o.createdAt).toLocaleDateString() : '') + '</td><td><button class="btn-admin btn-sm" onclick="editOrder(' + o.id + ')">Edit</button> <button class="btn-admin btn-sm btn-danger-admin" onclick="deleteOrder(' + o.id + ')">\u00d7</button></td></tr>';
     });
     html += '</tbody></table></div></div>';
     el.innerHTML = html;
@@ -1491,8 +1499,18 @@ function renderShipping(el) {
     if (!data) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">\u229E</div><h4>No Data</h4><p class="sub"></p></div>'; return; }
     var zones = data.zones || [];
     var countryToZone = data.countryToZone || {};
-    var html = '<div class="section-header"><h3>Shipping Zones (Royal Mail)</h3></div>';
-    html += '<div class="card"><div class="card-header"><h4>' + (data.service || 'Royal Mail') + '</h4></div><div class="card-body no-padding"><table class="data-table"><thead><tr><th>Zone</th><th>Rate</th><th>Delivery</th><th>Countries</th></tr></thead><tbody>';
+    var cd = data.clickDrop || {};
+    var html = '<div class="section-header"><h3>Shipping (Royal Mail)</h3></div>';
+    html += '<div class="dash-grid">';
+    html += '<div class="dash-card"><div class="dash-icon">\u229E</div><div class="dash-label">Royal Mail Click & Drop</div><div class="dash-value">' + (cd.configured ? 'Connected' : 'Not Connected') + '</div><div class="dash-change ' + (cd.configured ? 'up' : 'down') + '">' + (cd.configured ? 'API key configured' : 'Set ROYAL_MAIL_API_KEY in Vercel') + '</div></div>';
+    html += '<div class="dash-card"><div class="dash-icon">\u2713</div><div class="dash-label">Synced to Click & Drop</div><div class="dash-value">' + (cd.synced || 0) + '</div></div>';
+    html += '<div class="dash-card"><div class="dash-icon">\u23F3</div><div class="dash-label">Pending Sync</div><div class="dash-value">' + (cd.pending || 0) + '</div></div>';
+    if (cd.failed) html += '<div class="dash-card"><div class="dash-icon">\u2717</div><div class="dash-label">Sync Failed</div><div class="dash-value" style="color:var(--admin-danger);">' + cd.failed + '</div></div>';
+    html += '</div>';
+    if (cd.configured && cd.pending) {
+      html += '<div style="margin-bottom:24px;"><button class="btn-admin btn-primary-admin" onclick="syncAllToClickDrop()">Sync All Pending Orders to Click & Drop</button></div>';
+    }
+    html += '<div class="card"><div class="card-header"><h4>Shipping Zones (Royal Mail)</h4></div><div class="card-body no-padding"><table class="data-table"><thead><tr><th>Zone</th><th>Rate</th><th>Delivery</th><th>Countries</th></tr></thead><tbody>';
     zones.forEach(function(z) {
       var countries = [];
       Object.keys(countryToZone).forEach(function(code) {
@@ -1503,6 +1521,30 @@ function renderShipping(el) {
     html += '</tbody></table></div></div>';
     el.innerHTML = html;
   }).catch(function(err) { el.innerHTML = '<div class="empty-state"><h4>Error loading shipping</h4><p class="sub">' + err.message + '</p></div>'; });
+}
+
+function syncAllToClickDrop() {
+  toast('Syncing orders to Click & Drop…', 'info');
+  api('/api/admin/shipping', { method: 'POST', body: { action: 'syncAll' } }).then(function(data) {
+    if (data && data.success) {
+      toast(data.synced + ' order(s) synced' + (data.failed ? ', ' + data.failed + ' failed' : ''), data.failed ? 'error' : 'success');
+      navigateTo('shipping');
+    } else {
+      toast('Sync failed: ' + (data && data.error ? data.error : 'unknown'), 'error');
+    }
+  }).catch(function(err) { toast('Sync error: ' + err.message, 'error'); });
+}
+
+function syncOrderToClickDrop(orderId) {
+  toast('Syncing order to Click & Drop…', 'info');
+  api('/api/admin/shipping', { method: 'POST', body: { action: 'sync', orderId: orderId } }).then(function(data) {
+    if (data && data.success) {
+      toast('Order synced to Click & Drop', 'success');
+      navigateTo('orders');
+    } else {
+      toast('Sync failed: ' + (data && data.error ? data.error : 'unknown'), 'error');
+    }
+  }).catch(function(err) { toast('Sync error: ' + err.message, 'error'); });
 }
 
 // ═══ SETTINGS ═══
