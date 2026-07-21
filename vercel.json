@@ -10,7 +10,8 @@
     "api/admin/coupons.js": { "maxDuration": 15 },
     "api/admin/reviews.js": { "maxDuration": 15 },
     "api/admin/contacts.js": { "maxDuration": 15 },
-    "api/admin/content.js": { "maxDuration": 15 }
+    "api/admin/content.js": { "maxDuration": 15 },
+    "api/admin/sync-stripe.js": { "maxDuration": 30 }
   },
   "headers": [
     {

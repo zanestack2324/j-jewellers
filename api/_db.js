@@ -38,16 +38,20 @@ function writeJsonFile(filePath, data) {
   try { writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8'); } catch {}
 }
 
-async function getData(key, file, fallback) {
+async function getData(key, file, fallback, opts) {
   const r = getRedis();
   if (r) {
     try {
-      const cached = await r.get('jj:' + key);
-      if (cached) return cached;
+      if (!opts || !opts.forceRefresh) {
+        const cached = await r.get('jj:' + key);
+        if (cached) return cached;
+      }
       const fileData = readJsonFile(file, fallback);
       await r.set('jj:' + key, fileData);
       return fileData;
-    } catch {}
+    } catch (redisErr) {
+      console.error('Redis read error for jj:' + key + ':', redisErr.message);
+    }
   }
   return readJsonFile(file, fallback);
 }
@@ -55,10 +59,21 @@ async function getData(key, file, fallback) {
 async function setData(key, file, fallback, data) {
   const r = getRedis();
   if (r) {
-    try { await r.set('jj:' + key, data); } catch {}
+    try {
+      await r.set('jj:' + key, data);
+    } catch (redisErr) {
+      console.error('Redis write error for jj:' + key + ':', redisErr.message);
+    }
   }
   writeJsonFile(file, data);
   return data;
+}
+
+async function clearCache(key) {
+  const r = getRedis();
+  if (r) {
+    try { await r.del('jj:' + key); } catch {}
+  }
 }
 
 module.exports = {
@@ -80,8 +95,8 @@ module.exports = {
   async saveShipping(data) {
     return setData('shipping', SHIPPING_FILE, { zones: [], countryToZone: {}, allowedCountries: [] }, data);
   },
-  async getOrders() {
-    return getData('orders', ORDERS_FILE, { orders: [], nextId: 3 });
+  async getOrders(opts) {
+    return getData('orders', ORDERS_FILE, { orders: [], nextId: 3 }, opts);
   },
   async saveOrders(store) {
     return setData('orders', ORDERS_FILE, { orders: [], nextId: 3 }, store);

@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
   if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
   let store;
-  try { store = await db.getOrders(); } catch (e) { return res.status(500).json({ error: 'Failed to load orders' }); }
+  try { store = await db.getOrders({ forceRefresh: true }); } catch (e) { return res.status(500).json({ error: 'Failed to load orders' }); }
   let { orders, nextId } = store;
 
   if (req.method === 'GET') {

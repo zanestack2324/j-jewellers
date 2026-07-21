@@ -1496,8 +1496,23 @@ function renderPayments(el) {
     });
     if (!payments.length) html += '<tr><td colspan="5" class="text-muted" style="text-align:center;padding:24px;">No payments yet</td></tr>';
     html += '</tbody></table></div></div>';
+    html += '<div style="margin-top:16px;"><button class="btn-admin btn-primary-admin" onclick="syncFromStripe()">Sync Orders from Stripe</button><span class="text-sm text-muted" style="margin-left:8px;">Recover orders created before webhook was configured</span></div>';
     el.innerHTML = html;
   }).catch(function(err) { el.innerHTML = '<div class="empty-state"><h4>Error loading payments</h4><p class="sub">' + err.message + '</p></div>'; });
+}
+
+function syncFromStripe() {
+  toast('Syncing orders from Stripe…', 'info');
+  api('/api/admin/sync-stripe', { method: 'POST' }).then(function(data) {
+    if (data && data.success) {
+      toast(data.synced + ' order(s) synced from Stripe' + (data.errors ? ', ' + data.errors + ' errors' : ''), data.errors ? 'error' : 'success');
+      navigateTo('payments');
+    } else {
+      toast('Sync failed: ' + (data && data.error ? data.error : 'unknown'), 'error');
+    }
+  }).catch(function(err) {
+    toast('Sync failed: ' + err.message, 'error');
+  });
 }
 
 // ═══ SHIPPING ═══

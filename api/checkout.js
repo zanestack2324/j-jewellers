@@ -134,7 +134,7 @@ module.exports = async (req, res) => {
     }
 
     // Create pending order in database BEFORE Stripe session
-    const store = await db.getOrders();
+    const store = await db.getOrders({ forceRefresh: true });
     const orderId = store.nextId;
     store.nextId = orderId + 1;
 

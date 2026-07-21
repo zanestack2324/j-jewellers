@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
   try {
     const [balances, orderStore, productStore, customerStore] = await Promise.all([
       stripe.balance.retrieve().catch(() => ({ available: [], pending: [] })),
-      db.getOrders(),
+      db.getOrders({ forceRefresh: true }),
       db.getProducts(),
       db.getCustomers()
     ]);
