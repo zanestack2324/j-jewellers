@@ -331,21 +331,23 @@
     @media(max-width:768px){.text-block p{font-size:0.9rem;}}
 
     /* ─── COLLECTIONS ─── */
-    .categories{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
-    .category-card{position:relative;overflow:hidden;aspect-ratio:1;cursor:pointer;transition:all 0.7s var(--ease-out);background:var(--dark-2);border:1px solid transparent;}
-    .category-card:hover{transform:scale(0.97);z-index:2;border-color:var(--border-light);box-shadow:0 0 40px rgba(13,139,139,0.05);}
+    .categories{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;}
+    .category-card{position:relative;overflow:hidden;aspect-ratio:4/3;cursor:pointer;transition:all 0.7s var(--ease-out);background:var(--dark-2);border:1px solid rgba(13,139,139,0.08);}
+    .category-card:hover{transform:translateY(-6px);z-index:2;border-color:var(--teal);box-shadow:0 20px 60px rgba(0,0,0,0.3),0 0 40px rgba(13,139,139,0.12);}
     .category-card picture{display:block;width:100%;height:100%;}
     .category-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s var(--ease-out),opacity 0.4s ease,filter 0.8s var(--ease-out);opacity:1;}
     .category-card img.lazy{opacity:0;filter:blur(20px);transform:scale(1.1);}
     .category-card img.loaded{opacity:1;filter:blur(0);transform:scale(1);}
     .category-card:hover img{transform:scale(1.08);}
-    .category-card .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,11,0.85) 0%,rgba(10,10,11,0.15) 50%,transparent 80%);}
+    .category-card .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,11,0.9) 0%,rgba(10,10,11,0.3) 40%,transparent 70%);}
     .category-card .info{position:absolute;bottom:0;left:0;right:0;padding:28px;}
-    .category-card .info h3{font-family:var(--font-heading);font-size:1.3rem;font-weight:600;margin-bottom:4px;}
-    .category-card .info p{color:var(--text-muted);font-size:0.7rem;font-weight:300;letter-spacing:1px;}
-    .category-card.tall{grid-column:span 2;aspect-ratio:2/1;}
-    @media(max-width:1024px){.categories{grid-template-columns:repeat(2,1fr);}.category-card.tall{grid-column:span 2;aspect-ratio:2/1;}}
-    @media(max-width:768px){.categories{grid-template-columns:1fr;gap:2px;}.category-card.tall{grid-column:span 1;aspect-ratio:1;}.category-card .info{padding:20px;}.category-card .info h3{font-size:1.1rem;}}
+    .category-card .info h3{font-family:var(--font-heading);font-size:1.4rem;font-weight:600;margin-bottom:6px;}
+    .category-card .info p{color:var(--teal-light);font-size:0.7rem;font-weight:300;letter-spacing:1px;}
+    .category-card .info .cat-arrow{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--teal);transition:all 0.3s var(--ease-out);}
+    .category-card .info .cat-arrow svg{width:14px;height:14px;transition:transform 0.3s var(--ease-out);}
+    .category-card:hover .info .cat-arrow{color:var(--teal-light);}
+    .category-card:hover .info .cat-arrow svg{transform:translateX(4px);}
+    @media(max-width:768px){.categories{grid-template-columns:1fr;gap:2px;}.category-card{aspect-ratio:16/9;}.category-card .info{padding:20px;}.category-card .info h3{font-size:1.1rem;}}
 
     /* ─── SHOP BY CATEGORY ─── */
     .shop-layout{display:grid;grid-template-columns:260px 1fr;gap:40px;align-items:start;}
@@ -419,9 +421,9 @@
 
     /* ─── SHOP PRODUCT GRID (Sokora-style) ─── */
     .shop-products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
-    .shop-product-card{position:relative;background:var(--surface-glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--border);cursor:pointer;transition:all 0.5s var(--ease-out);overflow:hidden;}
+    .shop-product-card{position:relative;background:rgba(13,139,139,0.06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(13,139,139,0.1);cursor:pointer;transition:all 0.5s var(--ease-out);overflow:hidden;}
     .shop-product-card:hover{border-color:var(--border-light);transform:translateY(-4px);box-shadow:0 16px 50px rgba(0,0,0,0.25),0 0 30px rgba(13,139,139,0.08);}
-    .shop-card-img{position:relative;overflow:hidden;aspect-ratio:3/4;background:rgba(13,139,139,0.04);}
+    .shop-card-img{position:relative;overflow:hidden;aspect-ratio:3/4;background:rgba(13,139,139,0.08);}
     .shop-card-img picture{display:block;width:100%;height:100%;}
     .shop-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.7s var(--ease-out),opacity 0.4s ease;opacity:1;}
     .shop-card-img img.lazy{opacity:0;filter:blur(20px);transform:scale(1.1);}
@@ -433,7 +435,7 @@
     .shop-card-img .quick-view span{padding:10px 24px;border:1px solid rgba(255,255,255,0.7);color:white;font-family:var(--font-future);font-size:0.5rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:all 0.3s var(--ease-out);}
     .shop-product-card:hover .quick-view{opacity:1;}
     .shop-card-img .quick-view:hover span{background:var(--teal);border-color:var(--teal);color:var(--dark);}
-    .shop-card-body{padding:14px 14px 16px;}
+    .shop-card-body{padding:14px 14px 16px;background:rgba(13,139,139,0.04);}
     .shop-card-body .card-cat{font-family:var(--font-future);font-size:0.4rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;}
     .shop-card-body h3{font-family:var(--font-heading);font-size:0.95rem;font-weight:600;margin-bottom:6px;line-height:1.3;color:var(--text);}
     .shop-card-body .card-price{font-size:1rem;font-weight:700;color:var(--teal);margin-bottom:8px;}
@@ -458,7 +460,7 @@
     .h-scroll::-webkit-scrollbar{height:2px;}
     .h-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,0.02);}
     .h-scroll::-webkit-scrollbar-thumb{background:var(--teal);}
-    .h-card{flex:0 0 300px;scroll-snap-align:start;background:var(--surface-glass);backdrop-filter:blur(10px);border:1px solid var(--border);overflow:hidden;transition:all 0.6s var(--ease-out);}
+    .h-card{flex:0 0 300px;scroll-snap-align:start;background:rgba(13,139,139,0.06);backdrop-filter:blur(10px);border:1px solid rgba(13,139,139,0.1);overflow:hidden;transition:all 0.6s var(--ease-out);}
     .h-card:hover{background:rgba(22,22,27,0.6);border-color:var(--border-light);transform:translateY(-4px);}
     .h-card .h-img{position:relative;overflow:hidden;aspect-ratio:1;}
     .h-card .h-img picture{display:block;width:100%;height:100%;}
@@ -1468,8 +1470,9 @@
     ];
 
     var categoryCards = [
-      { id:'Long Mala Sets', label:'Long Mala Sets', desc:'Regal heritage necklaces', img:'products/Long Mala Sets/Long mala sets/EE2EA028-493C-4DFF-ABD2-9BCC44337C6D.png', tall:true },
+      { id:'Long Mala Sets', label:'Long Mala Sets', desc:'Regal heritage necklaces', img:'products/Long Mala Sets/Long mala sets/EE2EA028-493C-4DFF-ABD2-9BCC44337C6D.png' },
       { id:'Choker Sets', label:'Choker Sets', desc:'Bold & contemporary', img:'products/Choker Sets/Choker sets/Stone choker sets £40/E823B3C8-F36A-48DB-97E1-9E3C62B1F341.png' },
+      { id:'Semi Bridal Sets', label:'Semi Bridal Sets', desc:'Elegant bridal essentials', img:'products/Semi bridal sets/Semi bridal sets/The Shaahi collection/990B7F85-1F3A-4A67-B549-F78411430591.png' },
       { id:'Earrings', label:'Earrings', desc:'Statement drops & jhumkas', img:'products/Earrings/Earrings/Mini Jhumki Earrings/B620C58D-FE2B-474D-96B5-A2C0040BDF50.png' },
     ];
 
@@ -1718,14 +1721,14 @@
         var el = document.getElementById(id);
         if (!el) return;
         var html = '';
-        if (id === 'catTabs') html = '<button class="cat-tab active" data-cat="all">All</button>';
-        categories.forEach(function(c, i) { html += '<button class="cat-tab' + (id === 'catTabsShop' && i === 0 ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'; });
+        categories.forEach(function(c, i) { html += '<button class="cat-tab' + (i === 0 ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>'; });
         el.innerHTML = html;
       });
     }
 
-    var currentCategory = 'all';
+    var currentCategory = '';
     function filterCategory(catId) {
+      if (!catId && categories.length > 0) catId = categories[0].id;
       currentCategory = catId;
       document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('active'); });
       document.querySelectorAll('.cat-tab[data-cat="' + catId + '"]').forEach(function(t){ t.classList.add('active'); });
@@ -1881,7 +1884,7 @@
     function shopCardSwatch(groupName, idx) {
       var shopEl = document.getElementById('catProductsShop');
       if (!shopEl) return;
-      var filtered2 = currentCategory === 'all' ? products : products.filter(function(p){ return p.cat === currentCategory; });
+      var filtered2 = currentCategory ? products.filter(function(p){ return p.cat === currentCategory; }) : products;
       var groups = groupProductsByBase(filtered2);
       _updateSwatchCard(shopEl, groups, groupName, idx);
     }
@@ -1889,7 +1892,7 @@
     function homeCardSwatch(groupName, idx) {
       var homeEl = document.getElementById('catProducts');
       if (!homeEl) return;
-      var filtered2 = currentCategory === 'all' ? products : products.filter(function(p){ return p.cat === currentCategory; });
+      var filtered2 = currentCategory ? products.filter(function(p){ return p.cat === currentCategory; }) : products;
       var groups = groupProductsByBase(filtered2);
       _updateSwatchCard(homeEl, groups, groupName, idx);
     }
@@ -2026,10 +2029,10 @@
         var counts = {};
         products.forEach(function(p){ counts[p.cat] = (counts[p.cat]||0)+1; });
         var total = products.length;
-        var html = '<label class="filter-check active-cat" data-cat="all"><input type="radio" name="sideCat" checked /> All <span>(' + total + ')</span></label>';
-        categories.forEach(function(c){
+        var html = '';
+        categories.forEach(function(c, i){
           var cnt = counts[c.id] || 0;
-          html += '<label class="filter-check" data-cat="' + c.id + '"><input type="radio" name="sideCat" /> ' + c.label + ' <span>(' + cnt + ')</span></label>';
+          html += '<label class="filter-check' + (i === 0 ? ' active-cat' : '') + '" data-cat="' + c.id + '"><input type="radio" name="sideCat"' + (i === 0 ? ' checked' : '') + ' /> ' + c.label + ' <span>(' + cnt + ')</span></label>';
         });
         el.innerHTML = html;
         el.querySelectorAll('.filter-check').forEach(function(l){
@@ -2053,9 +2056,8 @@
       if (!el) return;
       var html = '';
       categoryCards.forEach(function(c, i) {
-        var tallClass = c.tall ? ' tall' : '';
         var animClass = i % 2 === 0 ? ' reveal-l' : ' reveal-r';
-        html += '<div class="category-card' + tallClass + animClass + '" onclick="playClick();filterCategoryAndScroll(\'' + c.id + '\')"><picture><source srcset="' + (c.webp || c.img.replace(/\.(png|jpe?g)$/i, '.webp')) + '" type="image/webp" /><img class="lazy" data-src="' + c.img + '" alt="' + c.label + '" /></picture><div class="overlay"></div><div class="info"><h3>' + c.label + '</h3><p>' + c.desc + '</p></div></div>';
+        html += '<div class="category-card' + animClass + '" onclick="playClick();filterCategoryAndScroll(\'' + c.id + '\')"><picture><source srcset="' + (c.webp || c.img.replace(/\.(png|jpe?g)$/i, '.webp')) + '" type="image/webp" /><img class="lazy" data-src="' + c.img + '" alt="' + c.label + '" /></picture><div class="overlay"></div><div class="info"><h3>' + c.label + '</h3><p>' + c.desc + '</p><div class="cat-arrow">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>';
       });
       el.innerHTML = html;
       lazyLoadImages(el);
@@ -2064,11 +2066,9 @@
 
     function resetFilters() {
       document.querySelectorAll('.filter-check input').forEach(function(i){ i.checked = false; });
-      document.querySelectorAll('.stone-colors span').forEach(function(s){ s.style.borderColor = 'transparent'; });
-      filterCategory('all');
+      filterCategory('');
       document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('active'); });
-      document.querySelectorAll('.cat-tab[data-cat="all"]').forEach(function(t){ t.classList.add('active'); });
-      document.querySelectorAll('.filter-check[data-cat="all"]').forEach(function(l){ l.classList.add('active-cat'); l.querySelector('input').checked = true; });
+      if (categories.length > 0) document.querySelector('.cat-tab[data-cat="' + categories[0].id + '"]').classList.add('active');
     }
 
     // ─── STONE COLORS ───
