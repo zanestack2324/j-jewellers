@@ -968,7 +968,7 @@
           </aside>
           <div class="shop-main">
             <div class="cat-tabs" id="catTabs"></div>
-            <div class="products-grid" id="catProducts"></div>
+            <div id="catProducts"></div>
           </div>
         </div>
       </div>
@@ -1678,7 +1678,6 @@
 
       var stockInfo = '';
       if (hasVariants) {
-        var v0 = variants[0];
         stockInfo = '<div class="pd-stock ' + (v0.stock > 0 ? 'in-stock' : 'out-of-stock') + '" id="pdStock">' + (v0.stock > 0 ? 'In Stock (' + v0.stock + ')' : 'Out of Stock') + '</div>';
       } else {
         var prodStock = p.stock || 0;
@@ -1867,31 +1866,25 @@
       var gridEl = document.getElementById('catProducts');
       if (gridEl) {
         var filtered = catId === 'all' ? products : products.filter(function(p){ return p.cat === catId; });
+        var groups = groupProductsByBase(filtered);
         var html = '';
-        filtered.forEach(function(p){
-          var badge = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
-          var webpSrc = p.webp || p.img.replace(/\.(png|jpe?g)$/i, '.webp');
-          var colorHtml = '';
-          if (p.variants && p.variants.length > 0) {
-            colorHtml = '<div class="product-colors">';
-            p.variants.forEach(function(v, vi) {
-              var borderColor = (v.colorHex === '#FFFFFF' || v.colorHex === '#ffffff') ? '#ccc' : v.colorHex;
-              colorHtml += '<span class="color-swatch' + (vi === 0 ? ' selected' : '') + '" title="' + v.color + '" onclick="event.stopPropagation();selectCardVariant(' + p.id + ',' + vi + ')"><span class="color-dot" style="background-color:' + borderColor + ';border-color:' + borderColor + ';"></span></span>';
+        if (groups.length === 0) {
+          html = '<div class="shop-empty-msg">No products found in this category.</div>';
+        } else {
+          groups.forEach(function(g) {
+            var p = g.products[0];
+            var webpSrc = p.webp || p.img.replace(/\.(png|jpe?g)$/i, '.webp');
+            var badgeHtml = p.badge === 'new' ? '<span class="badge badge-new">New</span>' : '';
+            var swatchesHtml = '';
+            g.products.forEach(function(v, vi) {
+              var borderC = (v.colorHex === '#FFFFFF' || v.colorHex === '#ffffff') ? '#ccc' : v.colorHex;
+              swatchesHtml += '<span class="swatch-dot' + (vi === 0 ? ' active' : '') + '" style="background-color:' + borderC + ';" title="' + v.color + '" onclick="event.stopPropagation();homeCardSwatch(\'' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\',' + vi + ')" data-group="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '" data-idx="' + vi + '"></span>';
             });
-            colorHtml += '</div><div class="selected-color-name">' + p.variants[0].color + '</div>';
-          } else {
-            var colorInfo = extractColor(p.name);
-            if (colorInfo) {
-              var borderColor = colorInfo.hex === '#FFFFFF' ? '#ccc' : colorInfo.hex;
-              colorHtml = '<div class="product-colors"><span class="color-swatch selected"><span class="color-dot" style="background-color:' + colorInfo.hex + ';border-color:' + borderColor + ';"></span></span></div><div class="selected-color-name">' + colorInfo.name + '</div>';
-            }
-          }
-          var stockVal = (p.variants && p.variants.length > 0) ? (p.variants[0].stock || 0) : (p.stock || 0);
-          var stockLabel = stockVal > 0 ? 'In Stock (' + stockVal + ')' : 'Out of Stock';
-          var stockClass = stockVal > 0 ? 'in-stock' : 'out-of-stock';
-          html += '<div class="product-card" data-id="' + p.id + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="product-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img class="lazy" data-src="' + p.img + '" alt="' + p.name + '" /></picture>' + badge + '</div><div class="product-info"><div class="cat">' + p.cat + '</div><h3>' + p.name + '</h3><div class="p-desc">' + (p.desc || '') + '</div>' + colorHtml + '<div class="price" data-base="' + p.price.toFixed(2) + '"><span class="currency">\u00A3</span>' + p.price.toFixed(2) + '</div><div class="card-stock-label ' + stockClass + '">' + stockLabel + '</div><div class="product-actions"><button class="add-to-cart" onclick="event.stopPropagation();addToCart(' + p.id + ')" aria-pressed="false">Add to Bag</button><button class="buy-now-btn" onclick="event.stopPropagation();buyNow(' + p.id + ')" aria-pressed="false">Buy Now</button></div></div></div>';
-        });
-        gridEl.innerHTML = html;
+            if (g.products.length > 4) swatchesHtml += '<span class="swatch-more">+' + (g.products.length - 4) + '</span>';
+            html += '<div class="shop-product-card" data-group="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="shop-card-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img class="lazy" data-src="' + p.img + '" alt="' + g.baseName + '" /></picture>' + badgeHtml + '<div class="quick-view"><span>View Details</span></div></div><div class="shop-card-body"><div class="card-cat">' + g.cat + '</div><h3>' + g.baseName + '</h3><div class="card-price">\u00A3' + p.price.toFixed(2) + '</div><div class="shop-card-swatches" data-swatches="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '">' + swatchesHtml + '</div><div class="shop-card-color-name" data-colorname="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '">' + p.color + '</div></div></div>';
+          });
+        }
+        gridEl.innerHTML = '<div class="shop-products-grid">' + html + '</div>';
         lazyLoadImages(gridEl);
       }
 
@@ -1903,12 +1896,24 @@
       if (!shopEl) return;
       var filtered2 = currentCategory === 'all' ? products : products.filter(function(p){ return p.cat === currentCategory; });
       var groups = groupProductsByBase(filtered2);
+      _updateSwatchCard(shopEl, groups, groupName, idx);
+    }
+
+    function homeCardSwatch(groupName, idx) {
+      var homeEl = document.getElementById('catProducts');
+      if (!homeEl) return;
+      var filtered2 = currentCategory === 'all' ? products : products.filter(function(p){ return p.cat === currentCategory; });
+      var groups = groupProductsByBase(filtered2);
+      _updateSwatchCard(homeEl, groups, groupName, idx);
+    }
+
+    function _updateSwatchCard(containerEl, groups, groupName, idx) {
       var g = null;
       groups.forEach(function(gr) { if (gr.baseName === groupName) g = gr; });
       if (!g || !g.products[idx]) return;
       var p = g.products[idx];
       var webpSrc = p.webp || p.img.replace(/\.(png|jpe?g)$/i, '.webp');
-      var card = shopEl.querySelector('.shop-product-card[data-group="' + groupName + '"]');
+      var card = containerEl.querySelector('.shop-product-card[data-group="' + groupName + '"]');
       if (!card) return;
       var imgWrap = card.querySelector('.shop-card-img');
       if (imgWrap) {
@@ -2008,15 +2013,14 @@
       }).finally(function(){
         // Always render with whatever data we have
         renderCategoryTabs();
-        filterCategory('all');
         if (categories.length > 0) {
           currentCategory = categories[0].id;
           var shopTabs = document.querySelectorAll('#catTabsShop .cat-tab');
           shopTabs.forEach(function(t){ t.classList.remove('active'); });
           var firstShopTab = document.querySelector('#catTabsShop .cat-tab');
           if (firstShopTab) firstShopTab.classList.add('active');
-          renderCatProductsShop(categories[0].id);
         }
+        filterCategory(currentCategory);
         renderSidebarCategories();
       });
     }
