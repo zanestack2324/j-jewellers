@@ -260,19 +260,24 @@ async function sendOrderConfirmation(order) {
   }
 }
 
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 function buildEmailHTML(order) {
   const items = (order.items || []).map(item => {
-    const variant = item.variant ? ' (' + item.variant + ')' : '';
-    return '<tr><td style="padding:10px;border-bottom:1px solid #eee;">' + item.name + variant + '</td><td style="padding:10px;border-bottom:1px solid #eee;text-align:center;">' + item.qty + '</td><td style="padding:10px;border-bottom:1px solid #eee;text-align:right;">\u00A3' + (item.price * item.qty).toFixed(2) + '</td></tr>';
+    const variant = item.variant ? ' (' + escapeHTML(item.variant) + ')' : '';
+    return '<tr><td style="padding:10px;border-bottom:1px solid #eee;">' + escapeHTML(item.name) + variant + '</td><td style="padding:10px;border-bottom:1px solid #eee;text-align:center;">' + parseInt(item.qty) + '</td><td style="padding:10px;border-bottom:1px solid #eee;text-align:right;">\u00A3' + (item.price * item.qty).toFixed(2) + '</td></tr>';
   }).join('');
 
   return '<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">' +
     '<div style="text-align:center;padding:20px 0;border-bottom:3px solid #0D8B8B;"><h1 style="color:#0D8B8B;margin:0;">J JEWELLERS</h1><p style="color:#888;margin:5px 0 0;">Order Confirmation</p></div>' +
-    '<div style="padding:20px 0;"><p>Hi ' + (order.customerName || 'Customer') + ',</p><p>Thank you for your order! Here are your order details:</p>' +
-    '<div style="background:#f9f9f9;padding:16px;border-radius:8px;margin:16px 0;"><p><strong>Order Number:</strong> #' + order.id + '</p><p><strong>Date:</strong> ' + new Date(order.createdAt).toLocaleDateString('en-GB') + '</p></div>' +
+    '<div style="padding:20px 0;"><p>Hi ' + escapeHTML(order.customerName || 'Customer') + ',</p><p>Thank you for your order! Here are your order details:</p>' +
+    '<div style="background:#f9f9f9;padding:16px;border-radius:8px;margin:16px 0;"><p><strong>Order Number:</strong> #' + parseInt(order.id) + '</p><p><strong>Date:</strong> ' + new Date(order.createdAt).toLocaleDateString('en-GB') + '</p></div>' +
     '<table style="width:100%;border-collapse:collapse;margin:16px 0;"><thead><tr style="background:#0D8B8B;color:white;"><th style="padding:10px;text-align:left;">Item</th><th style="padding:10px;text-align:center;">Qty</th><th style="padding:10px;text-align:right;">Price</th></tr></thead><tbody>' + items + '</tbody></table>' +
     '<div style="text-align:right;padding:10px 0;"><p>Subtotal: \u00A3' + (order.subtotal || 0).toFixed(2) + '</p><p>Shipping: \u00A3' + (order.shippingCost || 0).toFixed(2) + '</p><p style="font-size:1.2em;font-weight:bold;color:#0D8B8B;">Total: \u00A3' + (order.total || 0).toFixed(2) + '</p></div>' +
-    (order.shippingAddressText ? '<div style="background:#f9f9f9;padding:16px;border-radius:8px;margin:16px 0;"><p><strong>Shipping Address:</strong></p><p>' + order.shippingAddressText + '</p></div>' : (order.shippingAddress && typeof order.shippingAddress === 'object' ? '<div style="background:#f9f9f9;padding:16px;border-radius:8px;margin:16px 0;"><p><strong>Shipping Address:</strong></p><p>' + [order.shippingAddress.line1, order.shippingAddress.line2, order.shippingAddress.city, order.shippingAddress.postalCode, order.shippingAddress.country].filter(Boolean).join(', ') + '</p></div>' : '')) +
+    (order.shippingAddressText ? '<div style="background:#f9f9f9;padding:16px;border-radius:8px;margin:16px 0;"><p><strong>Shipping Address:</strong></p><p>' + escapeHTML(order.shippingAddressText) + '</p></div>' : (order.shippingAddress && typeof order.shippingAddress === 'object' ? '<div style="background:#f9f9f9;padding:16px;border-radius:8px;margin:16px 0;"><p><strong>Shipping Address:</strong></p><p>' + escapeHTML([order.shippingAddress.line1, order.shippingAddress.line2, order.shippingAddress.city, order.shippingAddress.postalCode, order.shippingAddress.country].filter(Boolean).join(', ')) + '</p></div>' : '')) +
     '<p style="color:#888;font-size:0.9em;margin-top:30px;">If you have any questions, please contact us at support@jjeweller.com</p>' +
     '<div style="text-align:center;padding:20px 0;border-top:1px solid #eee;color:#888;font-size:0.8em;"><p>&copy; ' + new Date().getFullYear() + ' J Jewellers. All rights reserved.</p></div></div></body></html>';
 }

@@ -26,7 +26,10 @@ module.exports = async (req, res) => {
   for (let i = 6; i >= 0; i--) {
     const dayStart = new Date(now - i * dayMs);
     const dateStr = dayStart.toISOString().split('T')[0];
-    const dayOrders = orders.filter(o => o.date && o.date.startsWith(dateStr));
+    const dayOrders = orders.filter(o => {
+      const created = o.createdAt || o.date || '';
+      return created.startsWith(dateStr);
+    });
     ordersByDay.push({
       date: dateStr,
       orders: dayOrders.length,
@@ -39,7 +42,7 @@ module.exports = async (req, res) => {
     (o.items || []).forEach(item => {
       if (!productSales[item.name]) productSales[item.name] = { sales: 0, revenue: 0 };
       productSales[item.name].sales += item.qty || 1;
-      productSales[item.name].revenue += item.price || 0;
+      productSales[item.name].revenue += (item.price || 0) * (item.qty || 1);
     });
   });
   const topProducts = Object.entries(productSales)
@@ -49,7 +52,12 @@ module.exports = async (req, res) => {
 
   const countryCounts = {};
   customers.forEach(c => {
-    const country = c.country || 'Unknown';
+    var country = c.country || '';
+    if (!country && c.address && typeof c.address === 'string') {
+      var parts = c.address.split(',').map(s => s.trim());
+      country = parts[parts.length - 1] || 'Unknown';
+    }
+    if (!country) country = 'Unknown';
     countryCounts[country] = (countryCounts[country] || 0) + 1;
   });
   const topCountries = Object.entries(countryCounts)

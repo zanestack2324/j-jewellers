@@ -142,6 +142,7 @@
       var allZones = [];
       var allowedCountries = [];
       var clientSecret = null;
+      var existingOrderId = null;
 
       cart.forEach(function(item) { subtotal += item.price * item.qty; itemCount += item.qty; });
       document.getElementById('itemCount').textContent = itemCount + ' item' + (itemCount !== 1 ? 's' : '') + ' in your order';
@@ -258,14 +259,15 @@
         if (!clientSecret) return;
         var payBtn = document.getElementById('payBtn');
         payBtn.disabled = true;
+        var body = {
+          items: items,
+          shipping_country: selectedCountry
+        };
+        if (existingOrderId) body.orderId = existingOrderId;
         fetch('/api/create-payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            items: items,
-            shipping_fee: shippingFee,
-            shipping_country: selectedCountry
-          })
+          body: JSON.stringify(body)
         })
         .then(function(r) { return r.json(); })
         .then(function(data) {
@@ -299,6 +301,7 @@
       .then(function(data) {
         if (data && data.clientSecret) {
           clientSecret = data.clientSecret;
+          if (data.orderId) existingOrderId = data.orderId;
           initPaymentElement(data.clientSecret);
         }
       })

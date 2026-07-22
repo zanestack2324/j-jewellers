@@ -56,7 +56,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { items, customer_email, shipping_fee, shipping_country } = req.body;
+    const { items, customer_email, shipping_country } = req.body;
 
     if (!items || !Array.isArray(items) || !items.length) {
       return res.status(400).json({ error: 'No items provided' });
@@ -90,10 +90,15 @@ module.exports = async (req, res) => {
     }
 
     let shippingPence = 0;
-    if (typeof shipping_fee === 'number' && shipping_fee > 0) {
-      shippingPence = Math.round(shipping_fee * 100);
-      totalAmount += shippingPence;
+    if (shipping_country) {
+      const shipping = await db.getShipping();
+      const zoneId = shipping.countryToZone[shipping_country.toUpperCase()];
+      if (zoneId) {
+        const zone = shipping.zones.find(z => z.id === zoneId);
+        if (zone) shippingPence = Math.round(zone.rate * 100);
+      }
     }
+    totalAmount += shippingPence;
 
     if (totalAmount > MAX_AMOUNT) {
       return res.status(400).json({ error: 'Order total too large' });
@@ -115,7 +120,7 @@ module.exports = async (req, res) => {
       subtotal: subtotal,
       shippingCost: shippingPence / 100,
       discount: 0,
-      total: subtotal,
+      total: totalAmount / 100,
       status: 'pending',
       stripePaymentId: '',
       stripeSessionId: '',

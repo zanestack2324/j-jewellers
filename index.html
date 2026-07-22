@@ -1335,7 +1335,6 @@
         <div class="footer-col">
           <h4>Contact Us</h4>
           <a href="mailto:jjewellers1312@gmail.com" onclick="playClick()">jjewellers1312@gmail.com</a>
-          <a href="mailto:jjewellers1312@gmail.com" onclick="playClick()">jjewellers1312@gmail.com</a>
           <a onclick="playClick();navigateTo('support')">Customer Support</a>
           <a onclick="playClick();scrollToSection('contact')">Newsletter Signup</a>
         </div>
@@ -1837,11 +1836,18 @@
           groupOrder.push(baseName);
         }
         var colorInfo = extractColor(p.name);
+        var colorName = colorInfo ? colorInfo.name : (parts.length > 1 ? parts[parts.length - 1].trim() : '');
+        var colorHex = colorInfo ? colorInfo.hex : '#888';
+        var isDupe = false;
+        for (var di = 0; di < groups[baseName].products.length; di++) {
+          if (groups[baseName].products[di].color.toLowerCase() === colorName.toLowerCase()) { isDupe = true; break; }
+        }
+        if (isDupe) return;
         groups[baseName].products.push({
           id: p.id, name: p.name, img: p.img, webp: p.webp,
           price: p.price, stock: p.stock, badge: p.badge,
-          color: colorInfo ? colorInfo.name : (parts.length > 1 ? parts[parts.length - 1].trim() : ''),
-          colorHex: colorInfo ? colorInfo.hex : '#888'
+          color: colorName,
+          colorHex: colorHex
         });
       });
       return groupOrder.map(function(k) { return groups[k]; });

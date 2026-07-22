@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
       return res.status(200).json(s);
     }
     let results = store.submissions || [];
-    results.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    results.sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt));
     return res.status(200).json(results);
   }
 
