@@ -239,21 +239,49 @@ img{max-width:100%;display:block;}
 .font-mono{font-family:'Courier New',monospace;font-size:0.75rem;}
 
 /* VARIANT MANAGEMENT */
-.variant-section{margin-top:16px;border-top:2px solid var(--admin-accent);padding-top:16px;background:rgba(13,139,139,0.04);border-radius:8px;padding:16px;margin-left:-12px;margin-right:-12px;padding-left:12px;padding-right:12px;}
+.variant-section{margin-top:20px;border-top:2px solid var(--admin-accent);padding-top:16px;background:rgba(13,139,139,0.04);border-radius:12px;padding:20px;margin-left:-16px;margin-right:-16px;padding-left:20px;padding-right:20px;border:1px solid rgba(13,139,139,0.1);}
 .variant-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.variant-section-header h4{font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--admin-text-muted);}
-.variant-row{display:grid;grid-template-columns:80px 1fr 1fr 100px 100px 1fr 40px;gap:8px;align-items:end;padding:10px 12px;background:rgba(13,139,139,0.04);border:1px solid var(--admin-border);border-radius:8px;margin-bottom:8px;}
+.variant-section-header h4{font-size:0.8rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--admin-accent-light);display:flex;align-items:center;gap:8px;}
+.variant-section-header h4::before{content:'';width:4px;height:16px;background:var(--admin-accent);border-radius:2px;}
+.variant-row{display:grid;grid-template-columns:80px 1fr 1fr 100px 100px 1fr 40px;gap:8px;align-items:end;padding:12px 14px;background:rgba(13,139,139,0.06);border:1px solid var(--admin-border);border-radius:10px;margin-bottom:10px;transition:all 0.2s;}
+.variant-row:hover{border-color:rgba(13,139,139,0.25);box-shadow:0 0 12px rgba(13,139,139,0.08);}
 .variant-row label{display:block;font-size:0.55rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--admin-text-dim);margin-bottom:4px;}
 .variant-row input,.variant-row select{width:100%;padding:8px 10px;background:rgba(13,139,139,0.05);border:1px solid var(--admin-border);color:var(--admin-text);font-size:0.8rem;border-radius:6px;}
 .variant-row input:focus,.variant-row select:focus{border-color:var(--admin-accent);box-shadow:0 0 10px rgba(13,139,139,0.15);}
 .variant-color-input{display:flex;align-items:center;gap:6px;}
-.variant-color-swatch{width:28px;height:28px;border-radius:50%;border:2px solid var(--admin-border-light);cursor:pointer;flex-shrink:0;}
-.variant-color-swatch input[type="color"]{opacity:0;position:absolute;width:28px;height:28px;cursor:pointer;}
+.variant-color-swatch{width:32px;height:32px;border-radius:50%;border:2px solid var(--admin-border-light);cursor:pointer;flex-shrink:0;transition:all 0.2s;box-shadow:0 2px 6px rgba(0,0,0,0.2);}
+.variant-color-swatch:hover{transform:scale(1.1);box-shadow:0 0 12px rgba(13,139,139,0.3);}
+.variant-color-swatch input[type="color"]{opacity:0;position:absolute;width:32px;height:32px;cursor:pointer;}
 .variant-remove-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.2);color:var(--admin-danger);border-radius:6px;cursor:pointer;font-size:1rem;transition:all 0.2s;}
 .variant-remove-btn:hover{background:var(--admin-danger);color:#fff;}
 .variant-img-preview{width:36px;height:36px;border-radius:6px;object-fit:cover;border:1px solid var(--admin-border);margin-top:4px;}
-.add-variant-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(13,139,139,0.08);border:1px dashed var(--admin-border-light);color:var(--admin-accent-light);border-radius:8px;cursor:pointer;font-size:0.75rem;font-weight:500;transition:all 0.2s;}
-.add-variant-btn:hover{background:rgba(13,139,139,0.15);border-color:var(--admin-accent);}
+.add-variant-btn{display:flex;align-items:center;gap:6px;padding:10px 16px;background:rgba(13,139,139,0.08);border:1px dashed var(--admin-border-light);color:var(--admin-accent-light);border-radius:8px;cursor:pointer;font-size:0.75rem;font-weight:600;transition:all 0.2s;letter-spacing:0.5px;}
+.add-variant-btn:hover{background:rgba(13,139,139,0.15);border-color:var(--admin-accent);box-shadow:0 0 15px rgba(13,139,139,0.15);}
+
+/* PRESET COLOUR SWATCHES */
+.preset-colors{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;padding:12px;background:rgba(13,139,139,0.03);border:1px solid rgba(13,139,139,0.08);border-radius:8px;}
+.preset-color-btn{width:32px;height:32px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all 0.2s;position:relative;box-shadow:0 2px 6px rgba(0,0,0,0.2);}
+.preset-color-btn:hover{transform:scale(1.15);box-shadow:0 0 12px rgba(13,139,139,0.3);border-color:var(--admin-accent-light);}
+.preset-color-btn::after{content:attr(data-name);position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:0.5rem;color:var(--admin-text-muted);white-space:nowrap;opacity:0;transition:opacity 0.2s;pointer-events:none;}
+.preset-color-btn:hover::after{opacity:1;}
+.variant-presets-label{font-size:0.6rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--admin-text-dim);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.variant-presets-label::after{content:'';flex:1;height:1px;background:var(--admin-border);}
+
+/* QUICK ADD SECTION */
+.quick-add-section{margin-top:12px;padding:14px;background:rgba(13,139,139,0.06);border:1px dashed var(--admin-border-light);border-radius:10px;}
+.quick-add-section h5{font-size:0.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--admin-accent-light);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.quick-add-section h5::before{content:'⚡';font-size:0.8rem;}
+.quick-add-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.quick-add-chip{display:flex;align-items:center;gap:5px;padding:6px 12px;background:rgba(13,139,139,0.08);border:1px solid var(--admin-border);border-radius:20px;cursor:pointer;font-size:0.7rem;color:var(--admin-text-muted);transition:all 0.2s;}
+.quick-add-chip:hover{background:rgba(13,139,139,0.15);border-color:var(--admin-accent);color:var(--admin-text);box-shadow:0 0 10px rgba(13,139,139,0.15);}
+.quick-add-chip.selected{background:rgba(13,139,139,0.2);border-color:var(--admin-accent);color:var(--admin-accent-light);}
+.quick-add-chip .chip-dot{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);box-shadow:0 1px 3px rgba(0,0,0,0.3);}
+.quick-add-btn{padding:8px 16px;background:linear-gradient(135deg,var(--admin-accent-light),var(--admin-accent));border:none;color:var(--admin-bg);font-size:0.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:6px;cursor:pointer;transition:all 0.2s;}
+.quick-add-btn:hover{box-shadow:0 0 15px rgba(48,197,197,0.4);transform:translateY(-1px);}
+
+/* VARIANT COUNT BADGE */
+.variant-count-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:rgba(13,139,139,0.12);border:1px solid rgba(13,139,139,0.2);border-radius:12px;font-size:0.6rem;font-weight:600;color:var(--admin-accent-light);margin-left:8px;}
+.variant-count-badge .swatch-mini{width:10px;height:10px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);}
 </style>
 </head>
 <body>
@@ -717,12 +745,14 @@ function renderProducts(el) {
 
     catOrder.forEach(function(cat){
       var items = catMap[cat];
+      var totalVariants = 0;
+      items.forEach(function(p) { if (p.variants && p.variants.length) totalVariants += p.variants.length; });
       html += '<div class="card" style="margin-bottom:24px;">';
       html += '<div class="card-header" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.cat-body\').classList.toggle(\'hidden\');this.querySelector(\'.cat-toggle\').textContent = this.parentElement.querySelector(\'.cat-body\').classList.contains(\'hidden\') ? \'+\' : \'\u2212\'">';
       html += '<div style="display:flex;align-items:center;gap:12px;">';
       html += '<span class="cat-toggle" style="font-size:1.1rem;color:var(--admin-accent);width:20px;text-align:center;">\u2212</span>';
       html += '<h4 style="font-size:0.95rem;">' + cat + '</h4>';
-      html += '<span style="font-size:0.65rem;color:var(--admin-text-muted);background:rgba(13,139,139,0.1);padding:3px 10px;border-radius:12px;">' + items.length + ' item' + (items.length !== 1 ? 's' : '') + '</span>';
+      html += '<span style="font-size:0.65rem;color:var(--admin-text-muted);background:rgba(13,139,139,0.1);padding:3px 10px;border-radius:12px;">' + items.length + ' item' + (items.length !== 1 ? 's' : '') + (totalVariants > 0 ? ' · ' + totalVariants + ' variant' + (totalVariants !== 1 ? 's' : '') : '') + '</span>';
       html += '</div>';
       html += '<button class="btn-admin btn-primary-admin btn-xs-admin" onclick="event.stopPropagation();showAddProduct(\'' + cat.replace(/'/g, "\\'") + '\')">+ Add to ' + cat + '</button>';
       html += '<button class="btn-admin btn-danger-admin btn-xs-admin" onclick="event.stopPropagation();deleteCategory(\'' + cat.replace(/'/g, "\\'") + '\',' + items.length + ')">Delete</button>';
@@ -737,11 +767,13 @@ function renderProducts(el) {
         var thumbHtml = imgSrc ? '<img src="' + imgSrc + '" style="width:40px;height:40px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display=\'none\'" />' : '<span style="width:40px;height:40px;display:inline-block;flex-shrink:0;background:var(--admin-surface-2);border-radius:4px;"></span>';
         var variantInfo = '';
         if (p.variants && p.variants.length > 0) {
-          variantInfo = '<span style="display:inline-flex;align-items:center;gap:3px;margin-left:8px;vertical-align:middle;">';
-          p.variants.forEach(function(v) {
-            variantInfo += '<span title="' + (v.color || 'Variant') + (v.price ? ' \u00A3' + v.price.toFixed(2) : '') + '" style="display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid ' + (v.colorHex || '#333') + ';background:' + (v.colorHex || '#333') + ';box-shadow:0 0 4px rgba(0,0,0,0.3);cursor:help;"></span>';
-          });
-          variantInfo += '<span style="font-size:0.55rem;color:var(--admin-text-muted);margin-left:2px;">' + p.variants.length + '</span></span>';
+          variantInfo = '<span class="variant-count-badge">';
+          var showCount = Math.min(p.variants.length, 5);
+          for (var vi = 0; vi < showCount; vi++) {
+            variantInfo += '<span class="swatch-mini" style="background:' + (p.variants[vi].colorHex || '#333') + ';" title="' + (p.variants[vi].color || 'Variant') + (p.variants[vi].price ? ' \u00A3' + p.variants[vi].price.toFixed(2) : '') + '"></span>';
+          }
+          if (p.variants.length > 5) variantInfo += '+' + (p.variants.length - 5);
+          variantInfo += '</span>';
         }
         html += '<tr><td>' + thumbHtml + '</td><td>' + (p.name || 'Unnamed') + variantInfo + '</td><td>\u00A3' + (p.price || 0).toFixed(2) + '</td><td class="td-stock">' + stock + '</td><td class="td-status"><span class="status-badge ' + status + '">' + (status === 'active' ? 'Active' : 'Out of Stock') + '</span></td><td class="td-actions"><div class="flex gap-8"><button class="btn-admin btn-xs-admin btn-secondary-admin" onclick="editProduct(' + p.id + ')">Edit</button><button class="btn-admin btn-xs-admin btn-danger-admin" onclick="deleteProduct(' + p.id + ')">Delete</button></div></td></tr>';
       });
@@ -784,8 +816,12 @@ function showAddProduct(category) {
     '<div class="form-group"><label>Description</label><textarea id="prodDesc" placeholder="Product description" rows="3"></textarea></div>' +
     '<div class="form-group"><label>Product Photos (select multiple at once)</label><input id="prodImageInput" type="file" accept="image/png,image/jpeg,image/webp" multiple onchange="previewProductImage(event)"/></div>' +
     '<div id="prodImagePreview" style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;"></div>' +
-    '<div class="variant-section"><div class="variant-section-header"><h4>Color Variants (Optional)</h4></div><p class="text-xs text-muted mb-16">Add color variants, each with its own image, price, stock and SKU. If empty, product sells as a single item.</p><div id="variantRows"></div><button class="add-variant-btn" onclick="addVariantRow()">+ Add Color Variant</button></div>' +
+    '<div class="variant-section"><div class="variant-section-header"><h4>Colour Variants</h4></div><p class="text-xs text-muted mb-16">Add colour variants, each with its own image, price, stock and SKU. If empty, product sells as a single item.</p>' +
+    '<div class="quick-add-section"><h5>Quick Add Colours</h5><p class="text-xs text-muted mb-16">Select colours below, then click "Add Selected" to create variants instantly.</p><div class="quick-add-row" id="quickAddPresets"></div><button class="quick-add-btn" onclick="quickAddSelectedColours()">+ Add Selected Colours</button></div>' +
+    '<div class="mt-16" style="margin-top:16px;"><div class="variant-presets-label">Add Individual Variant</div></div>' +
+    '<div id="variantRows"></div><button class="add-variant-btn" onclick="addVariantRow()">+ Add Colour Variant</button></div>' +
     '<div style="margin-top:16px;"><button class="btn-admin btn-primary-admin" id="saveProductBtn" onclick="saveProduct()">Save Product</button></div>');
+  renderQuickAddPresets();
 }
 
 function previewProductImage(event) {
@@ -807,6 +843,34 @@ function previewProductImage(event) {
 }
 
 var _variantCounter = 0;
+var _presetColors = [
+  {name:'Gold',hex:'#D4A843'},{name:'Silver',hex:'#C0C0C0'},{name:'Rose Gold',hex:'#B76E79'},
+  {name:'Black',hex:'#1A1A1A'},{name:'White',hex:'#FFFFFF'},{name:'Red',hex:'#C0392B'},
+  {name:'Maroon',hex:'#6B1A20'},{name:'Emerald',hex:'#0E8050'},{name:'Navy',hex:'#1B2A4A'},
+  {name:'Royal Blue',hex:'#2E5090'},{name:'Pink',hex:'#E8A0BF'},{name:'Peach',hex:'#EDCBA0'},
+  {name:'Lilac',hex:'#C8A2C8'},{name:'Plum',hex:'#6C3461'},{name:'Purple',hex:'#7D3C98'},
+  {name:'Teal',hex:'#0D8B8B'},{name:'Turquoise',hex:'#40E0D0'},{name:'Mustard',hex:'#D4A017'},
+  {name:'Rust',hex:'#B7410E'},{name:'Copper',hex:'#B87333'},{name:'Bronze',hex:'#CD7F32'},
+  {name:'Lavender',hex:'#B57EDC'},{name:'Cream',hex:'#FFFDD0'},{name:'Olive',hex:'#808000'}
+];
+function _renderPresetSwatches(idx) {
+  var html = '<div class="preset-colors">';
+  _presetColors.forEach(function(c) {
+    html += '<button type="button" class="preset-color-btn" data-name="' + c.name + '" style="background:' + c.hex + ';" onclick="applyPresetColor(' + idx + ',\'' + c.hex + '\',\'' + c.name + '\')" title="' + c.name + '"></button>';
+  });
+  html += '</div>';
+  return html;
+}
+function applyPresetColor(idx, hex, name) {
+  var swatch = document.querySelector('#variant_' + idx + ' .variant-color-swatch');
+  var colorInput = document.getElementById('vColorInput_' + idx);
+  var hexInput = document.getElementById('vColorHex_' + idx);
+  var nameInput = document.getElementById('vColorName_' + idx);
+  if (swatch) swatch.style.background = hex;
+  if (colorInput) colorInput.value = hex;
+  if (hexInput) hexInput.value = hex;
+  if (nameInput && !nameInput.value.trim()) nameInput.value = name;
+}
 function addVariantRow(data) {
   var rows = document.getElementById('variantRows');
   if (!rows) return;
@@ -817,8 +881,8 @@ function addVariantRow(data) {
   row.className = 'variant-row';
   row.id = 'variant_' + idx;
   row.innerHTML =
-    '<div><label>Color</label><div class="variant-color-input"><div class="variant-color-swatch" style="background:' + colorHex + ';" onclick="document.getElementById(\'vColorInput_' + idx + '\').click()"><input type="color" id="vColorInput_' + idx + '" value="' + colorHex + '" onchange="this.parentElement.style.background=this.value;document.getElementById(\'vColorHex_' + idx + '\').value=this.value;" /></div><input type="text" id="vColorName_' + idx + '" value="' + (v.color || '').replace(/"/g, '&quot;') + '" placeholder="e.g. Gold" style="width:70px;" /></div></div>' +
-    '<div><label>Color Code</label><input type="text" id="vColorHex_' + idx + '" value="' + colorHex + '" placeholder="#000000" onchange="document.getElementById(\'vColorInput_' + idx + '\').value=this.value;document.querySelector(\'#variant_' + idx + ' .variant-color-swatch\').style.background=this.value;" /></div>' +
+    '<div style="position:relative;"><label>Colour</label><div class="variant-color-input"><div class="variant-color-swatch" style="background:' + colorHex + ';" onclick="document.getElementById(\'vColorInput_' + idx + '\').click()"><input type="color" id="vColorInput_' + idx + '" value="' + colorHex + '" onchange="this.parentElement.style.background=this.value;document.getElementById(\'vColorHex_' + idx + '\').value=this.value;" /></div><input type="text" id="vColorName_' + idx + '" value="' + (v.color || '').replace(/"/g, '&quot;') + '" placeholder="e.g. Gold" style="width:70px;" /></div></div>' +
+    '<div><label>Colour Code</label><input type="text" id="vColorHex_' + idx + '" value="' + colorHex + '" placeholder="#000000" onchange="document.getElementById(\'vColorInput_' + idx + '\').value=this.value;document.querySelector(\'#variant_' + idx + ' .variant-color-swatch\').style.background=this.value;" /></div>' +
     '<div><label>Image</label><input type="file" accept="image/png,image/jpeg,image/webp" id="vImageInput_' + idx + '" onchange="previewVariantImage(' + idx + ', this)" />' + (v.image ? '<img src="' + v.image + '" class="variant-img-preview" />' : '<div id="vImgPreview_' + idx + '"></div>') + '</div>' +
     '<div><label>Price (\u00A3)</label><input type="number" step="0.01" id="vPrice_' + idx + '" value="' + (v.price || '') + '" placeholder="Same as product" /></div>' +
     '<div><label>Stock</label><input type="number" id="vStock_' + idx + '" value="' + (v.stock !== undefined ? v.stock : '') + '" placeholder="0" /></div>' +
@@ -847,6 +911,39 @@ function previewVariantImage(idx, input) {
   reader.readAsDataURL(file);
 }
 
+var _quickAddSelected = {};
+function renderQuickAddPresets() {
+  var container = document.getElementById('quickAddPresets');
+  if (!container) return;
+  _quickAddSelected = {};
+  var html = '';
+  _presetColors.forEach(function(c) {
+    html += '<button type="button" class="quick-add-chip" id="qac_' + c.name.replace(/\s+/g,'') + '" onclick="toggleQuickAddColour(\'' + c.name.replace(/'/g,"\\'") + '\',\'' + c.hex + '\')"><span class="chip-dot" style="background:' + c.hex + ';"></span>' + c.name + '</button>';
+  });
+  container.innerHTML = html;
+}
+function toggleQuickAddColour(name, hex) {
+  if (_quickAddSelected[name]) {
+    delete _quickAddSelected[name];
+    var el = document.getElementById('qac_' + name.replace(/\s+/g,''));
+    if (el) el.classList.remove('selected');
+  } else {
+    _quickAddSelected[name] = hex;
+    var el = document.getElementById('qac_' + name.replace(/\s+/g,''));
+    if (el) el.classList.add('selected');
+  }
+}
+function quickAddSelectedColours() {
+  var keys = Object.keys(_quickAddSelected);
+  if (!keys.length) { toast('Select at least one colour first', 'error'); return; }
+  keys.forEach(function(name) {
+    addVariantRow({ color: name, colorHex: _quickAddSelected[name] });
+  });
+  toast(keys.length + ' colour variant(s) added', 'success');
+  _quickAddSelected = {};
+  document.querySelectorAll('.quick-add-chip').forEach(function(el) { el.classList.remove('selected'); });
+}
+
 function editProduct(id) {
   var product = STATE.products.find(function(p){ return p.id === id; });
   if (!product) return;
@@ -872,7 +969,10 @@ function editProduct(id) {
     '<div class="form-group"><label>Photo</label><input id="prodImageInput" type="file" accept="image/png,image/jpeg,image/webp" multiple onchange="previewProductImage(event)"/></div>' +
     '<div id="prodImagePreview" style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;">' + previewHtml + '</div>' +
     '<div class="form-group" id="currentImgUrl" style="' + (product.image && !product.image.startsWith('data:') ? '' : 'display:none') + '"><label class="text-xs text-muted">Current URL: ' + (product.image || '') + '</label></div>' +
-    '<div class="variant-section"><div class="variant-section-header"><h4>Color Variants (Optional)</h4></div><p class="text-xs text-muted mb-16">Add color variants, each with its own image, price, stock and SKU.</p><div id="variantRows"></div><button class="add-variant-btn" onclick="addVariantRow()">+ Add Color Variant</button></div>' +
+    '<div class="variant-section"><div class="variant-section-header"><h4>Colour Variants</h4></div><p class="text-xs text-muted mb-16">Add colour variants, each with its own image, price, stock and SKU.</p>' +
+    '<div class="quick-add-section"><h5>Quick Add Colours</h5><p class="text-xs text-muted mb-16">Select colours below, then click "Add Selected" to create variants instantly.</p><div class="quick-add-row" id="quickAddPresets"></div><button class="quick-add-btn" onclick="quickAddSelectedColours()">+ Add Selected Colours</button></div>' +
+    '<div class="mt-16" style="margin-top:16px;"><div class="variant-presets-label">Add Individual Variant</div></div>' +
+    '<div id="variantRows"></div><button class="add-variant-btn" onclick="addVariantRow()">+ Add Colour Variant</button></div>' +
     '<div class="flex gap-8">' +
       '<button class="btn-admin btn-primary-admin" id="saveProductBtn" onclick="saveProduct(' + id + ')">Save</button>' +
       '<button class="btn-admin btn-danger-admin" onclick="deleteProduct(' + id + ')">Delete</button>' +
@@ -880,6 +980,7 @@ function editProduct(id) {
   // Populate existing variants
   var existingVariants = product.variants || [];
   existingVariants.forEach(function(v) { addVariantRow(v); });
+  renderQuickAddPresets();
 }
 
 function saveProduct(id) {
