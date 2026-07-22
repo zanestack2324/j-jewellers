@@ -441,7 +441,7 @@
     .shop-card-body .card-price{font-size:1rem;font-weight:700;color:var(--teal);margin-bottom:8px;}
     .shop-card-body .card-price .old{font-size:0.65rem;color:var(--text-dim);text-decoration:line-through;margin-right:6px;font-weight:400;}
     .shop-card-swatches{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
-    .shop-card-swatches .swatch-dot{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,0.15);cursor:pointer;transition:all 0.3s var(--ease-out);flex-shrink:0;}
+    .shop-card-swatches .swatch-dot{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,0.2);cursor:pointer;transition:all 0.3s var(--ease-out);flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,0.25),inset 0 1px 1px rgba(255,255,255,0.2);}
     .shop-card-swatches .swatch-dot:hover{transform:scale(1.2);border-color:var(--teal);}
     .shop-card-swatches .swatch-dot.active{border-color:var(--teal);box-shadow:0 0 0 2px rgba(13,139,139,0.3);}
     .shop-card-swatches .swatch-more{font-family:var(--font-future);font-size:0.4rem;font-weight:600;color:var(--text-dim);letter-spacing:0.5px;}
@@ -608,7 +608,7 @@
     .pd-color-options{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
     .pd-color-opt{position:relative;cursor:pointer;}
     .pd-color-opt input{position:absolute;opacity:0;width:0;height:0;}
-    .pd-color-opt .pd-swatch{width:38px;height:38px;border-radius:50%;border:3px solid transparent;transition:all 0.3s var(--ease-out);box-shadow:0 2px 8px rgba(0,0,0,0.2);display:block;}
+    .pd-color-opt .pd-swatch{width:40px;height:40px;border-radius:50%;border:3px solid transparent;transition:all 0.3s var(--ease-out);box-shadow:0 3px 10px rgba(0,0,0,0.3),inset 0 1px 2px rgba(255,255,255,0.25);display:block;position:relative;}
     .pd-color-opt input:checked + .pd-swatch{border-color:var(--teal);box-shadow:0 0 0 2px var(--teal),0 2px 12px rgba(13,139,139,0.4);}
     .pd-color-opt:hover .pd-swatch{transform:scale(1.12);}
     .pd-description{color:var(--text-muted);font-weight:300;line-height:1.8;margin:0 0 24px;font-size:0.88rem;}
@@ -1646,7 +1646,7 @@
           var checked = gp.id === p.id ? ' checked' : '';
           var hex = (gp.colorHex || '#000');
           if (hex === '#FFFFFF' || hex === '#ffffff') hex = '#ccc';
-          colorLabel += '<label class="pd-color-opt" title="' + gp.color + '"><input type="radio" name="pdVariant" value="' + gp.id + '"' + checked + ' onchange="pdSelectVariant(' + gp.id + ')" /><span class="pd-swatch" style="background-color:' + hex + ';"></span></label>';
+          colorLabel += '<label class="pd-color-opt" title="' + gp.color + '"><input type="radio" name="pdVariant" value="' + gp.id + '"' + checked + ' onchange="pdSelectVariant(' + gp.id + ')" /><span class="pd-swatch" style="background:' + swatch3d(hex) + ';"></span></label>';
         });
         colorLabel += '</div></div>';
       } else {
@@ -1658,7 +1658,7 @@
             var checked = i === 0 ? ' checked' : '';
             var hex = (v.colorHex || '#000');
             if (hex === '#FFFFFF' || hex === '#ffffff') hex = '#ccc';
-            colorLabel += '<label class="pd-color-opt" title="' + v.color + '"><input type="radio" name="pdVariant" value="' + i + '"' + checked + ' onchange="pdSelectVariant(' + p.id + ',' + i + ')" /><span class="pd-swatch" style="background-color:' + hex + ';"></span></label>';
+            colorLabel += '<label class="pd-color-opt" title="' + v.color + '"><input type="radio" name="pdVariant" value="' + i + '"' + checked + ' onchange="pdSelectVariant(' + p.id + ',' + i + ')" /><span class="pd-swatch" style="background:' + swatch3d(hex) + ';"></span></label>';
           });
           colorLabel += '</div></div>';
           var v0 = existingVariants[0];
@@ -1738,15 +1738,27 @@
     }
 
     var colorMap = {
-      'gold':'#C9993A','white':'#E8E4E0','plum':'#6B2D6B','lilac':'#9E7EB8','navy':'#1E2D5A',
-      'black':'#2A2A2A','emerald':'#1A7A52','maroon':'#7A1A2A','baby pink':'#E8A8BE',
-      'hot pink':'#D94080','teal':'#1A7A7A','silver':'#B8B8C0','candy pink':'#E07088',
-      'light pink':'#E8B8C8','red':'#C43030','blue':'#2850A0','green':'#1A7A3A',
+      'gold':'#D4A843','white':'#F0EDE8','plum':'#5C2058','lilac':'#A080C0','navy':'#162040',
+      'black':'#222224','emerald':'#0E8050','maroon':'#6B1A20','baby pink':'#F0B8CC',
+      'hot pink':'#D92060','teal':'#0EA0A0','silver':'#C8C8D0','candy pink':'#E06080',
+      'light pink':'#F0C8D8','red':'#C43030','blue':'#2850A0','green':'#1A7A3A',
       'pink':'#D94080','purple':'#7A3A9A','brown':'#6A3A1A','beige':'#D8CDB8',
       'champagne':'#C8A878','ivory':'#E8E0D0','rose':'#C84068','wine':'#6A1A2A',
       'grey':'#707078','gray':'#707078','multi':'#D94080','multicolour':'#D94080',
-      'dark grey':'#505058','white gold':'#C8C0B8','royal blue':'#2850A0'
+      'dark grey':'#404048','white gold':'#D0C8C0','royal blue':'#2040A0',
+      'periwinkle':'#8888CC','mustard':'#C8A030','rust':'#B04020','lavender':'#B0A0D0',
+      'turquoise':'#40C0C0','copper':'#B06830','bronze':'#A07838','cream':'#F0E8D0',
+      'peach':'#F0B898','mauve':'#906080','coral':'#E06848','burgundy':'#601820',
+      'charcoal':'#404040','olive':'#607030','mint':'#80D0B0','ochre':'#C0A040'
     };
+
+    function swatch3d(hex) {
+      var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+      var lr = Math.min(255, Math.round(r*0.45+130)), lg = Math.min(255, Math.round(g*0.45+130)), lb = Math.min(255, Math.round(b*0.45+130));
+      var dr = Math.max(0, Math.round(r*0.4)), dg = Math.max(0, Math.round(g*0.4)), db = Math.max(0, Math.round(b*0.4));
+      var mr = Math.min(255, Math.round(r*0.7+40)), mg = Math.min(255, Math.round(g*0.7+40)), mb = Math.min(255, Math.round(b*0.7+40));
+      return 'radial-gradient(circle at 35% 30%, rgb('+lr+','+lg+','+lb+') 0%, rgb('+mr+','+mg+','+mb+') 35%, '+hex+' 65%, rgb('+dr+','+dg+','+db+') 100%)';
+    }
 
     function extractColor(name) {
       var n = (name || '').toLowerCase();
@@ -1757,6 +1769,15 @@
         var colorKeys = Object.keys(colorMap).sort(function(a,b){ return b.length - a.length; });
         for (var i = 0; i < colorKeys.length; i++) {
           if (colorPart.indexOf(colorKeys[i]) === 0) return { name: colorKeys[i].replace(/\b\w/g, function(c){ return c.toUpperCase(); }), hex: colorMap[colorKeys[i]] };
+        }
+        for (var i = 0; i < colorKeys.length; i++) {
+          if (colorPart.indexOf(colorKeys[i]) > -1) return { name: colorKeys[i].replace(/\b\w/g, function(c){ return c.toUpperCase(); }), hex: colorMap[colorKeys[i]] };
+        }
+        for (var j = 1; j < parts.length; j++) {
+          var segment = parts[j].trim().toLowerCase();
+          for (var i = 0; i < colorKeys.length; i++) {
+            if (segment.indexOf(colorKeys[i]) > -1) return { name: colorKeys[i].replace(/\b\w/g, function(c){ return c.toUpperCase(); }), hex: colorMap[colorKeys[i]] };
+          }
         }
       }
       return null;
@@ -1842,7 +1863,7 @@
           var swatchesHtml = '';
           g.products.forEach(function(v, vi) {
             var borderC = (v.colorHex === '#FFFFFF' || v.colorHex === '#ffffff') ? '#ccc' : v.colorHex;
-            swatchesHtml += '<span class="swatch-dot' + (vi === 0 ? ' active' : '') + '" style="background-color:' + borderC + ';" title="' + v.color + '" onclick="event.stopPropagation();shopCardSwatch(\'' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\',' + vi + ')" data-group="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '" data-idx="' + vi + '"></span>';
+            swatchesHtml += '<span class="swatch-dot' + (vi === 0 ? ' active' : '') + '" style="background:' + swatch3d(borderC) + ';" title="' + v.color + '" onclick="event.stopPropagation();shopCardSwatch(\'' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\',' + vi + ')" data-group="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '" data-idx="' + vi + '"></span>';
           });
           if (g.products.length > 4) swatchesHtml += '<span class="swatch-more">+' + (g.products.length - 4) + '</span>';
           shopHtml += '<div class="shop-product-card" data-group="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="shop-card-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img class="lazy" data-src="' + p.img + '" alt="' + g.baseName + '" /></picture>' + badgeHtml + '<div class="quick-view"><span>View Details</span></div></div><div class="shop-card-body"><div class="card-cat">' + g.cat + '</div><h3>' + g.baseName + '</h3><div class="card-price">\u00A3' + p.price.toFixed(2) + '</div><div class="shop-card-swatches" data-swatches="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '">' + swatchesHtml + '</div><div class="shop-card-color-name" data-colorname="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '">' + p.color + '</div></div></div>';
@@ -1868,7 +1889,7 @@
             var swatchesHtml = '';
             g.products.forEach(function(v, vi) {
               var borderC = (v.colorHex === '#FFFFFF' || v.colorHex === '#ffffff') ? '#ccc' : v.colorHex;
-              swatchesHtml += '<span class="swatch-dot' + (vi === 0 ? ' active' : '') + '" style="background-color:' + borderC + ';" title="' + v.color + '" onclick="event.stopPropagation();homeCardSwatch(\'' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\',' + vi + ')" data-group="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '" data-idx="' + vi + '"></span>';
+              swatchesHtml += '<span class="swatch-dot' + (vi === 0 ? ' active' : '') + '" style="background:' + swatch3d(borderC) + ';" title="' + v.color + '" onclick="event.stopPropagation();homeCardSwatch(\'' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\',' + vi + ')" data-group="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '" data-idx="' + vi + '"></span>';
             });
             if (g.products.length > 4) swatchesHtml += '<span class="swatch-more">+' + (g.products.length - 4) + '</span>';
             html += '<div class="shop-product-card" data-group="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '" onclick="navigateTo(\'product/' + p.id + '\')"><div class="shop-card-img"><picture><source srcset="' + webpSrc + '" type="image/webp" /><img class="lazy" data-src="' + p.img + '" alt="' + g.baseName + '" /></picture>' + badgeHtml + '<div class="quick-view"><span>View Details</span></div></div><div class="shop-card-body"><div class="card-cat">' + g.cat + '</div><h3>' + g.baseName + '</h3><div class="card-price">\u00A3' + p.price.toFixed(2) + '</div><div class="shop-card-swatches" data-swatches="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '">' + swatchesHtml + '</div><div class="shop-card-color-name" data-colorname="' + g.baseName.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '">' + p.color + '</div></div></div>';
